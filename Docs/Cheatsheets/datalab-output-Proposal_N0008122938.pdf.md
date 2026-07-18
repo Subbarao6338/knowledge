@@ -1,6 +1,6 @@
 
 
-![Digit logo](2dfa6ac3edfe874f68aa0cbccaa42322_img.jpg)
+![Digit logo](datalab-output-Proposal_N0008122938.pdf/2dfa6ac3edfe874f68aa0cbccaa42322_img.jpg)
 
 Digit logo
 
