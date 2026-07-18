@@ -1,11 +1,54 @@
-Here are the two distinct versions of the script.
-The **Local Script** is designed to find loose, unorganized assets sitting right next to your files and clean them up into folders. The **GitHub / CI-CD Workflow Script** assumes your files are *already* structured into folders locally or via a script, and focus entirely on dynamically verifying paths, handling deep multi-level nested folders, and ensuring compatibility before you zip and ship it to Notion.
-### 1. The Local Script (organize_local_vault.py)
-Use this version on your computer to actively group loose files. If you drop a new image or a new sub-page .md file into your folder, running this script creates the directory matching your main file, moves the asset inside, and fixes the text link.
+# Notion Structure Automation Scripts
+
+This document provides optimized, production-ready automation scripts to manage your local Markdown vault and align it with Notion's import specifications. It includes clear logical workflow diagrams using Mermaid.
+
+---
+
+## 1. Local Vault Organizer (`organize_local_vault.py`)
+
+This script runs locally on your machine. If you drop a loose image, pdf, or markdown sub-page file next to a parent document, running this script automatically:
+1. Creates a folder named after the parent page (if it doesn't exist).
+2. Moves the loose file into that folder.
+3. Safe-decodes URL percent-encoding (`%20`) and strips queries.
+4. Corrects the markdown links and percent-encodes the final paths so they render flawlessly.
+
+### Flowchart:
+```mermaid
+flowchart TD
+    Start[Start: Scan Target Directory] --> FindMD[Identify all .md files]
+    FindMD --> LoopMD{For each .md file}
+    LoopMD -->|No more| End[End Program]
+    LoopMD -->|Process file| ExtractPageName[Extract page_name from filename]
+
+    ExtractPageName --> ReadContent[Read Markdown content]
+    ReadContent --> FindLinks[Regex Match all local links & images]
+    FindLinks --> HasLinks{Any matches found?}
+
+    HasLinks -->|No| LoopMD
+    HasLinks -->|Yes| CreateFolder[Create asset folder: target_dir/page_name]
+
+    CreateFolder --> LoopMatches{For each matched link}
+    LoopMatches -->|No more links| SaveFile[Write updated content back to .md file]
+    SaveFile --> LoopMD
+
+    LoopMatches -->|Process link| DecodeLink[URL Decode path & strip query params]
+    DecodeLink --> ExtractBase[Get basename of asset]
+    ExtractBase --> CheckLoose{Loose asset exists in root?}
+
+    CheckLoose -->|Yes| MoveAsset[Move loose asset to target_dir/page_name/]
+    CheckLoose -->|No| CalcNewLink[Calculate new relative path: page_name/basename]
+    MoveAsset --> CalcNewLink
+    CalcNewLink --> EncodeNew[URL-Encode components of new path]
+    EncodeNew --> ReplaceLink[Replace old link with new URL-encoded link in memory]
+    ReplaceLink --> LoopMatches
+```
+
+### Script Code:
 ```python
 import os
 import re
 import shutil
+import urllib.parse
 
 def organize_local_vault(target_dir):
     # Match markdown inline images ![]() and links []() pointing to local files
@@ -34,17 +77,34 @@ def organize_local_vault(target_dir):
         updated_content = content
         
         for asset_path in matches:
-            clean_asset_name = os.path.basename(asset_path)
+            # Parse URL/percent-encoded link and strip any query parameters or hash anchors
+            parsed = urllib.parse.urlparse(asset_path)
+            decoded_path = urllib.parse.unquote(parsed.path)
+
+            clean_asset_name = os.path.basename(decoded_path)
             old_asset_location = os.path.join(target_dir, clean_asset_name)
             
+            # Check for path-traversal safety
+            abs_target = os.path.abspath(target_dir)
+            abs_old_asset = os.path.abspath(old_asset_location)
+            if not abs_old_asset.startswith(abs_target):
+                print(f"[Local] Skipping unsafe file path: {asset_path}")
+                continue
+
             # Move loose files from root into the specific parent folder
             if os.path.exists(old_asset_location):
                 new_asset_location = os.path.join(assets_folder, clean_asset_name)
-                shutil.move(old_asset_location, new_asset_location)
-                print(f"[Local] Moved: {clean_asset_name} -> {page_name}/")
+                # Ensure we don't overwrite/move onto ourselves
+                if abs_old_asset != os.path.abspath(new_asset_location):
+                    shutil.move(old_asset_location, new_asset_location)
+                    print(f"[Local] Moved: {clean_asset_name} -> {page_name}/")
                 
-            # Enforce clean relative paths format: page_name/asset_name
-            new_markdown_path = f"{page_name}/{clean_asset_name}"
+            # Enforce clean relative paths format with proper percent encoding
+            # We encode folder and file names separately to keep the '/' path separator unencoded
+            encoded_page_name = urllib.parse.quote(page_name)
+            encoded_asset_name = urllib.parse.quote(clean_asset_name)
+            new_markdown_path = f"{encoded_page_name}/{encoded_asset_name}"
+
             updated_content = updated_content.replace(asset_path, new_markdown_path)
             
         with open(md_file_path, 'w', encoding='utf-8') as f:
@@ -55,13 +115,56 @@ def organize_local_vault(target_dir):
 if __name__ == "__main__":
     current_directory = os.path.dirname(os.path.realpath(__file__))
     organize_local_vault(current_directory)
-
 ```
-### 2. The GitHub Repository Script (prepare_github_vault.py)
-This version is designed to run in a remote environment or a repository context. Instead of just looking at a flat directory, it recursively crawls **deeply nested sub-directories** (os.walk), converts any absolute or broken cross-repository paths to strict relative locations, and ensures the entire folder tree is valid and structured correctly before zipping.
+
+---
+
+## 2. GitHub CI-CD Vault Validator (`prepare_github_vault.py`)
+
+This script crawls **deeply nested sub-directories** (using `os.walk`) recursively. It validates all cross-repository relative paths, converts any absolute or broken references into strict Notion-compatible structures, resolves percent-encoding, and acts as a strict compliance pre-flight check before building zip files.
+
+### Flowchart:
+```mermaid
+flowchart TD
+    Start[Start: Walk Base Directory] --> Walk[os.walk recursively traverses folders]
+    Walk --> LoopFiles{For each folder & its files}
+    LoopFiles -->|Done| End[End Program]
+    LoopFiles -->|Process folder| FindMD[Identify all .md files inside folder]
+
+    FindMD --> LoopMD{For each .md file}
+    LoopMD -->|No more in folder| Walk
+    LoopMD -->|Process file| ExtractPageName[Extract page_name from filename]
+
+    ExtractPageName --> ReadContent[Read Markdown content]
+    ReadContent --> FindLinks[Regex Match all local links & images]
+    FindLinks --> HasLinks{Any matches found?}
+
+    HasLinks -->|No| LoopMD
+    HasLinks -->|Yes| LoopMatches{For each matched link}
+
+    LoopMatches -->|No more links| SaveFile[Save changes if any modifications were made]
+    SaveFile --> LoopMD
+
+    LoopMatches -->|Process link| DecodeLink[URL Decode path & strip query params]
+    DecodeLink --> SafeCheck{Is resolved path inside Repository?}
+
+    SafeCheck -->|No| Skip[Log and skip unsafe traversal path]
+    Skip --> LoopMatches
+
+    SafeCheck -->|Yes| CheckFormat{Does path match page_name/filename?}
+    CheckFormat -->|Yes| LoopMatches
+    CheckFormat -->|No| CreateNewPath[Build path: page_name/filename]
+    CreateNewPath --> EncodePath[URL-Encode path components]
+    EncodePath --> ReplaceLink[Replace old link with new URL-encoded link in memory]
+    ReplaceLink --> MarkChanged[Mark file as modified]
+    MarkChanged --> LoopMatches
+```
+
+### Script Code:
 ```python
 import os
 import re
+import urllib.parse
 
 def organize_github_vault(base_dir):
     # Regex to capture all local markdown links and asset strings
@@ -86,13 +189,26 @@ def organize_github_vault(base_dir):
             changes_made = False
             
             for asset_path in matches:
-                # Strip leading relative pointers like ./ or ../ if they cause mapping issues
-                clean_path = asset_path.lstrip('./')
+                # Safely URL-decode and strip any URL parameters/hash anchors
+                parsed = urllib.parse.urlparse(asset_path)
+                decoded_path = urllib.parse.unquote(parsed.path)
+
+                # Check for path-traversal safety relative to base_dir
+                abs_base = os.path.abspath(base_dir)
+                abs_asset = os.path.abspath(os.path.join(root, decoded_path))
+                if not abs_asset.startswith(abs_base):
+                    print(f"[GitHub] Skipping unsafe path traversal: {asset_path}")
+                    continue
+
+                clean_path = decoded_path.lstrip('./')
                 
                 # Ensure the path perfectly conforms to Notion-style: folder_name/filename
                 if not clean_path.startswith(f"{page_name}/"):
                     filename = os.path.basename(clean_path)
-                    new_relative_path = f"{page_name}/{filename}"
+
+                    encoded_page_name = urllib.parse.quote(page_name)
+                    encoded_filename = urllib.parse.quote(filename)
+                    new_relative_path = f"{encoded_page_name}/{encoded_filename}"
                     
                     updated_content = updated_content.replace(asset_path, new_relative_path)
                     print(f"[GitHub] Standardized path in {md_file}: {asset_path} -> {new_relative_path}")
@@ -107,5 +223,4 @@ if __name__ == "__main__":
     # Scans the entire repository tree starting from the script location
     repo_root_directory = os.path.dirname(os.path.realpath(__file__))
     organize_github_vault(repo_root_directory)
-
 ```
