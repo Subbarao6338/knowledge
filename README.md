@@ -4,6 +4,8 @@ Welcome to the ultimate repository and documentation ecosystem for managing, con
 
 This project outlines how Notion's hierarchical page and database backup model functions, and provides robust, enterprise-ready Python automation utilities to prepare local assets, convert raw document formats, crawl online forums, and validate structures for the Notion Importer.
 
+All sample notes, databases, and developers' cheatsheets have been fully organized and unified under a single backup structure under the `Docs/` directory, while all execution utilities have been consolidated inside the `scripts/` directory.
+
 ---
 
 ## 1. System Landscape & Repository Directory
@@ -82,46 +84,81 @@ graph TD
 
 ---
 
-## 3. How to Use These Tools
+## 3. Unified Repository & Notion Backup Layout
 
-The repository is organized with all executable Python automation utilities structured inside the dedicated `scripts/` folder, and all backup materials and cheatsheets merged into the single unified `Docs/` directory:
+All backups, sample notes, databases, and developer cheatsheets are organized under a single unified directory `Docs/` matching Notion's standard export/import schema, while automation utilities are consolidated in `scripts/`:
 
 ```text
 .
 ├── Docs/                 # Sample documents, databases and developer cheatsheets in Notion backup layout
-│   ├── Cheatsheets.md    # Master parent page for all cheatsheets
-│   ├── Cheatsheets/      # Companion directory with all 39 developer cheatsheets
+│   ├── Cheatsheets.md    # Master parent index page for all developer cheatsheets
+│   ├── Cheatsheets/      # Companion folder with all 39 developer cheatsheet sub-pages
 │   ├── My notes 21cb6c26d9ba81648e18c1761db2dcca.csv
-│   ├── My notes 21cb6c26d9ba81648e18c1761db2dcca/
+│   ├── My notes 21cb6c26d9ba81648e18c1761db2dcca/  # Database item sub-pages & asset folders
+│   │   ├── Clean 2fcb6c26d9ba807a83d6d72a3ef6a22c.md
+│   │   ├── Interview 2f9b6c26d9ba80c5a30fc0f3570e67ab.md
+│   │   ├── To do 2e9b6c26d9ba80f780d7e00463b23078.md
+│   │   ├── To do 2e9b6c26d9ba80f780d7e00463b23078/ # Sub-page asset directory
+│   │   │   ├── 1001314913.jpg
+│   │   │   ├── 1001314914.jpg
+│   │   │   └── Addressing 2e9b6c26d9ba80e6bf63d8e1a49da87b.md
+│   │   ├── To-Do List 13cb6c26d9ba808ca4f9d290392ae099.md
+│   │   └── Untitled 35eb6c26d9ba80e59335c26c5f2b6de9.md
 │   ├── People d3db6c26d9ba82dfb0d8014512d331ec.csv
-│   └── People d3db6c26d9ba82dfb0d8014512d331ec/
-├── scripts/              # All production automation Python utilities
-│   ├── archive_forum.py
-│   ├── convert_to_notion_vault.py
-│   ├── organize_local_vault.py
-│   └── prepare_github_vault.py
-├── Files to md.md        # Documentation for files-to-markdown pipeline
-├── Notion_scripts.md     # Documentation for local and repository organizers
-├── Notion_structure.md   # Notion Backup structure guide
-├── README.md             # Repository master index
-└── Site to md.md         # Documentation for site-archiver pipeline
+│   ├── People d3db6c26d9ba82dfb0d8014512d331ec/     # People database directory
+│   │   └── Subbarao 3b5b6c26d9ba82a398b201af94cf7acc.md
+│   ├── Knowledge 21cb6c26d9ba808da8d4f72eb2193ca2.md
+│   ├── Untitled 58c8-1d4a.md
+│   └── test.txt
+├── scripts/              # Consolidated executable automation Python utilities
+│   ├── archive_forum.py             # Scrapes paginated forum threads with rate limits and custom args
+│   ├── convert_to_notion_vault.py   # Multi-format document parser with full PyTesseract OCR integration
+│   ├── organize_local_vault.py      # Cleans, re-points, and matches local unorganized asset links
+│   └── prepare_github_vault.py      # Recursive pre-flight link and structure compliance checker
+├── Files to md.md        # File parser, chunker, and OCR guide
+├── Notion_scripts.md     # Document sorting and CI-CD checker guide
+├── Notion_structure.md   # Underlying Notion backup specification guide
+├── README.md             # Master repository index
+└── Site to md.md         # Forum thread content downloader guide
 ```
-
-### Quick Start: Organizing Loose Assets
-1. Run `python scripts/organize_local_vault.py` in your unorganized notes folder.
-2. Compress the folder as a `.zip` file, and upload it directly to Notion using **Import -> Markdown & CSV**.
-
-### Quick Start: Large Document Ingestion with OCR
-1. Ensure system-level `tesseract-ocr` is installed:
-   * **macOS:** `brew install tesseract`
-   * **Ubuntu/Debian:** `sudo apt-get install tesseract-ocr`
-2. Install Python requirements: `pip install pymupdf python-docx beautifulsoup4 pytesseract pillow`
-3. Create a `./my_raw_documents` folder next to the scripts folder and place your files (PDF, DOCX, Images, etc.) inside.
-4. Run `python scripts/convert_to_notion_vault.py` and import the generated zip file.
 
 ---
 
-## 4. Key Best Practices for Notion Backups
+## 4. How to Use These Tools
+
+### Quick Start: Organizing Loose Assets
+1. Execute the local vault organizer script to clean up unorganized parent-child structures and relative links:
+   ```bash
+   python scripts/organize_local_vault.py
+   ```
+2. Compress the folder as a `.zip` archive and upload it directly to Notion via **Import -> Markdown & CSV**.
+
+### Quick Start: Large Document Ingestion with OCR
+The file-to-markdown script can process standalone image files (`.png`, `.jpg`, `.jpeg`, etc.), scanned PDF pages, and embedded DOCX/PDF images using standard Optical Character Recognition.
+
+1. Ensure system-level `tesseract-ocr` is installed:
+   * **macOS:** `brew install tesseract`
+   * **Ubuntu/Debian:** `sudo apt-get install tesseract-ocr`
+2. Install Python package dependencies:
+   ```bash
+   pip install pymupdf python-docx beautifulsoup4 pytesseract pillow
+   ```
+3. Create a `./my_raw_documents` folder next to the scripts folder and place your raw documents (scanned files or images) inside.
+4. Execute the converter:
+   ```bash
+   python scripts/convert_to_notion_vault.py
+   ```
+5. Compress the contents of `ready_for_notion/` as a `.zip` file and import to Notion.
+
+### Quick Start: Thread Site Archiver
+Scrape any thread-style online conversation page-by-page into sequentially organized local files using the command-line interface:
+```bash
+python scripts/archive_forum.py --url "https://example.com/thread-link" --selector "div.post-content" --output "./forum_vault" --delay 1.5
+```
+
+---
+
+## 5. Key Best Practices for Notion Backups
 
 1. **Avoid Nested Backlinks (`../../`):** Notion's importer fails to resolve paths that escape parent directories. Always reference assets residing in directories adjacent to or below the current Markdown file.
 2. **Double-Check Hex Hash Collision:** Never alter the 32-character trailing strings of files if they originate from an export, as those hashes are what Notion uses to rebuild relational links on re-import.
