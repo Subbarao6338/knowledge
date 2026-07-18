@@ -1,3 +1,4 @@
+<!-- {% raw %} -->
 # Docker Cheatsheet
 
 ## Images
@@ -268,3 +269,5 @@ docker inspect --format='{{json .State.Health}}' mycontainer
 - `docker rm -f` on a container doesn't remove its volumes unless you also pass `-v`.
 - Images accumulate — dangling/unused images and stopped containers silently consume disk; run `docker system prune` periodically.
 - `EXPOSE` in a Dockerfile is documentation only — it does not actually publish the port; you still need `-p` at `docker run` (or `ports:` in compose).
+
+<!-- {% endraw %} -->

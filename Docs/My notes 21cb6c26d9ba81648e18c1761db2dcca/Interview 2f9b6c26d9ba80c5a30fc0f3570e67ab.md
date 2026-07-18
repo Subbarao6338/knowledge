@@ -1,3 +1,4 @@
+<!-- {% raw %} -->
 # Interview
 
 Checkbox: No
@@ -1321,3 +1322,4 @@ Child class inherits attributes/methods from parent.
 - Practice explaining time/space complexity (O(n), O(1), etc.).
 - Use built-ins wisely (sorted(), len(), range(), zip(), etc.).
 - For coding rounds: talk through your thought process, handle edge cases (empty input, negatives, duplicates).
+<!-- {% endraw %} -->

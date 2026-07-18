@@ -1,3 +1,4 @@
+<!-- {% raw %} -->
 # Mermaid Charts Cheatsheet (.mmd)
 
 Mermaid diagrams are defined in plain text and rendered as SVG. Files use the `.mmd` extension standalone, or are embedded in fenced ` ```mermaid ` code blocks in Markdown (GitHub, GitLab, Notion, and most modern renderers support this natively).
@@ -316,3 +317,5 @@ graph TD
 - Special characters in labels (parentheses, quotes) can break parsing — wrap the label in quotes: `A["Node (with parens)"]`.
 - Diagram type keyword (`graph`, `sequenceDiagram`, `classDiagram`, etc.) must be the very first line — no blank lines or comments before it.
 - Not all renderers support every diagram type or the newest syntax (`stateDiagram-v2` vs `stateDiagram`, `quadrantChart`, `timeline`) — check what your target platform (GitHub, GitLab, Notion, VS Code extension) actually supports before relying on newer features.
+
+<!-- {% endraw %} -->
