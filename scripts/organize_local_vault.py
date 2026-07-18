@@ -2,8 +2,9 @@ import os
 import re
 import shutil
 import urllib.parse
+import argparse
 
-def organize_local_vault(target_dir):
+def organize_local_vault(target_dir, dry_run=False):
     """
     Scans target_dir for Markdown files.
     Identifies links inside them pointing to local files.
@@ -47,11 +48,16 @@ def organize_local_vault(target_dir):
             parsed = urllib.parse.urlparse(asset_path)
             decoded_path = urllib.parse.unquote(parsed.path)
 
+            # Skip template strings or placeholder variables
+            if "{" in decoded_path or "}" in decoded_path:
+                continue
+
             clean_asset_name = os.path.basename(decoded_path)
             if not clean_asset_name:
                 continue
 
             old_asset_location = os.path.join(target_dir, clean_asset_name)
+            new_asset_location = os.path.join(assets_folder, clean_asset_name)
 
             # Check for path-traversal safety
             abs_target = os.path.abspath(target_dir)
@@ -60,20 +66,30 @@ def organize_local_vault(target_dir):
                 print(f"[Local] Skipping unsafe file path: {asset_path}")
                 continue
 
-            # Move loose files from root/target_dir into the specific parent folder
-            if os.path.exists(old_asset_location) and not os.path.isdir(old_asset_location):
-                if not os.path.exists(assets_folder):
-                    os.makedirs(assets_folder, exist_ok=True)
-                    print(f"[Local] Created folder: {assets_folder}/")
+            # Check if the asset is actually a loose file in target_dir OR if it's already organized
+            loose_exists = os.path.exists(old_asset_location) and not os.path.isdir(old_asset_location)
+            already_organized = os.path.exists(new_asset_location) and not os.path.isdir(new_asset_location)
 
-                new_asset_location = os.path.join(assets_folder, clean_asset_name)
-                # Ensure we don't overwrite/move onto ourselves
-                if abs_old_asset != os.path.abspath(new_asset_location):
-                    try:
-                        shutil.move(old_asset_location, new_asset_location)
-                        print(f"[Local] Moved loose asset: {clean_asset_name} -> {page_name}/")
-                    except Exception as e:
-                        print(f"[Local] Error moving asset {clean_asset_name}: {str(e)}")
+            if not (loose_exists or already_organized):
+                # Sibling reference or external path not existing loose in target_dir, skip changing link
+                continue
+
+            # Move loose files from root/target_dir into the specific parent folder
+            if loose_exists:
+                if not dry_run:
+                    if not os.path.exists(assets_folder):
+                        os.makedirs(assets_folder, exist_ok=True)
+                        print(f"[Local] Created folder: {assets_folder}/")
+
+                    # Ensure we don't overwrite/move onto ourselves
+                    if abs_old_asset != os.path.abspath(new_asset_location):
+                        try:
+                            shutil.move(old_asset_location, new_asset_location)
+                            print(f"[Local] Moved loose asset: {clean_asset_name} -> {page_name}/")
+                        except Exception as e:
+                            print(f"[Local] Error moving asset {clean_asset_name}: {str(e)}")
+                else:
+                    print(f"[Local][Dry-Run] Would move loose asset: {clean_asset_name} -> {page_name}/")
 
             # Enforce clean relative paths format with proper percent encoding
             # Encode components separately to preserve '/' path separator
@@ -82,10 +98,12 @@ def organize_local_vault(target_dir):
             new_markdown_path = f"{encoded_page_name}/{encoded_asset_name}"
 
             if asset_path != new_markdown_path:
-                updated_content = updated_content.replace(asset_path, new_markdown_path)
+                if not dry_run:
+                    updated_content = updated_content.replace(asset_path, new_markdown_path)
+                print(f"[Local] Path fix in {md_file}: {asset_path} -> {new_markdown_path}")
                 changes_made = True
 
-        if changes_made:
+        if changes_made and not dry_run:
             try:
                 with open(md_file_path, 'w', encoding='utf-8') as f:
                     f.write(updated_content)
@@ -94,5 +112,16 @@ def organize_local_vault(target_dir):
                 print(f"[Local] Error writing back to {md_file}: {str(e)}")
 
 if __name__ == "__main__":
-    current_directory = os.path.dirname(os.path.realpath(__file__))
-    organize_local_vault(current_directory)
+    parser = argparse.ArgumentParser(description="Local Vault Organizer - Group loose assets next to parent pages")
+    parser.add_argument("target_dir", nargs="?", default=None, help="Directory to process")
+    parser.add_argument("--dry-run", action="store_true", help="Preview changes without modifying the files")
+
+    args = parser.parse_args()
+
+    # Default to current working directory if target_dir not provided
+    if args.target_dir is None:
+        target_dir = os.getcwd()
+    else:
+        target_dir = args.target_dir
+
+    organize_local_vault(target_dir, dry_run=args.dry_run)
