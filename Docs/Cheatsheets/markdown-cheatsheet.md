@@ -59,19 +59,19 @@ Line break: end a line with two spaces or use <br>
 ```markdown
 [link text](https://example.com)
 [link with title](https://example.com "Title text")
-[relative link](markdown-cheatsheet/other-page.md)
+[relative link](other-page.md)
 [reference link][ref]
 
 [ref]: https://example.com "optional title"
 
 <https://example.com>          # auto-link, renders as clickable URL
 
-![alt text](markdown-cheatsheet/markdown-cheatsheet/markdown-cheatsheet/image.png)
-![alt text](markdown-cheatsheet/markdown-cheatsheet/markdown-cheatsheet/markdown-cheatsheet/image.png%20%22optional%20title%22)
-![alt with link](markdown-cheatsheet/markdown-cheatsheet/markdown-cheatsheet/image.png)[link](https://example.com)   # image wrapped in a link (nonstandard, use HTML for reliability)
+![alt text](image.png)
+![alt text](image.png "optional title")
+![alt with link](image.png)[link](https://example.com)   # image wrapped in a link (nonstandard, use HTML for reliability)
 
 <!-- Reliable image + link combo -->
-[![alt text](markdown-cheatsheet/markdown-cheatsheet/markdown-cheatsheet/image.png)](https://example.com)
+[![alt text](image.png)](https://example.com)
 ```
 
 ## Code Blocks
