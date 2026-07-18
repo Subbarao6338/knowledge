@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+forum_vault/
+ready_for_notion/
+my_raw_documents/

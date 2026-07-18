@@ -3,6 +3,7 @@ import re
 import shutil
 import urllib.parse
 import io
+import argparse
 from bs4 import BeautifulSoup
 import docx
 import fitz  # PyMuPDF
@@ -22,11 +23,11 @@ def perform_ocr(image_bytes_or_path):
     """Performs OCR on an image (bytes or path) using pytesseract and returns the extracted text."""
     try:
         if isinstance(image_bytes_or_path, bytes):
-            img = Image.open(io.BytesIO(image_bytes_or_path))
+            with Image.open(io.BytesIO(image_bytes_or_path)) as img:
+                text = pytesseract.image_to_string(img)
         else:
-            img = Image.open(image_bytes_or_path)
-
-        text = pytesseract.image_to_string(img)
+            with Image.open(image_bytes_or_path) as img:
+                text = pytesseract.image_to_string(img)
         return text.strip()
     except Exception as e:
         print(f"[OCR Engine] Error performing OCR: {str(e)}")
@@ -68,15 +69,15 @@ def process_pdf(file_path, output_dir):
         page = doc[page_num]
         page_text = page.get_text()
 
-        # Scanned PDF page fallback: render page to image and perform OCR if empty
-        if not page_text.strip():
-            print(f"[PDF Parser] Page {page_num} of {file_path} seems scanned. Performing full page OCR...")
+        # Scanned PDF page fallback: render page to image and perform OCR if empty or sparse text
+        if len(page_text.strip()) < 30:
+            print(f"[PDF Parser] Page {page_num} of {file_path} seems scanned or sparse. Performing full page OCR...")
             try:
                 pix = page.get_pixmap(dpi=150)
                 img_bytes = pix.tobytes("png")
                 ocr_result = perform_ocr(img_bytes)
                 if ocr_result:
-                    page_text = f"*[Scanned Page OCR]*\n\n{ocr_result}"
+                    page_text = f"*[Scanned Page OCR]*\n\n{ocr_result}\n\n{page_text}"
             except Exception as e:
                 print(f"[PDF Parser] OCR fallback failed for page {page_num}: {str(e)}")
 
@@ -126,6 +127,57 @@ def process_pdf(file_path, output_dir):
             encoded_sub_title = urllib.parse.quote(sub_title)
             f.write(f"* [{sub_title.replace('-', ' ')}]({encoded_base_name}/{encoded_sub_title}.md)\n")
 
+def iter_block_items(parent):
+    """
+    Yield each paragraph and table child within parent, in document order.
+    Each returned value is an instance of either Paragraph or Table.
+    """
+    if isinstance(parent, docx.document.Document):
+        parent_elm = parent.element.body
+    elif isinstance(parent, docx.table._Cell):
+        parent_elm = parent._tc
+    else:
+        raise ValueError("Unsupported parent type")
+
+    for child in parent_elm.iterchildren():
+        if isinstance(child, docx.oxml.text.paragraph.CT_P):
+            yield docx.text.paragraph.Paragraph(child, parent)
+        elif isinstance(child, docx.oxml.table.CT_Tbl):
+            yield docx.table.Table(child, parent)
+
+def docx_table_to_markdown(table):
+    """Converts a python-docx Table object to a clean Markdown table string."""
+    markdown_rows = []
+    # Identify maximum number of cells in any row to keep columns balanced
+    for row in table.rows:
+        row_text = []
+        for cell in row.cells:
+            # Join paragraph texts inside cell
+            cell_text = " ".join(p.text.strip() for p in cell.paragraphs).replace("\n", " ").replace("|", "\\|")
+            row_text.append(cell_text)
+        markdown_rows.append(row_text)
+
+    if not markdown_rows:
+        return ""
+
+    num_cols = max(len(r) for r in markdown_rows)
+    md_table = []
+
+    # Format the header row
+    header = markdown_rows[0]
+    header += [""] * (num_cols - len(header))
+    md_table.append("| " + " | ".join(header) + " |")
+
+    # Format the separator row
+    md_table.append("| " + " | ".join(["---"] * num_cols) + " |")
+
+    # Format data rows
+    for row in markdown_rows[1:]:
+        row += [""] * (num_cols - len(row))
+        md_table.append("| " + " | ".join(row) + " |")
+
+    return "\n" + "\n".join(md_table) + "\n"
+
 def process_docx(file_path, output_dir):
     doc = docx.Document(file_path)
     base_name = slugify(os.path.splitext(os.path.basename(file_path))[0])
@@ -141,17 +193,25 @@ def process_docx(file_path, output_dir):
 
     os.makedirs(assets_dir, exist_ok=True)
 
-    paragraphs = [p.text for p in doc.paragraphs if p.text.strip()]
+    # Extract block items (paragraphs and tables) in document order
+    blocks = []
+    for item in iter_block_items(doc):
+        if isinstance(item, docx.text.paragraph.Paragraph):
+            if item.text.strip():
+                blocks.append(item.text.strip())
+        elif isinstance(item, docx.table.Table):
+            table_md = docx_table_to_markdown(item)
+            if table_md.strip():
+                blocks.append(table_md)
 
-    # Docx doesn't have strict physical "pages", so we group every 30 paragraphs
-    # (roughly equivalent to 10 standard reading pages) to ensure structural safety.
+    # Docx doesn't have strict physical "pages", so we group every 30 blocks
     chunk_size = 30
     sub_pages_created = []
 
     # Extract images embedded inside Docx XML structures
     img_idx = 0
     docx_ocr_results = {}
-    for rel in doc.part.relations.values():
+    for rel in doc.part.rels.values():
         if "image" in rel.target_ref:
             try:
                 img_name = f"docx-img-{img_idx}.png"
@@ -168,8 +228,8 @@ def process_docx(file_path, output_dir):
             except Exception as e:
                 print(f"[DOCX Parser] Failed to extract/OCR image {img_idx}: {str(e)}")
 
-    for idx, i in enumerate(range(0, len(paragraphs), chunk_size)):
-        chunk_paras = paragraphs[i:i + chunk_size]
+    for idx, i in enumerate(range(0, len(blocks), chunk_size)):
+        chunk_paras = blocks[i:i + chunk_size]
         text_content = "\n\n".join(chunk_paras)
 
         # Inject images at the end of the matching textual sub-pages chunk
@@ -289,13 +349,16 @@ def run_vault_generator(source_folder, output_vault):
                 print(f"Error handling {file}: {str(e)}")
 
 if __name__ == "__main__":
-    SOURCE_DIRECTORY = "./my_raw_documents"
-    FINAL_NOTION_VAULT = "./ready_for_notion"
+    parser = argparse.ArgumentParser(description="Multi-format document ingestion pipeline with OCR")
+    parser.add_argument("--source", "-s", default="./my_raw_documents", help="Source folder with raw files")
+    parser.add_argument("--output", "-o", default="./ready_for_notion", help="Output directory for Notion vault")
+
+    args = parser.parse_args()
 
     # Create mock directory if running inside an automation loop
-    if not os.path.exists(SOURCE_DIRECTORY):
-        os.makedirs(SOURCE_DIRECTORY)
-        print(f"Created template input folder: '{SOURCE_DIRECTORY}'. Place raw files here.")
+    if not os.path.exists(args.source):
+        os.makedirs(args.source, exist_ok=True)
+        print(f"Created template input folder: '{args.source}'. Place raw files here.")
 
-    run_vault_generator(SOURCE_DIRECTORY, FINAL_NOTION_VAULT)
-    print("\nTransformation complete! Zip the contents of 'ready_for_notion' and import to Notion.")
+    run_vault_generator(args.source, args.output)
+    print(f"\nTransformation complete! Zip the contents of '{args.output}' and import to Notion.")
