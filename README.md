@@ -20,13 +20,13 @@ graph TD
     end
 
     subgraph Inputs / Sources
-        RAW[Raw Documents: PDF, DOCX, HTML, MHTML] -.->|Processed by| CV_S[convert_to_notion_vault.py]
+        RAW[Raw Documents: PDF, DOCX, HTML, MHTML, Standalone Images] -.->|Processed by| CV_S[convert_to_notion_vault.py]
         WEB[Web/Forum Thread Content] -.->|Scraped by| FA_S[archive_forum.py]
         LOOSE[Loose files: img, pdf, md] -.->|Sorted by| LV_S[organize_local_vault.py]
     end
 
-    subgraph Automation & Pipelines
-        CV_S -->|Ingests & chunks| OUT[ready_for_notion/ folder]
+    subgraph Automation & Pipelines (scripts/ folder)
+        CV_S -->|Ingests & chunks with OCR| OUT[ready_for_notion/ folder]
         FA_S -->|Archives page-by-page| VAULT[forum_vault/ folder]
         LV_S -->|Groups assets into parent dirs| LOCAL_V[My-Local-Vault/]
         GV_S[prepare_github_vault.py] -->|Recursive CI-CD validator| LOCAL_V
@@ -63,37 +63,61 @@ graph TD
 
 ### 📂 [Notion_scripts.md](Notion_scripts.md)
 * **Description:** Complete guide and source code for workspace-management scripts.
-* **Scripts Contained:**
+* **Scripts Contained in `scripts/`:**
   1. `organize_local_vault.py`: Automatically groups loose local assets sitting next to parent markdown files into matching folders and edits links accordingly.
   2. `prepare_github_vault.py`: Recursively crawls directory trees, validates reference formats, cleans up relative links, and fixes percent-encoding.
 * **Mermaid Charts:** Step-by-step logic flowcharts for both local sorting and remote CI-CD checking processes.
 
 ### 📂 [Files to md.md](Files to md.md)
-* **Description:** Multi-format local document ingestion pipeline.
-* **Script Contained:**
-  * `convert_to_notion_vault.py`: Automatically parses `.pdf`, `.docx`, `.html`, and `.mhtml` files, extracts embedded raw images, chunks long documents into sequential sub-pages (e.g. 10 pages per file), and outputs a nested master page with exact relative pointers.
-* **Mermaid Charts:** Document Ingestion, Image Extraction, and Paragraph Chunking sequence flow.
+* **Description:** Multi-format local document ingestion pipeline with integrated OCR.
+* **Script Contained in `scripts/`:**
+  * `convert_to_notion_vault.py`: Automatically parses `.pdf`, `.docx`, `.html`, `.mhtml`, and standalone images, extracts embedded raw images, performs optical character recognition (OCR) on images and scanned pages, chunks long documents into sequential sub-pages, and outputs a nested master page with exact relative pointers.
+* **Mermaid Charts:** Document Ingestion, Image Extraction, OCR processing, and Paragraph Chunking sequence flow.
 
 ### 📂 [Site to md.md](Site to md.md)
 * **Description:** Headless forum thread downloader and archiver.
-* **Script Contained:**
-  * `archive_forum.py`: Connects to online forums (even with authentication payloads), handles session cookie validation, automatically traverses pagination buttons, extracts core content containers, downloads all referenced images, and outputs beautifully formatted sequential markdown files.
+* **Script Contained in `scripts/`:**
+  * `archive_forum.py`: Connects to online forums, handles session cookie validation, automatically traverses pagination buttons, extracts core content containers, downloads all referenced images, and outputs beautifully formatted sequential markdown files.
 * **Mermaid Charts:** Session Scraper and Crawler pagination-loop logic.
 
 ---
 
 ## 3. How to Use These Tools
 
-### Quick Start: Organizing Loose Assets
-1. Copy the script from `Notion_scripts.md` as `organize_local_vault.py` into your unorganized notes folder.
-2. Run `python organize_local_vault.py`.
-3. Compress the folder as a `.zip` file, and upload it directly to Notion using **Import -> Markdown & CSV**.
+The repository is organized with all executable Python automation utilities structured inside the dedicated `scripts/` folder, and all backup materials and cheatsheets merged into the single unified `Docs/` directory:
 
-### Quick Start: Large Document Conversion
-1. Copy the script from `Files to md.md` as `convert_to_notion_vault.py` into a folder with your heavy PDFs or Word files.
-2. Ensure you have installed standard parsing libraries: `pip install pymupdf python-docx beautifulsoup4`.
-3. Create a `./my_raw_documents` folder next to the script and place your files inside.
-4. Run `python convert_to_notion_vault.py` and import the generated zip file.
+```text
+.
+├── Docs/                 # Sample documents, databases and developer cheatsheets in Notion backup layout
+│   ├── Cheatsheets.md    # Master parent page for all cheatsheets
+│   ├── Cheatsheets/      # Companion directory with all 39 developer cheatsheets
+│   ├── My notes 21cb6c26d9ba81648e18c1761db2dcca.csv
+│   ├── My notes 21cb6c26d9ba81648e18c1761db2dcca/
+│   ├── People d3db6c26d9ba82dfb0d8014512d331ec.csv
+│   └── People d3db6c26d9ba82dfb0d8014512d331ec/
+├── scripts/              # All production automation Python utilities
+│   ├── archive_forum.py
+│   ├── convert_to_notion_vault.py
+│   ├── organize_local_vault.py
+│   └── prepare_github_vault.py
+├── Files to md.md        # Documentation for files-to-markdown pipeline
+├── Notion_scripts.md     # Documentation for local and repository organizers
+├── Notion_structure.md   # Notion Backup structure guide
+├── README.md             # Repository master index
+└── Site to md.md         # Documentation for site-archiver pipeline
+```
+
+### Quick Start: Organizing Loose Assets
+1. Run `python scripts/organize_local_vault.py` in your unorganized notes folder.
+2. Compress the folder as a `.zip` file, and upload it directly to Notion using **Import -> Markdown & CSV**.
+
+### Quick Start: Large Document Ingestion with OCR
+1. Ensure system-level `tesseract-ocr` is installed:
+   * **macOS:** `brew install tesseract`
+   * **Ubuntu/Debian:** `sudo apt-get install tesseract-ocr`
+2. Install Python requirements: `pip install pymupdf python-docx beautifulsoup4 pytesseract pillow`
+3. Create a `./my_raw_documents` folder next to the scripts folder and place your files (PDF, DOCX, Images, etc.) inside.
+4. Run `python scripts/convert_to_notion_vault.py` and import the generated zip file.
 
 ---
 

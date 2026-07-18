@@ -1,67 +1,3 @@
-# Forum Site Archiver to Notion-Ready Markdown
-
-This high-performance scraping and archiving utility converts online forum threads, paginated discussions, and adult platforms (such as Literotica, Xossipy, or standard XenForo/vBulletin message boards) into a structured local directory perfectly suited for importing into Notion. Each page of a thread is converted into an independent markdown document, and all embedded images are downloaded into a matching companion folder.
-
----
-
-## 1. Authentication & Crawling Lifecycle
-
-The following Mermaid diagram displays the architecture of the crawler, showing the retry-mounted session setup, authentication verification, HTML scraping, image downloading with link rewriting, and automated pagination traversal.
-
-```mermaid
-flowchart TD
-    Start[Start Crawler] --> SetupSession[Configure Retry Session with Max Retries & Backoff]
-    SetupSession --> AuthRequired{Authentication Required?}
-
-    AuthRequired -->|Yes| Login[Send POST Payload to Login URL]
-    Login --> VerifyAuth{Login Successful?}
-    VerifyAuth -->|No| Terminate[Terminate Crawler]
-    VerifyAuth -->|Yes| SetCookies[Store authenticated session cookies]
-
-    AuthRequired -->|No| MainLoop[Fetch first thread page URL]
-    SetCookies --> MainLoop
-
-    MainLoop --> ReadPage[Request page URL using Session with Retry Mounting]
-    ReadPage --> CheckStatus{Is Response 200 OK?}
-    CheckStatus -->|No| SaveAndExit[Save completed work and Exit]
-
-    CheckStatus -->|Yes| ParseHTML[Initialize BeautifulSoup]
-    ParseHTML --> GetTitle[Parse/Slugify Thread Title for Page Directory]
-    GetTitle --> IsolateContent[Select Core text block using CSS selector]
-
-    IsolateContent --> ExtractMedia[Scan for embedded image assets]
-    ExtractMedia --> LoopMedia{For each image found}
-
-    LoopMedia -->|Finished| ConvertMD[Convert clean HTML block to Markdown]
-    LoopMedia -->|Found Image| DownloadImg[Download image to assets folder via Session]
-    DownloadImg --> UpdateImgLink[Replace image path with relative link: thread_slug/image.png]
-    UpdateImgLink --> LoopMedia
-
-    ConvertMD --> WriteFile[Write Page .md with relative image links]
-    WriteFile --> FindNext{Next Page Button or Link exists?}
-
-    FindNext -->|Yes| ResolveURL[Construct absolute target URL for next page]
-    ResolveURL --> ReadPage
-    FindNext -->|No| TerminateSuccess[Successfully archived entire thread]
-```
-
----
-
-## 2. Installation & Prerequisites
-
-To handle network requests with automated exponential retries and convert HTML fragments into standard Markdown syntax, install the required packages using:
-
-```bash
-pip install requests beautifulsoup4 markdownify urllib3
-```
-
----
-
-## 3. Crawler Script Code (`scripts/archive_forum.py`)
-
-Save the script below as `scripts/archive_forum.py`. Configure the target thread URL, CSS selector, and optional login credentials at the bottom, or pass them as command-line arguments.
-
-```python
 import os
 import re
 import time
@@ -125,14 +61,14 @@ class ForumArchiver:
             clean_img_name = os.path.basename(parsed_img.path)
             if not clean_img_name:
                 return None
-            
+
             save_path = os.path.normpath(os.path.join(assets_folder, clean_img_name))
 
             # Traversal security check
             if not os.path.abspath(save_path).startswith(os.path.abspath(assets_folder)):
                 print(f"[Media] Traversal attack blocked for asset: {img_url}")
                 return None
-            
+
             img_res = self.session.get(img_url, stream=True, timeout=15)
             if img_res.status_code == 200:
                 with open(save_path, 'wb') as f:
@@ -150,7 +86,7 @@ class ForumArchiver:
         """
         current_url = first_page_url
         page_counter = 1
-        
+
         # Pull thread title slug from the initial URL
         parsed_url = urllib.parse.urlparse(current_url)
         url_path = parsed_url.path
@@ -180,7 +116,7 @@ class ForumArchiver:
                 break
 
             soup = BeautifulSoup(res.text, 'html.parser')
-            
+
             # Isolate the core page text container (bypassing sidebars, footprints, and ads)
             content_block = soup.select_one(content_css_selector)
             if not content_block:
@@ -202,7 +138,7 @@ class ForumArchiver:
                         src_url = urllib.parse.urljoin(base_domain, src_url)
                     elif not src_url.startswith('http'):
                         src_url = urllib.parse.urljoin(current_url, src_url)
-                        
+
                     local_img_name = self.download_media(src_url, thread_assets_dir)
                     if local_img_name:
                         # Re-point the HTML source to the relative location, safely percent-encoded
@@ -216,7 +152,7 @@ class ForumArchiver:
             # Save the file cleanly
             md_filename = f"{thread_slug}-Page-{page_counter}.md"
             md_file_path = os.path.normpath(os.path.join(self.output_dir, md_filename))
-            
+
             with open(md_file_path, 'w', encoding='utf-8') as f:
                 f.write(f"# Page {page_counter}\n\n")
                 f.write(f"Source URL: {current_url}\n\n---\n\n")
@@ -229,7 +165,7 @@ class ForumArchiver:
                 soup.find('a', text=re.compile(r'Next|>', re.IGNORECASE)) or
                 soup.find('a', class_=re.compile(r'next', re.IGNORECASE))
             )
-            
+
             if next_link_tag and next_link_tag.get('href'):
                 next_href = next_link_tag.get('href')
                 current_url = urllib.parse.urljoin(current_url, next_href)
@@ -260,4 +196,3 @@ if __name__ == "__main__":
         TARGET_THREAD_URL = "https://www.literotica.com/s/example-sample-story-slug"
         CONTENT_SELECTOR = "div.b-story-body-p"
         print(f"To run manually: python archive_forum.py --url {TARGET_THREAD_URL} --selector '{CONTENT_SELECTOR}'")
-```

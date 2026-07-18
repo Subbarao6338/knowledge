@@ -1,0 +1,98 @@
+import os
+import re
+import shutil
+import urllib.parse
+
+def organize_local_vault(target_dir):
+    """
+    Scans target_dir for Markdown files.
+    Identifies links inside them pointing to local files.
+    Creates matching folders for parent pages (handling the 32-character Notion ID scheme).
+    Moves loose referenced files into the respective folders and updates markdown links.
+    """
+    # Match markdown inline images ![]() and links []() pointing to local files
+    # Ignores external web links starting with http/https or mailto:
+    link_pattern = re.compile(r'!?\[.*?\]\(((?!http|https|mailto:)[^)]+)\)')
+
+    try:
+        files = os.listdir(target_dir)
+    except Exception as e:
+        print(f"[Local] Error listing target directory {target_dir}: {str(e)}")
+        return
+
+    md_files = [f for f in files if f.endswith('.md')]
+
+    for md_file in md_files:
+        page_name = os.path.splitext(md_file)[0]
+        # In a proper Notion backup, the folder matches the markdown filename exactly
+        assets_folder = os.path.join(target_dir, page_name)
+        md_file_path = os.path.join(target_dir, md_file)
+
+        try:
+            with open(md_file_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+        except Exception as e:
+            print(f"[Local] Error reading {md_file}: {str(e)}")
+            continue
+
+        matches = link_pattern.findall(content)
+        if not matches:
+            continue
+
+        updated_content = content
+        changes_made = False
+
+        for asset_path in matches:
+            # Parse URL/percent-encoded link and strip any query parameters or hash anchors
+            parsed = urllib.parse.urlparse(asset_path)
+            decoded_path = urllib.parse.unquote(parsed.path)
+
+            clean_asset_name = os.path.basename(decoded_path)
+            if not clean_asset_name:
+                continue
+
+            old_asset_location = os.path.join(target_dir, clean_asset_name)
+
+            # Check for path-traversal safety
+            abs_target = os.path.abspath(target_dir)
+            abs_old_asset = os.path.abspath(old_asset_location)
+            if not abs_old_asset.startswith(abs_target):
+                print(f"[Local] Skipping unsafe file path: {asset_path}")
+                continue
+
+            # Move loose files from root/target_dir into the specific parent folder
+            if os.path.exists(old_asset_location) and not os.path.isdir(old_asset_location):
+                if not os.path.exists(assets_folder):
+                    os.makedirs(assets_folder, exist_ok=True)
+                    print(f"[Local] Created folder: {assets_folder}/")
+
+                new_asset_location = os.path.join(assets_folder, clean_asset_name)
+                # Ensure we don't overwrite/move onto ourselves
+                if abs_old_asset != os.path.abspath(new_asset_location):
+                    try:
+                        shutil.move(old_asset_location, new_asset_location)
+                        print(f"[Local] Moved loose asset: {clean_asset_name} -> {page_name}/")
+                    except Exception as e:
+                        print(f"[Local] Error moving asset {clean_asset_name}: {str(e)}")
+
+            # Enforce clean relative paths format with proper percent encoding
+            # Encode components separately to preserve '/' path separator
+            encoded_page_name = urllib.parse.quote(page_name)
+            encoded_asset_name = urllib.parse.quote(clean_asset_name)
+            new_markdown_path = f"{encoded_page_name}/{encoded_asset_name}"
+
+            if asset_path != new_markdown_path:
+                updated_content = updated_content.replace(asset_path, new_markdown_path)
+                changes_made = True
+
+        if changes_made:
+            try:
+                with open(md_file_path, 'w', encoding='utf-8') as f:
+                    f.write(updated_content)
+                print(f"[Local] Paths fixed inside {md_file}\n")
+            except Exception as e:
+                print(f"[Local] Error writing back to {md_file}: {str(e)}")
+
+if __name__ == "__main__":
+    current_directory = os.path.dirname(os.path.realpath(__file__))
+    organize_local_vault(current_directory)
