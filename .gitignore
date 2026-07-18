@@ -4,3 +4,5 @@ __pycache__/
 forum_vault/
 ready_for_notion/
 my_raw_documents/
+tests/
+scripts/
