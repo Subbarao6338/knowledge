@@ -1,3 +1,4 @@
+<!-- {% raw %} -->
 # Azure CLI Cheatsheet
 
 ## Setup & Configuration
@@ -266,3 +267,5 @@ az vm list --query "[?location=='westeurope']"
 # REST passthrough for anything not covered by a dedicated command
 az rest --method get --url "https://management.azure.com/subscriptions?api-version=2020-01-01"
 ```
+
+<!-- {% endraw %} -->

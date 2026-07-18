@@ -1,3 +1,4 @@
+<!-- {% raw %} -->
 # Power BI Cheatsheet
 
 ## Core Concepts & Architecture
@@ -391,3 +392,5 @@ Shared Datasets                        One published dataset reused as the sourc
 - `DISTINCTCOUNT` and other DAX aggregations respect the current filter context — including filters from slicers on OTHER pages if using `ALLSELECTED` incorrectly; test with Performance Analyzer or by manually applying filters to confirm expected behavior.
 - Power Query steps execute in order, and later steps depending on column names/types from earlier steps will break if you reorder or delete an earlier step — check the Applied Steps pane carefully after any edit.
 - Auto Date/Time hierarchies (if not disabled) can cause every single date-type column in the model to spawn a hidden calendar table, dramatically increasing model size for no benefit — disable it early in a project.
+
+<!-- {% endraw %} -->

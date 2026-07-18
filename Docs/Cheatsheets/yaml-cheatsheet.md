@@ -1,3 +1,4 @@
+<!-- {% raw %} -->
 # YAML Cheatsheet (.yaml / .yml)
 
 `.yaml` and `.yml` are the same format — just two accepted file extensions. YAML ("YAML Ain't Markup Language") is whitespace-sensitive and a strict superset of JSON in modern parsers.
@@ -260,3 +261,5 @@ yamllint config.yaml                # dedicated linter, catches style + syntax i
 - Colons inside unquoted string values need care: `time: 10:30` can confuse a parser — quote it: `time: "10:30"`.
 - Indentation must be consistent within a block — mixing 2 and 4 spaces at the same level breaks parsing.
 - Duplicate keys in a mapping are often silently allowed by parsers (last one wins) rather than raising an error — a linter will catch this, plain parsing may not.
+
+<!-- {% endraw %} -->

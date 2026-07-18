@@ -1,3 +1,4 @@
+<!-- {% raw %} -->
 # .env Cheatsheet
 
 `.env` files store key-value environment variables for local development and deployment configuration. There's no single official spec — behavior below reflects the widely-adopted convention popularized by the Node `dotenv` package and followed by most language ecosystems (`python-dotenv`, Ruby's `dotenv`, PHP's `vlucas/phpdotenv`, Docker Compose, etc.).
@@ -184,3 +185,5 @@ if missing:
 - Boolean-looking values (`DEBUG=false`) are also strings — `if os.getenv("DEBUG"):` is truthy even when the string is `"false"`; compare explicitly: `os.getenv("DEBUG") == "true"`.
 - Comments must start at the beginning of a line or after whitespace — a `#` inside an unquoted value may be treated as the start of a comment, truncating the value.
 - `.env` files loaded via `source` in bash need properly quoted values if they contain spaces or special shell characters, since bash will interpret them.
+
+<!-- {% endraw %} -->

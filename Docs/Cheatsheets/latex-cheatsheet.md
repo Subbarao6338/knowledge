@@ -1,3 +1,4 @@
+<!-- {% raw %} -->
 # LaTeX Cheatsheet
 
 ## Document Structure
@@ -339,3 +340,5 @@ latexmk -pdf document.tex          # automates the multi-pass build process
 - Figures/tables with `[h]` placement are only a *suggestion* — LaTeX may float them elsewhere; use `[H]` (capital, requires the `float` package) to force exact placement.
 - Blank lines create new paragraphs — a single line break is just whitespace and does NOT start a new line in the output.
 - Math mode and text mode are strict — text inside `$...$` needs `\text{...}` (from `amsmath`) to render as normal (non-italic, spaced) text.
+
+<!-- {% endraw %} -->

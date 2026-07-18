@@ -1,3 +1,4 @@
+<!-- {% raw %} -->
 # Apache Airflow Cheatsheet
 
 ## Core Concepts
@@ -346,3 +347,5 @@ airflow scheduler
 - **Use pools** to limit concurrency against a constrained resource (e.g., a database), independent of overall parallelism settings.
 - **Prefer TaskFlow API + dynamic task mapping** for new Python-centric DAGs — cleaner than manual XCom push/pull and `PythonOperator` boilerplate.
 - **Version-control and code-review DAGs** like any other production code — a bad DAG can silently stop scheduling other DAGs if it fails to parse.
+
+<!-- {% endraw %} -->
