@@ -3,6 +3,63 @@ import re
 import urllib.parse
 import argparse
 
+def mask_code_blocks(content):
+    """Temporarily masks fenced code blocks with placeholders."""
+    lines = content.splitlines(keepends=True)
+    in_block = False
+    fence_char = None
+    placeholders = []
+    new_lines = []
+    current_block = []
+
+    for line in lines:
+        stripped = line.strip()
+        if not in_block:
+            if stripped.startswith("```") or stripped.startswith("~~~"):
+                in_block = True
+                fence_char = "```" if stripped.startswith("```") else "~~~"
+                current_block.append(line)
+            else:
+                new_lines.append(line)
+        else:
+            current_block.append(line)
+            if stripped.startswith(fence_char):
+                placeholder = f"__CODE_BLOCK_PLACEHOLDER_{len(placeholders)}__"
+                placeholders.append((placeholder, "".join(current_block)))
+                new_lines.append(placeholder + "\n")
+                current_block = []
+                in_block = False
+
+    if in_block and current_block:
+        new_lines.extend(current_block)
+
+    return "".join(new_lines), placeholders
+
+def unmask_code_blocks(content, placeholders):
+    """Restores masked fenced code blocks from placeholders."""
+    for placeholder, original in reversed(placeholders):
+        content = content.replace(placeholder + "\n", original)
+        content = content.replace(placeholder, original)
+    return content
+
+def mask_inline_code(content):
+    """Temporarily masks inline code (surrounded by backticks) with placeholders."""
+    inline_placeholders = []
+
+    def replace_inline(match):
+        placeholder = f"__INLINE_CODE_PLACEHOLDER_{len(inline_placeholders)}__"
+        inline_placeholders.append((placeholder, match.group(0)))
+        return placeholder
+
+    content = re.sub(r"`[^`\n]+`" , replace_inline, content)
+    return content, inline_placeholders
+
+def unmask_inline_code(content, inline_placeholders):
+    """Restores masked inline code from placeholders."""
+    for placeholder, original in reversed(inline_placeholders):
+        content = content.replace(placeholder, original)
+    return content
+
 def organize_github_vault(base_dir, exclude_dirs=None, exclude_files=None, force_all=False):
     """
     Recursively crawls a GitHub directory tree/vault.
@@ -50,11 +107,15 @@ def organize_github_vault(base_dir, exclude_dirs=None, exclude_files=None, force
                 print(f"[GitHub] Error reading {md_file_path}: {str(e)}")
                 continue
 
-            matches = link_pattern.findall(content)
+            # Mask code blocks and inline code to ignore links inside them
+            masked_content, fenced_placeholders = mask_code_blocks(content)
+            masked_content, inline_placeholders = mask_inline_code(masked_content)
+
+            matches = link_pattern.findall(masked_content)
             if not matches:
                 continue
 
-            updated_content = content
+            updated_content = masked_content
             changes_made = False
 
             for asset_path in matches:
@@ -92,9 +153,12 @@ def organize_github_vault(base_dir, exclude_dirs=None, exclude_files=None, force
                         changes_made = True
 
             if changes_made:
+                # Unmask to get the full original content with updated links
+                final_content = unmask_inline_code(updated_content, inline_placeholders)
+                final_content = unmask_code_blocks(final_content, fenced_placeholders)
                 try:
                     with open(md_file_path, 'w', encoding='utf-8') as f:
-                        f.write(updated_content)
+                        f.write(final_content)
                     print(f"[GitHub] Saved optimized formatting for {md_file}\n")
                 except Exception as e:
                     print(f"[GitHub] Error writing to {md_file_path}: {str(e)}")
