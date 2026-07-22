@@ -47,7 +47,7 @@ flowchart TD
 
 ---
 
-## 2. Installation & Prerequisites
+## 2. Installation & Command-Line CLI Usage
 
 To handle network requests with automated exponential retries and convert HTML fragments into standard Markdown syntax, install the required packages using:
 
@@ -55,11 +55,32 @@ To handle network requests with automated exponential retries and convert HTML f
 pip install requests beautifulsoup4 markdownify urllib3
 ```
 
+### Advanced Features & Arguments:
+The site archiver provides powerful arguments to bypass basic scraper protections and navigate custom forum structures:
+* **Custom Next Selectors (`--next-selector`, `-n`):** Pass a specific CSS selector to pinpoint the "Next Page" pagination element (e.g. `button.custom-next` or `div.pagination a.next`). If not provided, it falls back to a smart text/regex-based matching mechanism.
+* **Cookie Sessions (`--cookie`, `-c`):** Attach standard Cookie strings to authenticate with login-walled forum communities.
+* **Custom Headers (`--headers`):** Pass a serialized JSON string representing HTTP headers to supply elements like Referers, custom User-Agents, or specific token headers.
+
+```bash
+# Display help and usage examples
+python scripts/archive_forum.py --help
+
+# Run the scraper with standard pagination and custom parameters
+python scripts/archive_forum.py --url "https://example.com/thread-link" --selector "div.post-content" --output "./forum_vault" --delay 1.5
+
+# Run the scraper on an authentication-protected forum using cookie strings and custom pagination
+python scripts/archive_forum.py \
+  --url "https://forum.example.com/my-thread" \
+  --selector ".message-content" \
+  --next-selector "a.pageNav-jump--next" \
+  --cookie "session_id=abcdef123456; security_token=987654321"
+```
+
 ---
 
 ## 3. Crawler Script Code (`scripts/archive_forum.py`)
 
-Save the script below as `scripts/archive_forum.py`. Configure the target thread URL, CSS selector, and optional login credentials at the bottom, or pass them as command-line arguments.
+Save the script below as `scripts/archive_forum.py`.
 
 ```python
 import os
@@ -68,6 +89,7 @@ import time
 import requests
 import urllib.parse
 import argparse
+import json
 from bs4 import BeautifulSoup
 from markdownify import markdownify as md
 from requests.adapters import HTTPAdapter
@@ -95,10 +117,11 @@ def get_retry_session(retries=3, backoff_factor=1, status_forcelist=(500, 502, 5
     return session
 
 class ForumArchiver:
-    def __init__(self, output_dir="forum_vault", delay=1.0):
+    def __init__(self, output_dir="forum_vault", delay=1.0, next_selector=None):
         self.session = get_retry_session()
         self.output_dir = os.path.normpath(output_dir)
         self.delay = delay
+        self.next_selector = next_selector
         os.makedirs(self.output_dir, exist_ok=True)
         # Set standard browser user-agent to bypass primitive blocking headers
         self.session.headers.update({
@@ -125,14 +148,14 @@ class ForumArchiver:
             clean_img_name = os.path.basename(parsed_img.path)
             if not clean_img_name:
                 return None
-            
+
             save_path = os.path.normpath(os.path.join(assets_folder, clean_img_name))
 
             # Traversal security check
             if not os.path.abspath(save_path).startswith(os.path.abspath(assets_folder)):
                 print(f"[Media] Traversal attack blocked for asset: {img_url}")
                 return None
-            
+
             img_res = self.session.get(img_url, stream=True, timeout=15)
             if img_res.status_code == 200:
                 with open(save_path, 'wb') as f:
@@ -150,13 +173,13 @@ class ForumArchiver:
         """
         current_url = first_page_url
         page_counter = 1
-        
+
         # Pull thread title slug from the initial URL
         parsed_url = urllib.parse.urlparse(current_url)
         url_path = parsed_url.path
         thread_slug = clean_filename(url_path.split('/')[-1].replace('.html', ''))
         if not thread_slug:
-            thread_slug = f"thread-archive-{hash(first_page_url)}"
+            thread_slug = f"thread-archive-{abs(hash(first_page_url))}"
 
         # Prepare normalized directories
         thread_assets_dir = os.path.normpath(os.path.join(self.output_dir, thread_slug))
@@ -180,7 +203,7 @@ class ForumArchiver:
                 break
 
             soup = BeautifulSoup(res.text, 'html.parser')
-            
+
             # Isolate the core page text container (bypassing sidebars, footprints, and ads)
             content_block = soup.select_one(content_css_selector)
             if not content_block:
@@ -194,16 +217,10 @@ class ForumArchiver:
             for img_tag in content_block.find_all('img'):
                 src_url = img_tag.get('src')
                 if src_url and not src_url.startswith('data:'):
-                    # Assemble full absolute URL if source is relative
-                    if src_url.startswith('//'):
-                        src_url = 'https:' + src_url
-                    elif src_url.startswith('/'):
-                        base_domain = f"{parsed_url.scheme}://{parsed_url.netloc}"
-                        src_url = urllib.parse.urljoin(base_domain, src_url)
-                    elif not src_url.startswith('http'):
-                        src_url = urllib.parse.urljoin(current_url, src_url)
-                        
-                    local_img_name = self.download_media(src_url, thread_assets_dir)
+                    # Robust URL resolution using standard urljoin
+                    resolved_src_url = urllib.parse.urljoin(current_url, src_url)
+
+                    local_img_name = self.download_media(resolved_src_url, thread_assets_dir)
                     if local_img_name:
                         # Re-point the HTML source to the relative location, safely percent-encoded
                         encoded_thread_slug = urllib.parse.quote(thread_slug)
@@ -216,7 +233,7 @@ class ForumArchiver:
             # Save the file cleanly
             md_filename = f"{thread_slug}-Page-{page_counter}.md"
             md_file_path = os.path.normpath(os.path.join(self.output_dir, md_filename))
-            
+
             with open(md_file_path, 'w', encoding='utf-8') as f:
                 f.write(f"# Page {page_counter}\n\n")
                 f.write(f"Source URL: {current_url}\n\n---\n\n")
@@ -224,12 +241,18 @@ class ForumArchiver:
 
             print(f"Saved page file: {md_filename}")
 
-            # Detect next-page button using standard anchor search logic
-            next_link_tag = (
-                soup.find('a', text=re.compile(r'Next|>', re.IGNORECASE)) or
-                soup.find('a', class_=re.compile(r'next', re.IGNORECASE))
-            )
-            
+            # Detect next-page button using custom CSS selector or standard fallback matching
+            next_link_tag = None
+            if self.next_selector:
+                next_link_tag = soup.select_one(self.next_selector)
+
+            if not next_link_tag:
+                # Fallback to standard regex matching
+                next_link_tag = (
+                    soup.find('a', string=re.compile(r'Next|>', re.IGNORECASE)) or
+                    soup.find('a', class_=re.compile(r'next', re.IGNORECASE))
+                )
+
             if next_link_tag and next_link_tag.get('href'):
                 next_href = next_link_tag.get('href')
                 current_url = urllib.parse.urljoin(current_url, next_href)
@@ -245,12 +268,26 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Forum Site Archiver to Notion-Ready Markdown")
     parser.add_argument("--url", "-u", type=str, help="Target first page URL of the thread")
     parser.add_argument("--selector", "-s", type=str, help="CSS selector of the content block")
+    parser.add_argument("--next-selector", "-n", type=str, help="CSS selector of the Next page link element")
     parser.add_argument("--output", "-o", type=str, default="forum_vault", help="Output directory path")
     parser.add_argument("--delay", "-d", type=float, default=1.0, help="Delay (in seconds) between requests")
+    parser.add_argument("--cookie", "-c", type=str, help="Raw cookie header string to attach to HTTP requests")
+    parser.add_argument("--headers", type=str, help="Custom HTTP headers formatted as a JSON string")
 
     args = parser.parse_args()
 
-    archiver = ForumArchiver(output_dir=args.output, delay=args.delay)
+    archiver = ForumArchiver(output_dir=args.output, delay=args.delay, next_selector=args.next_selector)
+
+    # Attach custom headers or cookies if provided
+    if args.cookie:
+        archiver.session.headers.update({'Cookie': args.cookie})
+
+    if args.headers:
+        try:
+            custom_headers = json.loads(args.headers)
+            archiver.session.headers.update(custom_headers)
+        except Exception as e:
+            print(f"Error parsing custom headers JSON: {str(e)}")
 
     if args.url and args.selector:
         archiver.scrape_thread(args.url, content_css_selector=args.selector)
