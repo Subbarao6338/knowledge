@@ -94,6 +94,7 @@ All backups, sample notes, databases, and developer cheatsheets are organized un
 │   ├── Cheatsheets.md    # Master parent index page for all developer cheatsheets
 │   ├── Cheatsheets/      # Companion folder with all 39 developer cheatsheet sub-pages
 │   ├── My notes 21cb6c26d9ba81648e18c1761db2dcca.csv
+│   ├── My notes 21cb6c26d9ba81648e18c1761db2dcca_all.csv
 │   ├── My notes 21cb6c26d9ba81648e18c1761db2dcca/  # Database item sub-pages & asset folders
 │   │   ├── Clean 2fcb6c26d9ba807a83d6d72a3ef6a22c.md
 │   │   ├── Interview 2f9b6c26d9ba80c5a30fc0f3570e67ab.md
@@ -105,11 +106,11 @@ All backups, sample notes, databases, and developer cheatsheets are organized un
 │   │   ├── To-Do List 13cb6c26d9ba808ca4f9d290392ae099.md
 │   │   └── Android Multi-Tool Master Engineering & Architecture Specification Manual 35eb6c26d9ba80e59335c26c5f2b6de9.md
 │   ├── People d3db6c26d9ba82dfb0d8014512d331ec.csv
+│   ├── People d3db6c26d9ba82dfb0d8014512d331ec_all.csv
 │   ├── People d3db6c26d9ba82dfb0d8014512d331ec/     # People database directory
 │   │   └── Subbarao 3b5b6c26d9ba82a398b201af94cf7acc.md
 │   ├── Knowledge 21cb6c26d9ba808da8d4f72eb2193ca2.md
-│   ├── DroidSurf Mobile Browser & Multi-Tool Integration Specification 58c8-1d4a.md
-│   └── test.txt
+│   └── DroidSurf Mobile Browser & Multi-Tool Integration Specification 58c8-1d4a.md
 ├── scripts/              # Consolidated executable automation Python utilities
 │   ├── archive_forum.py             # Scrapes paginated forum threads with rate limits and custom args
 │   ├── convert_to_notion_vault.py   # Multi-format document parser with full PyTesseract OCR integration
