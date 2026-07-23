@@ -133,6 +133,10 @@ def organize_github_vault(base_dir, exclude_dirs=None, exclude_files=None, force
                     print(f"[GitHub] Skipping unsafe path traversal: {asset_path}")
                     continue
 
+                # If the target already exists relative to the current file, do not rewrite it
+                if os.path.exists(os.path.join(root, decoded_path)):
+                    continue
+
                 clean_path = decoded_path.lstrip('./')
 
                 # Ensure the path perfectly conforms to Notion-style: page_name/filename
@@ -143,14 +147,20 @@ def organize_github_vault(base_dir, exclude_dirs=None, exclude_files=None, force
                     if not filename:
                         continue
 
-                    encoded_page_name = urllib.parse.quote(page_name)
-                    encoded_filename = urllib.parse.quote(filename)
-                    new_relative_path = f"{encoded_page_name}/{encoded_filename}"
+                    # Only rewrite if target actually exists in the companion folder or if it is not a .md page file,
+                    # to protect valid cross-references and sibling pages.
+                    target_in_assets = os.path.join(root, page_name, filename)
+                    is_md = filename.lower().endswith('.md')
 
-                    if asset_path != new_relative_path:
-                        updated_content = updated_content.replace(asset_path, new_relative_path)
-                        print(f"[GitHub] Standardized path in {md_file}: {asset_path} -> {new_relative_path}")
-                        changes_made = True
+                    if os.path.exists(target_in_assets) or not is_md:
+                        encoded_page_name = urllib.parse.quote(page_name)
+                        encoded_filename = urllib.parse.quote(filename)
+                        new_relative_path = f"{encoded_page_name}/{encoded_filename}"
+
+                        if asset_path != new_relative_path:
+                            updated_content = updated_content.replace(asset_path, new_relative_path)
+                            print(f"[GitHub] Standardized path in {md_file}: {asset_path} -> {new_relative_path}")
+                            changes_made = True
 
             if changes_made:
                 # Unmask to get the full original content with updated links

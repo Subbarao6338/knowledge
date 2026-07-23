@@ -89,5 +89,41 @@ class TestPrepareGithubVault(unittest.TestCase):
         self.assertIn("`[Ignore inline link](ignore1.png)`", content)
         self.assertIn("[Ignore fenced link](ignore2.png)", content)
 
+    def test_preserve_existing_and_cross_references(self):
+        # Create a parent page, a sibling page, and an organized folder
+        parent_dir = os.path.join(self.test_dir, "VaultFolder")
+        os.makedirs(parent_dir, exist_ok=True)
+
+        # Sibling md page
+        sibling_file = os.path.join(parent_dir, "SiblingPage.md")
+        with open(sibling_file, "w", encoding="utf-8") as f:
+            f.write("# Sibling")
+
+        # Cross reference inside another database
+        other_db_dir = os.path.join(self.test_dir, "OtherDatabase")
+        os.makedirs(other_db_dir, exist_ok=True)
+        cross_ref_file = os.path.join(other_db_dir, "CrossItem.md")
+        with open(cross_ref_file, "w", encoding="utf-8") as f:
+            f.write("# Cross Item")
+
+        # Main Page
+        page_file = os.path.join(parent_dir, "Page.md")
+        with open(page_file, "w", encoding="utf-8") as f:
+            # Sibling link, cross-reference link, and a non-existent asset link
+            f.write("[Sibling](SiblingPage.md)\n"
+                    "[Cross](../OtherDatabase/CrossItem.md)\n"
+                    "[Missing](missing_asset.png)")
+
+        organize_github_vault(self.test_dir)
+
+        with open(page_file, "r", encoding="utf-8") as f:
+            content = f.read()
+
+        # Existing files/cross-references should be untouched
+        self.assertIn("[Sibling](SiblingPage.md)", content)
+        self.assertIn("[Cross](../OtherDatabase/CrossItem.md)", content)
+        # Non-existent asset link should be standardized to point to the companion assets directory
+        self.assertIn("[Missing](Page/missing_asset.png)", content)
+
 if __name__ == "__main__":
     unittest.main()
