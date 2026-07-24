@@ -110,7 +110,19 @@ match command:
 def greet(name, greeting="Hello", *args, **kwargs):
     return f"{greeting}, {name}!"
 
-# Type hints
+# Type hints & Advanced Typing
+from typing import Optional, Union, List, Dict, Callable, Any, TypeVar, Generic
+
+T = TypeVar('T')
+
+class Stack(Generic[T]):
+    def __init__(self) -> None:
+        self.items: List[T] = []
+    def push(self, item: T) -> None:
+        self.items.append(item)
+    def pop(self) -> T:
+        return self.items.pop()
+
 def add(a: int, b: int) -> int:
     return a + b
 
@@ -197,6 +209,13 @@ class Point:
     tags: list = field(default_factory=list)
 
 p = Point(1, 2)  # __init__, __repr__, __eq__ auto-generated
+
+# Memory Optimization: __slots__
+class OptimizedPoint:
+    __slots__ = ['x', 'y']  # prevents dynamic dict creation, reducing memory footprint
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
 ```
 
 ## Error Handling
@@ -233,14 +252,18 @@ class MyContext:
         print("exit")
         return False   # False = don't suppress exceptions
 
-# contextlib shortcut
-from contextlib import contextmanager
+# contextlib shortcuts
+from contextlib import contextmanager, closing, suppress
 
 @contextmanager
 def my_context():
     print("enter")
     yield "resource"
     print("exit")
+
+# suppress example: ignore specific exceptions safely
+with suppress(FileNotFoundError):
+    os.remove("nonexistent_file.txt")
 ```
 
 ## Iterators & Generators

@@ -23,6 +23,12 @@ git config --global core.editor "vim"       # or "code --wait", "nano", etc.
 git config --global color.ui auto            # colored terminal output
 git config --list                            # show all config
 git config --global alias.st status          # create an alias
+
+# Advanced Config Details
+git config --global core.autocrlf input      # (Mac/Linux) LF on commit, LF on disk
+git config --global core.autocrlf true       # (Windows) LF on commit, CRLF on disk
+git config --global pull.rebase true         # automatically rebase on pull
+git config --global rerere.enabled true      # reuse recorded resolution of conflicts
 ```
 
 ---
@@ -123,6 +129,20 @@ git rebase --skip                   # skip the current commit during rebase
 
 **Interactive rebase commands:** `pick`, `reword`, `edit`, `squash`, `fixup`, `drop`
 
+### Interactive Rebasing Deep-Dive
+When you run `git rebase -i HEAD~3`, your editor will display a list of the last 3 commits, prefixed with commands:
+```text
+pick f7f3f2d feat: add authentication middleware
+pick 310aef4 fix: handle null user profiles
+pick d041a31 docs: update api documentation
+```
+- **pick:** Use the commit as is.
+- **reword:** Use the commit, but edit the commit message.
+- **edit:** Stop during rebasing to edit files (amend the commit).
+- **squash:** Melds commit into the previous one, opening editor to combine messages.
+- **fixup:** Like squash, but discards this commit's log message.
+- **drop:** Remove the commit entirely.
+
 ---
 
 ## 8. Remotes — Sharing & Syncing
@@ -142,6 +162,14 @@ git push origin <branch>           # push a specific branch
 git push -u origin <branch>        # push + set upstream tracking
 git push --force-with-lease        # safer force push (checks remote hasn't changed)
 git push origin --delete <branch>  # delete a remote branch
+```
+
+### Multi-Remote Workflows
+When collaborating across multiple forks or environments, you can configure several remotes:
+```bash
+git remote add upstream <parent-repo-url> # track original parent repository
+git fetch upstream                       # fetch updates from original source
+git merge upstream/main                  # merge parent updates into your local main
 ```
 
 ---
