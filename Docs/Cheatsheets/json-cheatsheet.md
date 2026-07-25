@@ -231,6 +231,14 @@ curl -s https://api.example.com/data | jq '.results[] | {id, name}'
 }
 ```
 
+## Advanced Parser & JSON-C / JSON5 Options
+While standard JSON has zero tolerance for comments, trailing commas, or unquoted keys, modern web ecosystems frequently leverage variations:
+- **JSONC**: Supported natively by VS Code (e.g., `settings.json`, `tsconfig.json`). Allows single-line (`//`) and multi-line (`/* */`) comments.
+- **JSON5**: An official proposed extension to JSON that allows trailing commas, single-quoted strings, unquoted keys, comments, and multi-line strings.
+When writing configuration files, verify if the consuming tool expects strict JSON or allows one of these relaxed formats.
+
+---
+
 ## Common Gotchas
 
 - No comments — if you need documented config, use YAML/TOML/JSONC (JSON with Comments, a superset some tools like VS Code settings support) instead.

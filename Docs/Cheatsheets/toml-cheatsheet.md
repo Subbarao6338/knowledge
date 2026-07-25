@@ -233,6 +233,13 @@ open("config.toml", "w").write(tomlkit.dumps(doc))
 | Ambiguity risk | Low — strict, well-specified | Higher (type coercion surprises, e.g. `NO` → false) | High — no formal spec | Low |
 | Common use | `pyproject.toml`, `Cargo.toml`, app config | CI/CD, Kubernetes, Ansible, Docker Compose | Legacy app config, `.gitconfig` | APIs, data interchange |
 
+## Advanced Parser & Schema Features
+Different tools have unique TOML parsing rules:
+- **Strict Keys**: Some tools enforce that keys with dots (`a.b = 1`) cannot overlap with dynamically declared objects.
+- **Heterogeneous Arrays**: In TOML v0.5.0 and older, arrays could not contain mixed types. TOML v1.0.0 relaxes this constraint, letting you write `mixed = [1, "two", 3.0]`. Always check your parser's TOML version compatibility.
+
+---
+
 ## Common Gotchas
 
 - Keys defined outside any table must come **before** the first `[table]` header — you can't add loose top-level keys after a table has started.
