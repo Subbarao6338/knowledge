@@ -309,7 +309,7 @@ The pre-flight validator includes advanced features for repository integration:
 python scripts/prepare_github_vault.py --help
 
 # Run with custom folder to scan
-python scripts/prepare_github_vault.py ./Docs
+python scripts/prepare_github_vault.py ./docs
 
 # Scan the entire repo forcing all exclusions to be disabled
 python scripts/prepare_github_vault.py --force-all

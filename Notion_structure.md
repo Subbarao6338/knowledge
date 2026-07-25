@@ -83,7 +83,7 @@ Notion handles databases as structured collections where each row is an independ
 2. **The Content Folder:** A directory sitting next to the CSV containing a separate `.md` file for each row/page in the database.
 
 ```text
-Docs/
+docs/
 │
 ├── My notes 21cb6c26d9ba81648e18c1761db2dcca.csv      <-- Database Schema & Metadata
 ├── My notes/                                          <-- Database Entry Folder
