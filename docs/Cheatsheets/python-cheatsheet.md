@@ -505,3 +505,34 @@ from typing import Optional, Union, List, Dict, Callable
 def process(items: List[int], mapper: Optional[Callable] = None) -> Dict[str, int]:
     ...
 ```
+
+## Advanced Python Optimization & Internals
+
+```python
+# 1. Bytecode & Disassembly
+import dis
+def calc():
+    return [x * 2 for x in range(1000)]
+dis.dis(calc) # Inspects stack-based operations under the hood
+
+# 2. Garbage Collection Control
+import gc
+gc.disable()  # Can boost raw performance in massive bulk batch runs
+# gc.collect() triggers manual GC run
+
+# 3. Dynamic Attribute Binding & __slots__ Optimization
+class PointSlots:
+    __slots__ = ("x", "y") # Skips self.__dict__ generation for major memory savings
+
+# 4. Context Manager (Generator & Decorator patterns)
+from contextlib import contextmanager
+@contextmanager
+def transaction():
+    print("BEGIN TRANSACTION")
+    try:
+        yield
+        print("COMMIT")
+    except Exception:
+        print("ROLLBACK")
+        raise
+```

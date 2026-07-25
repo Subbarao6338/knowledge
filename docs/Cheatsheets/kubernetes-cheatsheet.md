@@ -135,3 +135,40 @@ spec:
 2. **`ImagePullBackOff`:** Kubernetes is unable to pull the container image. Check image name capitalization, spelling, tag/version, and ensure pull secrets are present if using a private registry.
 3. **Namespace Scope:** If you cannot find your resource, you might be in the wrong namespace. Append `-n <namespace>` to check, or use `-A` to see everything.
 4. **Service Matching Labels:** A Service forwards traffic to Pods via selector matching. If your Service is not routing traffic, verify that `spec.selector` matches the labels defined on your Pods exactly.
+
+---
+
+## 6. Advanced Kubernetes Features
+
+### ConfigMaps & Secrets
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  database_url: "jdbc:postgresql://db:5432/prod"
+  max_connections: "20"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: app-secret
+type: Opaque
+data:
+  db_password: dGhlLXNlY3JldC1wYXNzd29yZA== # base64 encoded
+```
+
+### Pod Scheduling & Node Affinity
+```yaml
+spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: topology.kubernetes.io/zone
+            operator: In
+            values:
+            - us-east-1a
+```

@@ -247,3 +247,29 @@ np.ascontiguousarray(a)
 - Use `np.float32` instead of `float64` when precision allows — halves memory and often speeds up computation.
 - Check `.flags['C_CONTIGUOUS']` before performance-critical work; non-contiguous views (e.g., from transposes) can slow downstream operations.
 - For very large arrays or out-of-core work, consider Dask arrays (same NumPy-like API, chunked/parallel execution).
+```
+
+## Advanced NumPy Optimization & Vectorization
+
+```python
+# 1. Advanced Memory Profiling & Stride Tricks
+import numpy as np
+from numpy.lib.stride_tricks import as_strided
+
+x = np.array([1, 2, 3, 4, 5, 6], dtype=np.int32)
+# Create a rolling window of size 3 using stride manipulation without copying data:
+# Shape: (4, 3), Strides: (4, 4) since int32 is 4 bytes
+rolling = as_strided(x, shape=(4, 3), strides=(4, 4))
+print(rolling)
+
+# 2. Fast Einstein Summation Notation
+# Outer product of two vectors
+a = np.array([1, 2, 3])
+b = np.array([4, 5, 6])
+outer = np.einsum('i,j->ij', a, b)
+
+# Matrix multiplication: AB
+A = np.random.rand(3, 5)
+B = np.random.rand(5, 4)
+C = np.einsum('ij,jk->ik', A, B)
+```
