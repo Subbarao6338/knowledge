@@ -370,3 +370,44 @@ refactor: simplify auth middleware
 test: add coverage for edge cases
 chore: bump dependency versions
 ```
+
+---
+
+## 21. Git Rerere (Reuse Recorded Resolution)
+
+`rerere` is a hidden gem that tells Git to remember how you resolved a hunk conflict, so the next time it sees the same conflict, it can resolve it for you automatically.
+
+```bash
+# Enable it globally
+git config --global rerere.enabled true
+
+# To see recorded resolutions at any point
+git rerere status
+git rerere diff
+```
+
+This is extremely useful when doing long-running feature branches that require constant rebases onto `main`.
+
+---
+
+## 22. Dual-Remote Branching Setup (Forks & Upstreams)
+
+When working with a forked repository (common in open source), maintain reference to the original parent repository as `upstream` and your fork as `origin`:
+
+```bash
+# Add original parent repository
+git remote add upstream https://github.com/parent-owner/parent-repo.git
+
+# Verify remotes
+git remote -v
+# origin   https://github.com/your-username/parent-repo.git (fetch/push)
+# upstream https://github.com/parent-owner/parent-repo.git (fetch/push)
+
+# Sync your local main with upstream main
+git checkout main
+git fetch upstream
+git merge upstream/main
+
+# Sync your fork's remote on GitHub
+git push origin main
+```

@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Documentation & Vault Portal"
+---
+
 # Documentation & Vault Portal
 
 Welcome to the central portal for all documentation, databases, cheatsheets, and architectural specifications stored in this repository.
@@ -6,14 +11,59 @@ This section is organized in a pixel-perfect layout mimicking Notion's structura
 
 ---
 
+<div class="my-8 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-2xl p-6 md:p-8 text-white shadow-lg shadow-emerald-500/10">
+  <div class="flex items-start gap-4 flex-col md:flex-row">
+    <div class="h-14 w-14 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center text-white text-2xl shrink-0">
+      <i class="fa-solid fa-server"></i>
+    </div>
+    <div>
+      <h2 class="text-xl md:text-2xl font-bold mb-2 !border-none !m-0 !p-0 text-white">Interactive Developer Ecosystem & Backup</h2>
+      <p class="text-emerald-50 text-sm md:text-base leading-relaxed m-0">
+        Explore a fully-relational Markdown vault synced directly with Notion. Search across over 73 cheatsheets, inspect system specifications, and access contact records or work logs natively.
+      </p>
+    </div>
+  </div>
+</div>
+
 ## 🚀 Navigation & Hubs
 
-### 1. 📂 [Developer Cheatsheets](Cheatsheets.md)
-Access over 39 highly detailed developer reference guides covering languages, tools, frameworks, and devops utilities.
-* **Featured Cheatsheets:** [Python](Cheatsheets/python-cheatsheet.md), [Git](Cheatsheets/git-cheatsheet.md), [Docker](Cheatsheets/docker-cheatsheet.md), [SQL](Cheatsheets/sql-cheatsheet.md), [Linux Commands](Cheatsheets/linux-cheatsheet.md), [Kubernetes](Cheatsheets/kubernetes-cheatsheet.md).
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
+  <!-- Card 1 -->
+  <a href="Cheatsheets.html" class="group block p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl hover:border-emerald-500 dark:hover:border-emerald-500 transition-all hover:shadow-md">
+    <div class="flex items-center gap-3 mb-3">
+      <div class="h-10 w-10 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 text-emerald-500 dark:text-emerald-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+        <i class="fa-solid fa-book-open text-lg"></i>
+      </div>
+      <h3 class="text-base font-bold text-slate-900 dark:text-slate-50 m-0 p-0">Developer Cheatsheets</h3>
+    </div>
+    <p class="text-sm text-slate-500 dark:text-slate-400 mb-4 leading-relaxed">
+      Access over 73 highly detailed developer reference guides covering languages, tools, frameworks, and devops utilities.
+    </p>
+    <div class="flex flex-wrap gap-1.5">
+      <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-blue-50 text-blue-600 dark:bg-blue-950/40 dark:text-blue-400">Python</span>
+      <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-orange-50 text-orange-600 dark:bg-orange-950/40 dark:text-orange-400">Git</span>
+      <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-blue-50 text-blue-500 dark:bg-blue-950/40 dark:text-blue-400">Docker</span>
+      <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-indigo-50 text-indigo-600 dark:bg-indigo-950/40 dark:text-indigo-400">SQL</span>
+    </div>
+  </a>
 
-### 2. 📂 [Knowledge Hub Overview](Knowledge%2021cb6c26d9ba808da8d4f72eb2193ca2.md)
-Read the master overview mapping the cloud databases and local design assets.
+  <!-- Card 2 -->
+  <a href="Knowledge%2021cb6c26d9ba808da8d4f72eb2193ca2.html" class="group block p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl hover:border-emerald-500 dark:hover:border-emerald-500 transition-all hover:shadow-md">
+    <div class="flex items-center gap-3 mb-3">
+      <div class="h-10 w-10 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 text-emerald-500 dark:text-emerald-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+        <i class="fa-solid fa-brain text-lg"></i>
+      </div>
+      <h3 class="text-base font-bold text-slate-900 dark:text-slate-50 m-0 p-0">Knowledge Hub Overview</h3>
+    </div>
+    <p class="text-sm text-slate-500 dark:text-slate-400 mb-4 leading-relaxed">
+      Read the master overview mapping our relational cloud databases and local vector design layouts.
+    </p>
+    <div class="flex flex-wrap gap-1.5">
+      <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-purple-50 text-purple-600 dark:bg-purple-950/40 dark:text-purple-400">System Architecture</span>
+      <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-violet-50 text-violet-600 dark:bg-violet-950/40 dark:text-violet-400">Design Specifications</span>
+    </div>
+  </a>
+</div>
 
 ---
 
@@ -22,18 +72,61 @@ Read the master overview mapping the cloud databases and local design assets.
 These databases contain structured entries fully organized under Notion's relational page backup layout:
 
 ### 📋 Database: My Notes
-* [My Notes CSV Metadata](My%20notes%2021cb6c26d9ba81648e18c1761db2dcca.csv)
-* **Pages & Entries:**
-  * [📄 Clean Note](My%20notes%2021cb6c26d9ba81648e18c1761db2dcca/Clean%202fcb6c26d9ba807a83d6d72a3ef6a22c.md) - Clean coding best practices and templates.
-  * [📄 Interview Note](My%20notes%2021cb6c26d9ba81648e18c1761db2dcca/Interview%202f9b6c26d9ba80c5a30fc0f3570e67ab.md) - System design and technical interview preparation.
-  * [📄 To Do Note](My%20notes%2021cb6c26d9ba81648e18c1761db2dcca/To%20do%202e9b6c26d9ba80f780d7e00463b23078.md) - Active tasks and assignments list.
-    * [📄 Addressing Sub-page](My%20notes%2021cb6c26d9ba81648e18c1761db2dcca/To%20do%202e9b6c26d9ba80f780d7e00463b23078/Addressing%202e9b6c26d9ba80e6bf63d8e1a49da87b.md) - Nested asset detailing specific host addressing.
-  * [📄 To-Do List Note](My%20notes%2021cb6c26d9ba81648e18c1761db2dcca/To-Do%20List%2013cb6c26d9ba808ca4f9d290392ae099.md) - Actionable check-lists.
+* 📂 **Metadata Source:** [My Notes CSV Metadata](My%20notes%2021cb6c26d9ba81648e18c1761db2dcca.csv)
+
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 my-6">
+  <!-- Clean Note -->
+  <a href="My%20notes%2021cb6c26d9ba81648e18c1761db2dcca/Clean%202fcb6c26d9ba807a83d6d72a3ef6a22c.html" class="flex items-center gap-3 p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl hover:border-emerald-500 transition-all">
+    <div class="text-emerald-500 text-lg"><i class="fa-solid fa-file-signature"></i></div>
+    <div>
+      <div class="text-sm font-semibold text-slate-900 dark:text-slate-50">Clean Note</div>
+      <div class="text-[11px] text-slate-400">Best practices & productivity setup</div>
+    </div>
+  </a>
+
+  <!-- Interview Note -->
+  <a href="My%20notes%2021cb6c26d9ba81648e18c1761db2dcca/Interview%202f9b6c26d9ba80c5a30fc0f3570e67ab.html" class="flex items-center gap-3 p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl hover:border-emerald-500 transition-all">
+    <div class="text-blue-500 text-lg"><i class="fa-solid fa-comments"></i></div>
+    <div>
+      <div class="text-sm font-semibold text-slate-900 dark:text-slate-50">Interview Note</div>
+      <div class="text-[11px] text-slate-400">Technical interview preparation</div>
+    </div>
+  </a>
+
+  <!-- To Do Note -->
+  <a href="My%20notes%2021cb6c26d9ba81648e18c1761db2dcca/To%20do%202e9b6c26d9ba80f780d7e00463b23078.html" class="flex items-center gap-3 p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl hover:border-emerald-500 transition-all">
+    <div class="text-yellow-500 text-lg"><i class="fa-solid fa-list-check"></i></div>
+    <div>
+      <div class="text-sm font-semibold text-slate-900 dark:text-slate-50">To Do Note</div>
+      <div class="text-[11px] text-slate-400">Active tasks & assignments list</div>
+    </div>
+  </a>
+
+  <!-- To-Do List Note -->
+  <a href="My%20notes%2021cb6c26d9ba81648e18c1761db2dcca/To-Do%20List%2013cb6c26d9ba808ca4f9d290392ae099.html" class="flex items-center gap-3 p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl hover:border-emerald-500 transition-all">
+    <div class="text-indigo-500 text-lg"><i class="fa-solid fa-clipboard-list"></i></div>
+    <div>
+      <div class="text-sm font-semibold text-slate-900 dark:text-slate-50">To-Do List Note</div>
+      <div class="text-[11px] text-slate-400">Actionable checklist database</div>
+    </div>
+  </a>
+</div>
+
+---
 
 ### 👥 Database: People
-* [People CSV Metadata](People%20d3db6c26d9ba82dfb0d8014512d331ec.csv)
-* **Pages & Entries:**
-  * [📄 Subbarao Profile Note](People%20d3db6c26d9ba82dfb0d8014512d331ec/Subbarao%203b5b6c26d9ba82a398b201af94cf7acc.md) - Contact card and developer bio.
+* 📂 **Metadata Source:** [People CSV Metadata](People%20d3db6c26d9ba82dfb0d8014512d331ec.csv)
+
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 my-6">
+  <!-- Subbarao Profile Note -->
+  <a href="People%20d3db6c26d9ba82dfb0d8014512d331ec/Subbarao%203b5b6c26d9ba82a398b201af94cf7acc.html" class="flex items-center gap-3 p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl hover:border-emerald-500 transition-all">
+    <div class="text-pink-500 text-lg"><i class="fa-solid fa-user-tie"></i></div>
+    <div>
+      <div class="text-sm font-semibold text-slate-900 dark:text-slate-50">Subbarao Profile Note</div>
+      <div class="text-[11px] text-slate-400">Contact card and developer bio</div>
+    </div>
+  </a>
+</div>
 
 ---
 
@@ -41,7 +134,7 @@ These databases contain structured entries fully organized under Notion's relati
 
 Detailed architectural documents outlining system integrations and mobile frameworks:
 
-1. [DroidSurf Mobile Browser & Multi-Tool Integration Specification](DroidSurf%20Mobile%20Browser%20%26%20Multi-Tool%20Integration%20Specification%2058c8-1d4a.md)
+1. 📱 **[DroidSurf Mobile Browser & Multi-Tool Integration Specification](index/DroidSurf%20Mobile%20Browser%20%26%20Multi-Tool%20Integration%20Specification%2058c8-1d4a.html)**
    * Advanced mobile browser custom engine specs, protocol handlers, and session caches.
-2. [Android Multi-Tool Master Engineering & Architecture Specification Manual](My%20notes%2021cb6c26d9ba81648e18c1761db2dcca/Android%20Multi-Tool%20Master%20Engineering%20%26%20Architecture%20Specification%20Manual%2035eb6c26d9ba80e59335c26c5f2b6de9.md)
+2. 🛠️ **[Android Multi-Tool Master Engineering & Architecture Specification Manual](index/Android%20Multi-Tool%20Master%20Engineering%20%26%20Architecture%20Specification%20Manual%2035eb6c26d9ba80e59335c26c5f2b6de9.html)**
    * 1700+ line master specification for Android system modifications, recovery utilities, flashing tools, and device virtualization.

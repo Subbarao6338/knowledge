@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title }} | {{ site.title }}</title>
+
+  <!-- Font and Icon Assets -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <!-- Custom Theme overrides & Markdown-Prose Stylings -->
+  <style>
+    /* Custom Scrollbar Styles */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .dark ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    .dark ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+
+    /* Style the Markdown Rendered Content beautifully */
+    .markdown-body {
+      font-size: 1rem;
+      line-height: 1.75;
+    }
+    .markdown-body h1 {
+      font-size: 2.25rem;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      margin-top: 0;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+    }
+    .dark .markdown-body h1 {
+      border-bottom-color: rgba(51, 65, 85, 0.8);
+    }
+    .markdown-body h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.25rem;
+      border-bottom: 1px solid rgba(241, 245, 249, 0.8);
+    }
+    .dark .markdown-body h2 {
+      border-bottom-color: rgba(51, 65, 85, 0.4);
+    }
+    .markdown-body h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+    .markdown-body p {
+      margin-bottom: 1.25rem;
+    }
+    .markdown-body ul {
+      list-style-type: disc;
+      padding-left: 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+    .markdown-body ol {
+      list-style-type: decimal;
+      padding-left: 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+    .markdown-body li {
+      margin-bottom: 0.5rem;
+    }
+    .markdown-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1.5rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.875rem;
+      line-height: 1.5;
+    }
+    .markdown-body th {
+      font-weight: 600;
+      text-align: left;
+      padding: 0.75rem 1rem;
+      background-color: #f1f5f9;
+      border-bottom: 2px solid #e2e8f0;
+    }
+    .dark .markdown-body th {
+      background-color: #1e293b;
+      border-bottom: 2px solid #334155;
+      color: #f8fafc;
+    }
+    .markdown-body td {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .dark .markdown-body td {
+      border-bottom: 1px solid #334155;
+    }
+    .markdown-body tr:nth-child(even) td {
+      background-color: #f8fafc;
+    }
+    .dark .markdown-body tr:nth-child(even) td {
+      background-color: #1a2333;
+    }
+    .markdown-body blockquote {
+      border-left: 4px solid #10b981;
+      padding-left: 1rem;
+      color: #475569;
+      font-style: italic;
+      margin: 1.5rem 0;
+      background: #f0fdf4;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+      border-radius: 0 4px 4px 0;
+    }
+    .dark .markdown-body blockquote {
+      background: #064e3b33;
+      color: #94a3b8;
+    }
+    .markdown-body pre {
+      background-color: #1e293b;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      overflow-x: auto;
+      margin-bottom: 1.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.875rem;
+      position: relative;
+    }
+    .dark .markdown-body pre {
+      background-color: #0b0f19;
+    }
+    .markdown-body code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.875rem;
+      padding: 0.125rem 0.25rem;
+      background-color: #f1f5f9;
+      border-radius: 0.25rem;
+      color: #0f172a;
+    }
+    .dark .markdown-body code {
+      background-color: #1e293b;
+      color: #e2e8f0;
+    }
+    .markdown-body pre code {
+      padding: 0;
+      background-color: transparent;
+      color: #f8fafc;
+    }
+
+    /* Hover anchors on headings */
+    .markdown-body h2:hover::after, .markdown-body h3:hover::after {
+      content: ' #';
+      color: #10b981;
+      font-weight: 400;
+    }
+
+    /* Custom styles for search match highlighting */
+    .search-match {
+      background-color: rgba(253, 224, 71, 0.4);
+      color: inherit;
+    }
+    .dark .search-match {
+      background-color: rgba(234, 179, 8, 0.3);
+    }
+  </style>
+</head>
+
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 min-h-screen transition-colors duration-200 font-sans flex flex-col">
+
+  <!-- Header Section with Mobile Toggle and Dark Mode Switcher -->
+  <header class="sticky top-0 z-40 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors duration-200">
+    <div class="max-w-[1600px] mx-auto px-4 lg:px-8 h-16 flex items-center justify-between">
+
+      <!-- Logo and Site Name -->
+      <a href="{{ '/' | relative_url }}" class="flex items-center gap-3">
+        <div class="h-9 w-9 rounded-lg bg-emerald-500 flex items-center justify-center text-white shadow-md shadow-emerald-500/20">
+          <i class="fa-solid fa-cube text-lg"></i>
+        </div>
+        <div>
+          <span class="font-bold text-lg tracking-tight text-slate-900 dark:text-slate-50 block leading-tight">Notion Vault Portal</span>
+          <span class="text-xs text-emerald-500 font-medium">Backup & Automation Hub</span>
+        </div>
+      </a>
+
+      <!-- Quick Action Buttons (Search toggle on mobile, dark mode toggle, link to Notion structure) -->
+      <div class="flex items-center gap-2">
+        <!-- Notion Spec Quicklink -->
+        <a href="{{ '/docs/Knowledge 21cb6c26d9ba808da8d4f72eb2193ca2.html' | relative_url }}" class="hidden md:flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400 hover:opacity-90 transition-opacity">
+          <i class="fa-solid fa-graduation-cap"></i> Knowledge Hub
+        </a>
+
+        <!-- Dark Mode Toggle Button -->
+        <button id="theme-toggle" class="h-9 w-9 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors" title="Toggle Light/Dark Theme">
+          <i id="theme-icon" class="fa-solid fa-moon"></i>
+        </button>
+
+        <!-- Mobile Drawer Menu Hamburger -->
+        <button id="menu-toggle" class="lg:hidden h-9 w-9 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Workspace Wrapper -->
+  <div class="flex-grow max-w-[1600px] w-full mx-auto flex">
+
+    <!-- Sticky Left Sidebar (Navigation Drawer) -->
+    <aside id="sidebar" class="fixed lg:sticky top-16 left-0 bottom-0 z-30 w-[280px] bg-white dark:bg-slate-950 border-r border-slate-200 dark:border-slate-800 lg:h-[calc(100vh-4rem)] flex flex-col transition-transform duration-300 transform -translate-x-full lg:translate-x-0 overflow-y-auto">
+
+      <!-- Live Search Box inside Sidebar -->
+      <div class="p-4 border-b border-slate-100 dark:border-slate-800 sticky top-0 bg-white dark:bg-slate-950 z-10">
+        <div class="relative">
+          <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-400 dark:text-slate-500 text-sm"></i>
+          <input type="text" id="sidebar-search" placeholder="Search 73+ cheatsheets..." class="w-full pl-9 pr-8 py-2 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all">
+          <button id="search-clear" class="hidden absolute right-3 top-3 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+      </div>
+
+      <!-- Navigation Links Container -->
+      <nav class="flex-grow p-4 space-y-6 select-none" id="sidebar-nav">
+
+        <!-- Core Navigation -->
+        <div>
+          <h4 class="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 px-3 mb-2">Core Vault</h4>
+          <ul class="space-y-1">
+            <li>
+              <a href="{{ '/' | relative_url }}" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-900 text-slate-700 dark:text-slate-300 transition-colors">
+                <i class="fa-solid fa-house text-slate-400 w-4 text-center"></i> Portal Home
+              </a>
+            </li>
+            <li>
+              <a href="{{ '/docs/Cheatsheets.html' | relative_url }}" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-semibold bg-emerald-50 text-emerald-600 dark:bg-emerald-950/30 dark:text-emerald-400 transition-colors">
+                <i class="fa-solid fa-book-open text-emerald-500 w-4 text-center"></i> Cheatsheets Index
+              </a>
+            </li>
+            <li>
+              <a href="{{ '/docs/Knowledge 21cb6c26d9ba808da8d4f72eb2193ca2.html' | relative_url }}" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-900 text-slate-700 dark:text-slate-300 transition-colors">
+                <i class="fa-solid fa-brain text-slate-400 w-4 text-center"></i> Knowledge Hub
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Featured Cheatsheets Categorized -->
+        <div class="sidebar-category">
+          <h4 class="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 px-3 mb-2">Frontend & Web</h4>
+          <ul class="space-y-1 text-sm text-slate-600 dark:text-slate-400 font-medium">
+            <li class="sidebar-link-item" data-search-term="css grid flexbox layout responsive design style flex">
+              <a href="{{ '/docs/Cheatsheets/css-grid-flexbox-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> CSS Grid & Flexbox
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="tailwind css css-framework utility-first classes design">
+              <a href="{{ '/docs/Cheatsheets/tailwind-css-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Tailwind CSS
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="typescript type-checking static interfaces generics advanced ts">
+              <a href="{{ '/docs/Cheatsheets/typescript-advanced-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span> TypeScript Advanced
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="next.js nextjs app-router react server-components page-router ssr">
+              <a href="{{ '/docs/Cheatsheets/nextjs-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-black dark:bg-white"></span> Next.js App Router
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="javascript raw js scripting DOM arrays variables">
+              <a href="{{ '/docs/Cheatsheets/javascript-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-yellow-500"></span> JavaScript
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="reactjs react-hooks component virtual-dom state functional state">
+              <a href="{{ '/docs/Cheatsheets/reactjs-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span> ReactJS
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="sidebar-category">
+          <h4 class="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 px-3 mb-2">Backend & Databases</h4>
+          <ul class="space-y-1 text-sm text-slate-600 dark:text-slate-400 font-medium">
+            <li class="sidebar-link-item" data-search-term="python dicts loops lists tuples functions standard-library py">
+              <a href="{{ '/docs/Cheatsheets/python-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-yellow-400"></span> Python Reference
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="sql relational database query postgres mysql sqlite join CTE window">
+              <a href="{{ '/docs/Cheatsheets/sql-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span> SQL Reference
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="go golang channels routines structs maps backend lang">
+              <a href="{{ '/docs/Cheatsheets/go-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span> Go Language
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="nodejs node backend server-side modules npm packages express">
+              <a href="{{ '/docs/Cheatsheets/nodejs-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-green-600"></span> Node.js
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="sidebar-category">
+          <h4 class="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 px-3 mb-2">Devops & Shells</h4>
+          <ul class="space-y-1 text-sm text-slate-600 dark:text-slate-400 font-medium">
+            <li class="sidebar-link-item" data-search-term="git commits branches merging rebase reflog rerere staging tags">
+              <a href="{{ '/docs/Cheatsheets/git-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-orange-600"></span> Git Version Control
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="github actions workflows CI CD pipelines runners steps secrets">
+              <a href="{{ '/docs/Cheatsheets/github-actions-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-violet-600"></span> GitHub Actions
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="docker containers dockerfile images volumes network docker-compose compose">
+              <a href="{{ '/docs/Cheatsheets/docker-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> Docker Containers
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="kubernetes k8s kubectl pods services deployments nodes helm clusters">
+              <a href="{{ '/docs/Cheatsheets/kubernetes-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-700"></span> Kubernetes (K8s)
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="linux bash unix terminal directories files redirection commands utilities">
+              <a href="{{ '/docs/Cheatsheets/linux-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-gray-500"></span> Linux Commands
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="sidebar-category">
+          <h4 class="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 px-3 mb-2">Relational databases</h4>
+          <ul class="space-y-1 text-sm text-slate-600 dark:text-slate-400 font-medium">
+            <li>
+              <a href="{{ '/docs/My notes 21cb6c26d9ba81648e18c1761db2dcca.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span> My Notes DB (CSV)
+              </a>
+            </li>
+            <li>
+              <a href="{{ '/docs/People d3db6c26d9ba82dfb0d8014512d331ec.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span> People DB (CSV)
+              </a>
+            </li>
+          </ul>
+        </div>
+
+      </nav>
+
+      <!-- Sticky Footer inside Sidebar -->
+      <div class="p-4 border-t border-slate-100 dark:border-slate-800 text-center text-xs text-slate-400 select-none">
+        Developed with <i class="fa-solid fa-heart text-red-500"></i> &middot; Jules
+      </div>
+    </aside>
+
+    <!-- Sidebar Backdrop Overlay on Mobile -->
+    <div id="sidebar-backdrop" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-20 hidden transition-opacity lg:hidden"></div>
+
+    <!-- Main Content Reader Container -->
+    <main class="flex-grow px-4 md:px-10 py-8 lg:py-12 overflow-x-hidden min-h-[calc(100vh-10rem)]">
+
+      <!-- Card wrapper style around the Markdown document -->
+      <article class="bg-white dark:bg-slate-950 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-6 md:p-12 shadow-sm transition-all duration-200">
+        <!-- Content section for Markdown output -->
+        <div class="markdown-body text-slate-800 dark:text-slate-200">
+          {{ content }}
+        </div>
+      </article>
+
+    </main>
+  </div>
+
+  <!-- Global Portal Page Footer -->
+  <footer class="bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 py-6 text-center text-sm text-slate-500 transition-colors duration-200 mt-auto select-none">
+    <div class="max-w-[1600px] mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div>
+        &copy; 2026 <strong>Notion Vault Ecosystem</strong>. All backup assets and specifications reserved.
+      </div>
+      <div class="flex items-center gap-4 text-xs text-slate-400">
+        <a href="{{ '/' | relative_url }}" class="hover:text-slate-600 dark:hover:text-slate-200 transition-colors">Portal Home</a>
+        <span>&bull;</span>
+        <a href="{{ '/docs/Cheatsheets.html' | relative_url }}" class="hover:text-slate-600 dark:hover:text-slate-200 transition-colors">Cheatsheets Directory</a>
+        <span>&bull;</span>
+        <a href="#" class="hover:text-slate-600 dark:hover:text-slate-200 transition-colors">Scroll to Top</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Core Interactive Features: JS Implementation -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+      // --- PART I: Dark/Light Theme Switcher & Storage ---
+      const themeToggle = document.getElementById('theme-toggle');
+      const themeIcon = document.getElementById('theme-icon');
+
+      function updateThemeUI(isDark) {
+        if (isDark) {
+          document.documentElement.classList.add('dark');
+          themeIcon.className = 'fa-solid fa-sun';
+        } else {
+          document.documentElement.classList.remove('dark');
+          themeIcon.className = 'fa-solid fa-moon';
+        }
+      }
+
+      // Check user preferences: localStore or system setting
+      const cachedTheme = localStorage.getItem('theme');
+      const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      let isDarkMode = cachedTheme === 'dark' || (!cachedTheme && systemPrefersDark);
+
+      updateThemeUI(isDarkMode);
+
+      themeToggle.addEventListener('click', () => {
+        isDarkMode = !isDarkMode;
+        localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+        updateThemeUI(isDarkMode);
+      });
+
+      // --- PART II: Sidebar Mobile Toggle & Drawer System ---
+      const menuToggle = document.getElementById('menu-toggle');
+      const sidebar = document.getElementById('sidebar');
+      const backdrop = document.getElementById('sidebar-backdrop');
+
+      function toggleSidebar() {
+        sidebar.classList.toggle('-translate-x-full');
+        backdrop.classList.toggle('hidden');
+        document.body.classList.toggle('overflow-hidden');
+      }
+
+      menuToggle.addEventListener('click', toggleSidebar);
+      backdrop.addEventListener('click', toggleSidebar);
+
+      // --- PART III: Live Client-Side Fuzzy Search / Filter ---
+      const searchInput = document.getElementById('sidebar-search');
+      const searchClear = document.getElementById('search-clear');
+      const sidebarLinks = document.querySelectorAll('.sidebar-link-item');
+      const categories = document.querySelectorAll('.sidebar-category');
+
+      function handleSearch() {
+        const value = searchInput.value.toLowerCase().trim();
+
+        if (value.length > 0) {
+          searchClear.classList.remove('hidden');
+        } else {
+          searchClear.classList.add('hidden');
+        }
+
+        // Filter individual links
+        sidebarLinks.forEach(item => {
+          const text = item.textContent.toLowerCase();
+          const searchTerm = item.getAttribute('data-search-term') ? item.getAttribute('data-search-term').toLowerCase() : '';
+          const matches = text.includes(value) || searchTerm.includes(value);
+
+          if (matches) {
+            item.classList.remove('hidden');
+          } else {
+            item.classList.add('hidden');
+          }
+        });
+
+        // Hide categories if they contain no visible children
+        categories.forEach(category => {
+          const links = category.querySelectorAll('.sidebar-link-item');
+          let hasVisible = false;
+          links.forEach(link => {
+            if (!link.classList.contains('hidden')) {
+              hasVisible = true;
+            }
+          });
+
+          if (hasVisible) {
+            category.classList.remove('hidden');
+          } else {
+            category.classList.add('hidden');
+          }
+        });
+      }
+
+      searchInput.addEventListener('input', handleSearch);
+      searchClear.addEventListener('click', () => {
+        searchInput.value = '';
+        handleSearch();
+        searchInput.focus();
+      });
+
+      // --- PART IV: Interactive Copy to Clipboard Buttons on Code Blocks ---
+      const codeBlocks = document.querySelectorAll('.markdown-body pre');
+
+      codeBlocks.forEach(pre => {
+        // Build Wrapper & Button Overlay
+        pre.classList.add('group');
+
+        // Extract language class if any
+        let lang = 'CODE';
+        const codeElement = pre.querySelector('code');
+        if (codeElement) {
+          const classes = Array.from(codeElement.classList);
+          const langClass = classes.find(c => c.startsWith('language-'));
+          if (langClass) {
+            lang = langClass.replace('language-', '').toUpperCase();
+          }
+        }
+
+        // Inject language badge pill
+        const badge = document.createElement('span');
+        badge.className = 'absolute top-2.5 left-4 text-[10px] font-bold tracking-widest text-slate-500 group-hover:text-slate-400 select-none uppercase font-mono';
+        badge.innerText = lang;
+        pre.appendChild(badge);
+
+        // Inject copy button
+        const copyButton = document.createElement('button');
+        copyButton.className = 'absolute top-2.5 right-3 h-7 px-2.5 rounded text-xs bg-slate-800 border border-slate-700 hover:bg-slate-750 text-slate-400 hover:text-white flex items-center gap-1.5 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-all shadow-md';
+        copyButton.innerHTML = '<i class="fa-regular fa-copy"></i> Copy';
+
+        pre.appendChild(copyButton);
+
+        // Click Logic
+        copyButton.addEventListener('click', () => {
+          let textToCopy = '';
+          if (codeElement) {
+            textToCopy = codeElement.innerText;
+          } else {
+            textToCopy = pre.innerText;
+          }
+
+          navigator.clipboard.writeText(textToCopy).then(() => {
+            copyButton.innerHTML = '<i class="fa-solid fa-check text-emerald-500"></i> Copied!';
+            copyButton.classList.add('bg-slate-900', 'border-emerald-500', 'text-slate-200');
+
+            setTimeout(() => {
+              copyButton.innerHTML = '<i class="fa-regular fa-copy"></i> Copy';
+              copyButton.classList.remove('bg-slate-900', 'border-emerald-500', 'text-slate-200');
+            }, 2000);
+          }).catch(err => {
+            console.error('Failed to copy text: ', err);
+          });
+        });
+      });
+
+    });
+  </script>
+</body>
+</html>

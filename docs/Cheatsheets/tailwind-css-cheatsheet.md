@@ -135,3 +135,94 @@ Tailwind uses screen size prefixes to build highly responsive user interfaces.
    ```
 2. **Purging CSS (Optimizing):** Ensure your `content` configuration covers all folders with UI components to avoid missing classes in production builds.
 3. **Specifying Component Style Hierarchies:** Use utility classes directly rather than trying to write heavy custom CSS files using `@apply` on massive classes unless absolutely necessary. Keep CSS clean!
+
+---
+
+## 8. Arbitrary Values & JIT Customization
+
+With Tailwind's Just-In-Time (JIT) engine, you can write inline arbitrary properties directly without configuring them in your theme:
+
+```html
+<!-- Arbitrary Width/Height/Padding -->
+<div class="w-[347px] h-[calc(100vh-80px)] p-[1.8rem]">
+  Arbitrary dimensions
+</div>
+
+<!-- Arbitrary Colors and Gradients -->
+<span class="text-[#3b82f6] bg-[rgb(243,244,246)]">
+  Custom Color Box
+</span>
+
+<!-- Arbitrary Grid Tracks -->
+<div class="grid grid-cols-[200px_1fr_100px]">
+  Custom grid track mapping
+</div>
+```
+
+---
+
+## 9. Group & Peer Modifiers (Complex Interactivity)
+
+Tailwind allows you to style elements based on the state of their parent (`group`) or siblings (`peer`).
+
+### Group States (Hover/Focus Parent)
+```html
+<div class="group border p-4 hover:bg-slate-50">
+  <h3 class="text-slate-900 group-hover:text-blue-600">Parent Title</h3>
+  <p class="text-slate-500 group-hover:text-slate-700">This description changes color when the entire card is hovered.</p>
+</div>
+```
+
+### Peer States (Form Validation/Sibling Focus)
+```html
+<form class="space-y-4">
+  <input type="email" class="peer border rounded p-2 invalid:border-red-500" placeholder="Enter email..." />
+  <p class="hidden peer-invalid:block text-red-500 text-sm">
+    Please enter a valid email address.
+  </p>
+</form>
+```
+
+---
+
+## 10. Transitions & Keyframe Animations
+
+Smooth out changes and add custom keyframe animations cleanly with utilities:
+
+- **Transition Properties:** `transition`, `transition-colors`, `transition-all`, `transition-none`
+- **Duration:** `duration-75` (75ms), `duration-150`, `duration-300`, `duration-500`, `duration-1000`
+- **Timing Functions:** `ease-linear`, `ease-in`, `ease-out`, `ease-in-out`
+- **Delay:** `delay-75`, `delay-150`, `delay-300`, `delay-500`
+
+### Built-in Core Animations
+- `animate-none`: Disable animation.
+- `animate-spin`: Smooth 360-degree rotation (useful for spinner icons).
+- `animate-ping`: Repeating outward expanding circle.
+- `animate-pulse`: Gently fading in and out (useful for skeleton loading placeholders).
+- `animate-bounce`: Repeating vertical hop.
+
+```html
+<!-- Spinning loading icon -->
+<svg class="animate-spin h-5 w-5 mr-3 ..." viewBox="0 0 24 24"></svg>
+```
+
+---
+
+## 11. Dark Mode Configuration
+
+To support manual theme toggling via JS, ensure your tailwind configuration is set to `'class'` instead of the default `'media'`:
+
+```javascript
+// tailwind.config.js
+module.exports = {
+  darkMode: 'class', // Enables manual toggle by adding class="dark" to <html>
+  // ...
+}
+```
+
+Then prefix any dark mode utility styles with `dark:`:
+```html
+<div class="bg-white text-slate-900 dark:bg-slate-900 dark:text-white">
+  Automatic Dark Theme Container
+</div>
+```

@@ -18,3 +18,10 @@ exclude:
   - .pytest_cache/
   - .gitignore
   - README.md.bak
+
+# Automatically apply the custom default layout to all documents
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: "default"
