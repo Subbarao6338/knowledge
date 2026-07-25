@@ -1,3 +1,8 @@
+---
+layout: default
+title: "YAML Cheatsheet (.yaml / .yml)"
+---
+
 <!-- {% raw %} -->
 # YAML Cheatsheet (.yaml / .yml)
 

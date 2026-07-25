@@ -1,3 +1,8 @@
+---
+layout: default
+title: "ADB (Android Debug Bridge) Cheatsheet"
+---
+
 # ADB (Android Debug Bridge) Cheatsheet
 
 ADB is the command-line bridge between your dev machine and an Android device/emulator, used for installing apps, debugging, logging, file transfer, and shell access.

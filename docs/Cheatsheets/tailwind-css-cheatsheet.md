@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Tailwind CSS Cheatsheet"
+---
+
 # Tailwind CSS Cheatsheet
 
 Tailwind CSS is a utility-first CSS framework designed for rapid UI development. Rather than pre-designed components, it provides low-level utility classes to build completely custom designs.

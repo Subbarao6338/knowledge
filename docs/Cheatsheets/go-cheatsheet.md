@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Go (Golang) Cheatsheet"
+---
+
 # Go (Golang) Cheatsheet
 
 Go is an open-source programming language created by Google that makes it easy to build simple, reliable, and efficient software.

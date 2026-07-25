@@ -1,3 +1,8 @@
+---
+layout: default
+title: "npm Commands Cheatsheet"
+---
+
 # npm Commands Cheatsheet
 
 ## Setup & Info

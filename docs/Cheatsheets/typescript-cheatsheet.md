@@ -1,3 +1,8 @@
+---
+layout: default
+title: "TypeScript Cheatsheet"
+---
+
 # TypeScript Cheatsheet
 
 TypeScript is a typed superset of JavaScript that compiles to plain JavaScript. This cheatsheet covers TypeScript features, configurations, and best practices.

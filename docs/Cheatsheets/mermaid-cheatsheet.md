@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Mermaid Charts Cheatsheet (.mmd)"
+---
+
 <!-- {% raw %} -->
 # Mermaid Charts Cheatsheet (.mmd)
 

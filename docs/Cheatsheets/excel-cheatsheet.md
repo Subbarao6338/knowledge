@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Excel Cheatsheet"
+---
+
 # Excel Cheatsheet
 
 ## Navigation Shortcuts

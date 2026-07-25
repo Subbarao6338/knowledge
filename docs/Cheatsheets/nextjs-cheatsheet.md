@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Next.js App Router Cheatsheet"
+---
+
 # Next.js App Router Cheatsheet
 
 A modern master reference for Next.js (version 13, 14, and 15+) using the **App Router**, React Server Components (RSC), data fetching models, and optimized deployment architectures.
@@ -205,4 +210,91 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description: product.summary,
   };
 }
+
+---
+
+## 7. Next.js Server Actions
+
+Server Actions are asynchronous functions that are executed on the server, but can be invoked directly inside client or server components (without manually building an API endpoint).
+
+### Defining Server Actions
+```typescript
+// app/actions.ts
+"use server";
+
+import { revalidatePath } from 'next/cache';
+
+export async function createPost(formData: FormData) {
+  const title = formData.get("title");
+  const content = formData.get("content");
+
+  // Write directly to your DB
+  await db.post.create({ data: { title, content } });
+
+  // Revalidate cache for the blog list page
+  revalidatePath('/blog');
+}
+```
+
+### Invoking Server Actions inside Client Components
+```tsx
+// app/blog/new/page.tsx
+"use client";
+
+import { createPost } from '@/app/actions';
+
+export default function NewPostForm() {
+  return (
+    <form action={createPost} class="space-y-4">
+      <input type="text" name="title" placeholder="Post Title" required class="border p-2" />
+      <textarea name="content" placeholder="Content" class="border p-2" />
+      <button type="submit" class="bg-blue-500 text-white p-2">Publish</button>
+    </form>
+  );
+}
+```
+
+---
+
+## 8. Middleware Reference
+
+Middleware runs before a request is completed, allowing you to rewrite, redirect, or modify request headers.
+
+```typescript
+// middleware.ts (defined in root of the project next to /app)
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+
+export function middleware(request: NextRequest) {
+  const token = request.cookies.get('session-token');
+
+  // If trying to access protected paths and not authenticated, redirect to login
+  if (!token && request.nextUrl.pathname.startsWith('/dashboard')) {
+    return NextResponse.redirect(new URL('/login', request.url));
+  }
+
+  return NextResponse.next();
+}
+
+// Matching specific paths
+export const config = {
+  matcher: ['/dashboard/:path*', '/api/secure/:path*'],
+};
+```
+
+---
+
+## 9. Next.js 15 Highlights
+
+Next.js 15 introduces several major upgrades:
+1. **Caching Changes:** `fetch` requests, GET Route Handlers, and Client Router cache are now **uncached by default** (previously cached by default).
+2. **React 18 & 19 Support:** Complete out-of-the-box compatibility with React 19's Server Actions hook (`useActionState`, `useFormStatus`).
+3. **Asynchronous Request APIs:** APIs that rely on runtime request data are now asynchronous (e.g. `headers()`, `cookies()`, `params` and `searchParams` on pages).
+   ```typescript
+   // Next.js 15 dynamic params usage:
+   export default async function Page({ params }: { params: Promise<{ id: string }> }) {
+     const { id } = await params;
+     return <div>ID: {id}</div>;
+   }
+   ```
 ```

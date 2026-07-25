@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Pandas vs Polars — Detailed Comparison"
+---
+
 # Pandas vs Polars — Detailed Comparison
 
 ## Quick Take

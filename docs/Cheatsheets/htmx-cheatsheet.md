@@ -1,3 +1,8 @@
+---
+layout: default
+title: "HTMX Cheatsheet"
+---
+
 # HTMX Cheatsheet
 
 HTMX lets you drive AJAX, WebSockets, and SSE directly from HTML attributes, returning HTML fragments from the server rather than JSON — no separate frontend framework or JS build step required.

@@ -1,3 +1,8 @@
+---
+layout: default
+title: "MySQL vs PostgreSQL vs MSSQL vs BigQuery vs Azure Synapse"
+---
+
 # MySQL vs PostgreSQL vs MSSQL vs BigQuery vs Azure Synapse
 
 ## Quick Classification

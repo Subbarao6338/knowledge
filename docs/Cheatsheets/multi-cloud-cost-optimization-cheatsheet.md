@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Multi-Cloud Cost Optimization Cheatsheet"
+---
+
 # Multi-Cloud Cost Optimization Cheatsheet
 
 ## AWS Cost Optimization

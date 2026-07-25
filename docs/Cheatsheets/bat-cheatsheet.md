@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Windows Batch (.bat / .cmd) Cheatsheet"
+---
+
 # Windows Batch (.bat / .cmd) Cheatsheet
 
 Batch files run via `cmd.exe`. `.bat` and `.cmd` are functionally almost identical (minor differences in error-level handling in some edge cases) — `.cmd` is generally preferred on modern Windows.

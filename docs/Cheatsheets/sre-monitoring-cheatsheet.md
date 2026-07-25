@@ -1,3 +1,8 @@
+---
+layout: default
+title: "SRE, Monitoring & Time Series Cheatsheet"
+---
+
 # SRE, Monitoring & Time Series Cheatsheet
 
 ## Grafana & Prometheus (Flux & PromQL)

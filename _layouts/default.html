@@ -243,12 +243,15 @@
     <!-- Sticky Left Sidebar (Navigation Drawer) -->
     <aside id="sidebar" class="fixed lg:sticky top-16 left-0 bottom-0 z-30 w-[280px] bg-white dark:bg-slate-950 border-r border-slate-200 dark:border-slate-800 lg:h-[calc(100vh-4rem)] flex flex-col transition-transform duration-300 transform -translate-x-full lg:translate-x-0 overflow-y-auto">
 
-      <!-- Live Search Box inside Sidebar -->
+      <!-- Live Search Box inside Sidebar with Keyboard Shortcut Pill -->
       <div class="p-4 border-b border-slate-100 dark:border-slate-800 sticky top-0 bg-white dark:bg-slate-950 z-10">
         <div class="relative">
           <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-400 dark:text-slate-500 text-sm"></i>
-          <input type="text" id="sidebar-search" placeholder="Search 73+ cheatsheets..." class="w-full pl-9 pr-8 py-2 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all">
-          <button id="search-clear" class="hidden absolute right-3 top-3 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"><i class="fa-solid fa-xmark"></i></button>
+          <input type="text" id="sidebar-search" placeholder="Search 77+ cheatsheets..." class="w-full pl-9 pr-14 py-2 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all">
+          <div class="absolute right-3 top-2 flex items-center gap-0.5 pointer-events-none text-[10px] font-bold text-slate-400 dark:text-slate-500 bg-slate-150 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-1.5 py-0.5 rounded shadow-sm">
+            <span>/</span>
+          </div>
+          <button id="search-clear" class="hidden absolute right-10 top-3 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"><i class="fa-solid fa-xmark"></i></button>
         </div>
       </div>
 
@@ -265,8 +268,8 @@
               </a>
             </li>
             <li>
-              <a href="{{ '/docs/Cheatsheets.html' | relative_url }}" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-semibold bg-emerald-50 text-emerald-600 dark:bg-emerald-950/30 dark:text-emerald-400 transition-colors">
-                <i class="fa-solid fa-book-open text-emerald-500 w-4 text-center"></i> Cheatsheets Index
+              <a href="{{ '/docs/Cheatsheets.html' | relative_url }}" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-900 text-slate-700 dark:text-slate-300 transition-colors">
+                <i class="fa-solid fa-book-open text-slate-400 w-4 text-center"></i> Cheatsheets Index
               </a>
             </li>
             <li>
@@ -311,6 +314,16 @@
                 <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span> ReactJS
               </a>
             </li>
+            <li class="sidebar-link-item" data-search-term="svelte sveltekit reactive store components framework">
+              <a href="{{ '/docs/Cheatsheets/svelte-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-orange-600"></span> Svelte & SvelteKit
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="graphql schema query mutation apollo api fields">
+              <a href="{{ '/docs/Cheatsheets/graphql-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-pink-500"></span> GraphQL Reference
+              </a>
+            </li>
           </ul>
         </div>
 
@@ -322,9 +335,24 @@
                 <span class="w-1.5 h-1.5 rounded-full bg-yellow-400"></span> Python Reference
               </a>
             </li>
+            <li class="sidebar-link-item" data-search-term="fastapi python pydantic endpoints async dependency api">
+              <a href="{{ '/docs/Cheatsheets/fastapi-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-teal-500"></span> FastAPI
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="rust ownership borrowing lifetimes types cargo compilation">
+              <a href="{{ '/docs/Cheatsheets/rust-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-orange-700"></span> Rust Language
+              </a>
+            </li>
             <li class="sidebar-link-item" data-search-term="sql relational database query postgres mysql sqlite join CTE window">
               <a href="{{ '/docs/Cheatsheets/sql-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
                 <span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span> SQL Reference
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="redis in-memory cache lists sets hashes sorted transactions pub/sub pipeline">
+              <a href="{{ '/docs/Cheatsheets/redis-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-red-600"></span> Redis Caching & DB
               </a>
             </li>
             <li class="sidebar-link-item" data-search-term="go golang channels routines structs maps backend lang">
@@ -398,17 +426,34 @@
     <!-- Sidebar Backdrop Overlay on Mobile -->
     <div id="sidebar-backdrop" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-20 hidden transition-opacity lg:hidden"></div>
 
-    <!-- Main Content Reader Container -->
-    <main class="flex-grow px-4 md:px-10 py-8 lg:py-12 overflow-x-hidden min-h-[calc(100vh-10rem)]">
+    <!-- Main Content Reader Container with modern grid layout -->
+    <main class="flex-grow px-4 lg:px-8 py-8 lg:py-10 overflow-x-hidden min-h-[calc(100vh-10rem)]">
+      <div class="grid grid-cols-12 gap-8 max-w-[1400px] mx-auto">
 
-      <!-- Card wrapper style around the Markdown document -->
-      <article class="bg-white dark:bg-slate-950 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-6 md:p-12 shadow-sm transition-all duration-200">
-        <!-- Content section for Markdown output -->
-        <div class="markdown-body text-slate-800 dark:text-slate-200">
-          {{ content }}
+        <!-- Left Side: Article Content Card -->
+        <div class="col-span-12 xl:col-span-9">
+          <article class="bg-white dark:bg-slate-950 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-6 md:p-10 shadow-sm transition-all duration-200">
+            <!-- Content section for Markdown output -->
+            <div class="markdown-body text-slate-800 dark:text-slate-200">
+              {{ content }}
+            </div>
+          </article>
         </div>
-      </article>
 
+        <!-- Right Side: Sticky Interactive Table of Contents (ToC) -->
+        <div class="hidden xl:block xl:col-span-3">
+          <div class="sticky top-24 self-start bg-white dark:bg-slate-950 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-5 shadow-sm max-h-[calc(100vh-8rem)] flex flex-col">
+            <h3 class="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-4 flex items-center gap-2 select-none">
+              <i class="fa-solid fa-list-ul text-emerald-500"></i> On this page
+            </h3>
+            <nav id="toc-list" class="overflow-y-auto text-xs space-y-3 pr-2 scroll-smooth select-none max-h-[50vh]">
+              <!-- Dynamically populated by JS -->
+              <p class="text-slate-400 italic">No headings on this page</p>
+            </nav>
+          </div>
+        </div>
+
+      </div>
     </main>
   </div>
 
@@ -459,7 +504,163 @@
         updateThemeUI(isDarkMode);
       });
 
-      // --- PART II: Sidebar Mobile Toggle & Drawer System ---
+      // --- PART II: Dynamic Sidebar Active Link Highlighter & Auto-Scroll ---
+      const currentUrl = window.location.href;
+      const currentPath = window.location.pathname;
+      const sidebarNav = document.getElementById('sidebar-nav');
+      const navLinks = sidebarNav.querySelectorAll('a');
+
+      let activeLink = null;
+
+      // Normalize paths to find the best match (ignores .html extensions or relative folder levels)
+      function normalizePath(p) {
+        return p.toLowerCase().replace(/\.html$/, '').replace(/\/$/, '');
+      }
+
+      const normalizedCurrentPath = normalizePath(currentPath);
+
+      for (const link of navLinks) {
+        const linkHref = link.getAttribute('href');
+        if (!linkHref) continue;
+
+        const normalizedLinkHref = normalizePath(linkHref);
+
+        // Exact match or ends-with match for pages
+        if (
+          normalizedCurrentPath === normalizedLinkHref ||
+          normalizedCurrentPath.endsWith(normalizedLinkHref) ||
+          (normalizedLinkHref !== '' && normalizedCurrentPath.includes(normalizedLinkHref))
+        ) {
+          // Keep track of the longest matching URL to find the most specific match
+          if (!activeLink || normalizedLinkHref.length > normalizePath(activeLink.getAttribute('href')).length) {
+            activeLink = link;
+          }
+        }
+      }
+
+      // Default fallback to Portal Home if we are exactly at root
+      if (!activeLink && (currentPath === '/' || currentPath === '/index.html' || currentPath === '')) {
+        activeLink = Array.from(navLinks).find(l => l.getAttribute('href') === '/' || l.getAttribute('href') === '/index.html');
+      }
+
+      if (activeLink) {
+        // Apply beautiful emerald accent active styling
+        activeLink.classList.remove('text-slate-700', 'dark:text-slate-300', 'hover:bg-slate-50', 'dark:hover:bg-slate-900');
+        activeLink.classList.add(
+          'bg-emerald-500/10',
+          'text-emerald-600',
+          'dark:bg-emerald-500/20',
+          'dark:text-emerald-400',
+          'font-semibold',
+          'border-l-4',
+          'border-emerald-500',
+          'pl-2'
+        );
+
+        // Enhance icon if present
+        const icon = activeLink.querySelector('i');
+        if (icon) {
+          icon.classList.remove('text-slate-400');
+          icon.classList.add('text-emerald-500');
+        }
+
+        // Auto-scroll the sidebar viewport to bring the active link into visual center
+        setTimeout(() => {
+          activeLink.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 150);
+      }
+
+      // --- PART III: Dynamic Table of Contents (ToC) & Scroll-Spy System ---
+      const articleBody = document.querySelector('.markdown-body');
+      const tocList = document.getElementById('toc-list');
+
+      if (articleBody && tocList) {
+        // Query h2 and h3 headings
+        const headings = Array.from(articleBody.querySelectorAll('h2, h3'));
+
+        if (headings.length > 0) {
+          tocList.innerHTML = ''; // Clear default fallback text
+
+          const tocElements = [];
+
+          headings.forEach((heading, index) => {
+            // Generate standard anchor slug if id is missing
+            if (!heading.id) {
+              const textSlug = heading.textContent
+                .toLowerCase()
+                .trim()
+                .replace(/[^a-z0-9\s-]/g, '') // remove special chars
+                .replace(/\s+/g, '-'); // collapse spaces to hyphens
+              heading.id = textSlug || `heading-${index}`;
+            }
+
+            // Create ToC anchor link
+            const tocItem = document.createElement('a');
+            tocItem.setAttribute('href', `#${heading.id}`);
+            tocItem.textContent = heading.textContent.replace(/#$/, '').trim(); // strip the '#' hover helper if visible
+
+            // Indent h3 elements for a beautiful nested hierarchy
+            if (heading.tagName.toLowerCase() === 'h3') {
+              tocItem.className = 'block pl-4 py-0.5 text-[11px] text-slate-500 dark:text-slate-400 border-l border-slate-200 dark:border-slate-800 hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors duration-150';
+            } else {
+              tocItem.className = 'block pl-2 py-0.5 font-medium text-slate-600 dark:text-slate-300 border-l-2 border-slate-200 dark:border-slate-800 hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors duration-150';
+            }
+
+            tocList.appendChild(tocItem);
+            tocElements.push({ heading, tocItem });
+          });
+
+          // Implement IntersectionObserver scroll spy to highlight the active heading
+          let activeHeadingObj = null;
+
+          const spyObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                const matched = tocElements.find(el => el.heading === entry.target);
+                if (matched) {
+                  // Reset previous active item style
+                  tocElements.forEach(el => {
+                    el.tocItem.classList.remove('text-emerald-500', 'dark:text-emerald-400', 'font-semibold', 'border-emerald-500');
+                    el.tocItem.classList.add('text-slate-500', 'dark:text-slate-400', 'text-slate-600', 'dark:text-slate-300');
+                  });
+
+                  // Set current active item style
+                  matched.tocItem.classList.add('text-emerald-500', 'dark:text-emerald-400', 'font-semibold', 'border-emerald-500');
+                  matched.tocItem.classList.remove('text-slate-500', 'dark:text-slate-400', 'text-slate-600', 'dark:text-slate-300');
+
+                  // Keep container scrolled with items
+                  matched.tocItem.scrollIntoView({ behavior: 'auto', block: 'nearest' });
+                }
+              }
+            });
+          }, {
+            rootMargin: '-80px 0px -60% 0px', // check headings at the top margin zone
+            threshold: 0.1
+          });
+
+          headings.forEach(heading => spyObserver.observe(heading));
+        }
+      }
+
+      // --- PART IV: Keyboard Shortcut for Search autofocus ---
+      const searchInput = document.getElementById('sidebar-search');
+
+      document.addEventListener('keydown', (e) => {
+        // Autofocus search on '/' or 'Ctrl+K'
+        if (e.key === '/' || (e.ctrlKey && e.key === 'k') || (e.metaKey && e.key === 'k')) {
+          // Only trigger if user is not already typing inside an input/textarea
+          const activeEl = document.activeElement;
+          if (activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA' || activeEl.isContentEditable)) {
+            return;
+          }
+
+          e.preventDefault();
+          searchInput.focus();
+          searchInput.select();
+        }
+      });
+
+      // --- PART V: Sidebar Mobile Toggle & Drawer System ---
       const menuToggle = document.getElementById('menu-toggle');
       const sidebar = document.getElementById('sidebar');
       const backdrop = document.getElementById('sidebar-backdrop');
@@ -473,8 +674,7 @@
       menuToggle.addEventListener('click', toggleSidebar);
       backdrop.addEventListener('click', toggleSidebar);
 
-      // --- PART III: Live Client-Side Fuzzy Search / Filter ---
-      const searchInput = document.getElementById('sidebar-search');
+      // --- PART VI: Live Client-Side Fuzzy Search / Filter ---
       const searchClear = document.getElementById('search-clear');
       const sidebarLinks = document.querySelectorAll('.sidebar-link-item');
       const categories = document.querySelectorAll('.sidebar-category');
@@ -526,7 +726,7 @@
         searchInput.focus();
       });
 
-      // --- PART IV: Interactive Copy to Clipboard Buttons on Code Blocks ---
+      // --- PART VII: Interactive Copy to Clipboard Buttons on Code Blocks ---
       const codeBlocks = document.querySelectorAll('.markdown-body pre');
 
       codeBlocks.forEach(pre => {
@@ -552,7 +752,7 @@
 
         // Inject copy button
         const copyButton = document.createElement('button');
-        copyButton.className = 'absolute top-2.5 right-3 h-7 px-2.5 rounded text-xs bg-slate-800 border border-slate-700 hover:bg-slate-750 text-slate-400 hover:text-white flex items-center gap-1.5 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-all shadow-md';
+        copyButton.className = 'absolute top-2.5 right-3 h-7 px-2.5 rounded text-xs bg-slate-800 border border-slate-700 hover:bg-slate-755 text-slate-400 hover:text-white flex items-center gap-1.5 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-all shadow-md';
         copyButton.innerHTML = '<i class="fa-regular fa-copy"></i> Copy';
 
         pre.appendChild(copyButton);

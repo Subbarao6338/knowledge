@@ -1,3 +1,8 @@
+---
+layout: default
+title: "OpenRefine Cheatsheet"
+---
+
 # OpenRefine Cheatsheet
 
 OpenRefine is a powerful, free, open-source tool for working with messy data: cleaning it, transforming it from one format into another, and extending it with web services and external data.

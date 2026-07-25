@@ -1,3 +1,8 @@
+---
+layout: default
+title: "ReactJS Cheatsheet"
+---
+
 # ReactJS Cheatsheet
 
 ## 1. Functional Components & JSX

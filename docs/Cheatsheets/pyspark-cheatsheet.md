@@ -1,3 +1,8 @@
+---
+layout: default
+title: "PySpark Cheatsheet"
+---
+
 # PySpark Cheatsheet
 
 ## Setup

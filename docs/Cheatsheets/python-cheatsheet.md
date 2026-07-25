@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Python Cheatsheet"
+---
+
 # Python Cheatsheet
 
 ## Basics

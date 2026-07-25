@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Microsoft Word Cheatsheet"
+---
+
 # Microsoft Word Cheatsheet
 
 ## Navigation Shortcuts

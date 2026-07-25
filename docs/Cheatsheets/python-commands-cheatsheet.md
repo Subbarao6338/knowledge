@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Python Commands Cheatsheet (CLI, Interpreter, pip, venv)"
+---
+
 # Python Commands Cheatsheet (CLI, Interpreter, pip, venv)
 
 This covers the `python` executable itself, package management, and environment tooling — for language syntax, see the separate Python language cheatsheet.

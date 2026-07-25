@@ -1,3 +1,8 @@
+---
+layout: default
+title: "TOML Cheatsheet"
+---
+
 # TOML Cheatsheet
 
 TOML ("Tom's Obvious, Minimal Language") is a config format designed to be easy to read and unambiguous to parse, with a formal spec and native types (unlike INI). It's the standard for `pyproject.toml`, `Cargo.toml`, and many modern tool configs.

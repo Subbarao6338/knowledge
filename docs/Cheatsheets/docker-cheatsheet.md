@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Docker Cheatsheet"
+---
+
 <!-- {% raw %} -->
 # Docker Cheatsheet
 
@@ -269,5 +274,79 @@ docker inspect --format='{{json .State.Health}}' mycontainer
 - `docker rm -f` on a container doesn't remove its volumes unless you also pass `-v`.
 - Images accumulate — dangling/unused images and stopped containers silently consume disk; run `docker system prune` periodically.
 - `EXPOSE` in a Dockerfile is documentation only — it does not actually publish the port; you still need `-p` at `docker run` (or `ports:` in compose).
+
+## Advanced Docker Multi-Stage Build & Optimization Pattern
+
+For high-performance, secure production builds, separate your dependencies, build tools, and lightweight production runtime environments.
+
+```dockerfile
+# Stage 1: Dependency Ingestion & Builder
+FROM node:20-alpine AS builder
+WORKDIR /app
+ENV NODE_ENV=production
+
+# Install system dependencies needed for native module building
+RUN apk add --no-cache python3 make g++
+
+COPY package*.json ./
+RUN npm ci --only=production
+
+COPY . .
+RUN npm run build
+
+# Stage 2: Minimal Runtime Environment
+FROM node:20-alpine AS runner
+WORKDIR /app
+ENV NODE_ENV=production
+
+# Security: Run as a non-privileged system user
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 nextjs
+
+# Copy only the compiled assets and necessary production node_modules
+COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/dist ./dist
+
+USER nextjs
+
+EXPOSE 3000
+ENV PORT 3000
+
+CMD ["node", "dist/main.js"]
+```
+
+## Docker Compose Profiles
+
+Profiles allow you to define services that are only started when specified on the command-line, perfect for debugging, local development utilities, or seed tasks.
+
+```yaml
+version: "3.9"
+
+services:
+  app:
+    image: node:20-alpine
+    command: npm start
+    ports:
+      - "3000:3000"
+
+  db-seeder:
+    image: node:20-alpine
+    command: node scripts/seed.js
+    profiles:
+      - tools # Only started when '--profile tools' or 'COMPOSE_PROFILES=tools' is used
+    depends_on:
+      - db
+
+  db:
+    image: postgres:16
+```
+
+Commands to start with profiles:
+```bash
+docker compose --profile tools up
+# Or enable via environment variable
+COMPOSE_PROFILES=tools docker compose up -d
+```
 
 <!-- {% endraw %} -->

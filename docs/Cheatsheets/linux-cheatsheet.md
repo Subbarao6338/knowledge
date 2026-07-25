@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Linux Commands Cheatsheet"
+---
+
 # Linux Commands Cheatsheet
 
 ## Navigation & File Basics

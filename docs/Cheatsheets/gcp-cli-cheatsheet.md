@@ -1,3 +1,8 @@
+---
+layout: default
+title: "GCP CLI Cheatsheet (gcloud / gsutil / bq)"
+---
+
 # GCP CLI Cheatsheet (gcloud / gsutil / bq)
 
 ## Setup & Configuration

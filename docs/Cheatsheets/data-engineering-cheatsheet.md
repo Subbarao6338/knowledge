@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Data Engineering Cheatsheet"
+---
+
 # Data Engineering Cheatsheet
 
 Data Engineering is the practice of designing, building, and maintaining systems for collecting, storing, transforming, and analyzing data at scale.

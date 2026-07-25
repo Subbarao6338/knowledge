@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Shell Scripting Cheatsheet (.sh / Bash)"
+---
+
 # Shell Scripting Cheatsheet (.sh / Bash)
 
 ## Script Basics

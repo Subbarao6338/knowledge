@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Microsoft PowerPoint Cheatsheet"
+---
+
 # Microsoft PowerPoint Cheatsheet
 
 ## Navigation & View Shortcuts

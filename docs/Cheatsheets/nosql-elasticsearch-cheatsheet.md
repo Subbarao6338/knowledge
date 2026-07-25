@@ -1,3 +1,8 @@
+---
+layout: default
+title: "NoSQL & Elasticsearch Cheatsheet"
+---
+
 # NoSQL & Elasticsearch Cheatsheet
 
 ## MongoDB (Document Store)

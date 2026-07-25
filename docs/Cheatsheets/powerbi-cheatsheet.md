@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Power BI Cheatsheet"
+---
+
 <!-- {% raw %} -->
 # Power BI Cheatsheet
 

@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Markdown Cheatsheet (.md / .mdx)"
+---
+
 # Markdown Cheatsheet (.md / .mdx)
 
 `.mdx` is Markdown plus embedded JSX components — everything in standard Markdown works in MDX; the MDX-specific section is at the end.

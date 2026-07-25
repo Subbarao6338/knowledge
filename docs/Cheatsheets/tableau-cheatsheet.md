@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Tableau Cheatsheet"
+---
+
 # Tableau Cheatsheet
 
 Tableau is a popular business intelligence and data visualization tool used to analyze and present complex data.

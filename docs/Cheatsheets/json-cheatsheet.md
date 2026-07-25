@@ -1,3 +1,8 @@
+---
+layout: default
+title: "JSON Cheatsheet"
+---
+
 # JSON Cheatsheet
 
 JSON (JavaScript Object Notation) is a strict, minimal data interchange format. Unlike YAML/TOML, it has no comments, no trailing commas, and a small fixed set of types.

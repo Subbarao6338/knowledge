@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Bootstrap Cheatsheet"
+---
+
 # Bootstrap Cheatsheet
 
 ## Grid System Basics

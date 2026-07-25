@@ -1,3 +1,8 @@
+---
+layout: default
+title: "SCSS Cheatsheet"
+---
+
 # SCSS Cheatsheet
 
 Sassy CSS (SCSS) is a preprocessor scripting language that compiles down to clean, standardized browser-runnable CSS.
