@@ -251,3 +251,26 @@ df.query("a > 5 and b < 10")
 - `==` on floating point columns is fragile — use `np.isclose()` for comparisons.
 - `groupby` drops `NaN` group keys by default — pass `dropna=False` to keep them.
 - Merge can silently produce duplicate rows if keys aren't unique on one side — check with `validate="one_to_many"` etc. on `pd.merge`.
+```
+
+## Advanced Pandas Optimization & Workflows
+
+```python
+# 1. Custom Aggregations and Window Optimization with Numba JIT
+# Compiles the sliding/rolling function directly into raw assembly
+df["rolling_numba"] = df["value"].rolling(window=10).mean(engine="numba")
+
+# 2. Memory Minimization with Category & Sparse Dtypes
+# Reduces memory footprint for columns with massive duplication
+df["sparse_col"] = pd.arrays.SparseArray(df["some_mostly_null_column"])
+
+# 3. Method Chaining Pattern (Clean, Modern, Robust Pipelines)
+pipeline_df = (
+    pd.read_csv("large_dataset.csv")
+    .query("status == 'active'")
+    .assign(total_cost=lambda d: d["quantity"] * d["unit_price"])
+    .groupby("category")
+    .agg(avg_cost=("total_cost", "mean"))
+    .reset_index()
+)
+```
