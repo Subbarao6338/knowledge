@@ -535,4 +535,42 @@ def transaction():
     except Exception:
         print("ROLLBACK")
         raise
+
+# 5. Async Iterators & Generators (Python 3.5+)
+import asyncio
+
+class AsyncCounter:
+    def __init__(self, limit):
+        self.limit = limit
+        self.count = 0
+    def __aiter__(self):
+        return self
+    async def __anext__(self):
+        if self.count >= self.limit:
+            raise StopAsyncIteration
+        await asyncio.sleep(0.1)  # Simulate I/O bound wait
+        self.count += 1
+        return self.count
+
+# Async Generator function
+async def async_generator(limit):
+    for i in range(limit):
+        await asyncio.sleep(0.1)
+        yield i
+
+# Usage:
+# async for num in async_generator(5):
+#     print(num)
+
+# 6. Advanced Structural Pattern Matching (Python 3.10+)
+def process_event(event):
+    match event:
+        case {"type": "click", "position": (x, y)}:
+            return f"Clicked at {x}, {y}"
+        case {"type": "keypress", "key": str(key)} if len(key) == 1:
+            return f"Single key pressed: {key}"
+        case {"type": "keypress", "key": key}:
+            return f"Special key pressed: {key}"
+        case _:
+            return "Unknown event"
 ```

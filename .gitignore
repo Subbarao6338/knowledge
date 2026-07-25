@@ -6,3 +6,7 @@ ready_for_notion/
 my_raw_documents/
 tests/
 scripts/
+_site/
+.sass-cache/
+.jekyll-metadata
+.jekyll-cache/
