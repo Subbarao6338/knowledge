@@ -1,3 +1,8 @@
+---
+layout: default
+title: "SQL Cheatsheet"
+---
+
 # SQL Cheatsheet
 
 ## Query Execution Order (conceptual)

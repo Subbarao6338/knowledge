@@ -1,3 +1,8 @@
+---
+layout: default
+title: "FinOps, DevOps & Azure DevOps Cheatsheet"
+---
+
 # FinOps, DevOps & Azure DevOps Cheatsheet
 
 ## FinOps Framework Phases

@@ -1,3 +1,8 @@
+---
+layout: default
+title: "AWS CLI Cheatsheet"
+---
+
 # AWS CLI Cheatsheet
 
 ## Setup & Configuration

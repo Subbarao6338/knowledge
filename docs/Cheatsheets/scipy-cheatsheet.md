@@ -1,3 +1,8 @@
+---
+layout: default
+title: "SciPy Cheatsheet"
+---
+
 # SciPy Cheatsheet
 
 ## Physical Constants & Sparse Matrices

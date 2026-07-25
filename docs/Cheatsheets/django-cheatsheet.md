@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Django Cheatsheet"
+---
+
 # Django Cheatsheet
 
 ## Setup & Administration

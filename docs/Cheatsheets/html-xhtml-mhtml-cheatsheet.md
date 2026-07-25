@@ -1,3 +1,8 @@
+---
+layout: default
+title: "HTML, XHTML & MHTML Cheatsheet"
+---
+
 # HTML, XHTML & MHTML Cheatsheet
 
 ## HTML5 Semantic Structure

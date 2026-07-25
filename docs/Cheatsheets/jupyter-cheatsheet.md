@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Jupyter Cheatsheet"
+---
+
 # Jupyter Cheatsheet
 
 ## Launching & Interfaces

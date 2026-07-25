@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Polars Cheatsheet"
+---
+
 # Polars Cheatsheet
 
 ## Creating DataFrames

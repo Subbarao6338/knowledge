@@ -1,3 +1,10 @@
+---
+layout: default
+title: "GitHub Actions CI/CD Cheatsheet"
+---
+
+{% raw %}
+
 # GitHub Actions CI/CD Cheatsheet
 
 A complete reference for automating workflows, building continuous integration/delivery pipelines, and configuring secure deployment environments on GitHub.
@@ -203,3 +210,5 @@ Speeds up workflow jobs by retrieving pre-built files (e.g. `node_modules`, `pip
 - **`path`:** The directory to cache on disk.
 - **`key`:** The exact identifier for storing/retrieving the cache.
 - **`restore-keys`:** Fallback prefix matchers if no exact cache hit occurs.
+
+{% endraw %}

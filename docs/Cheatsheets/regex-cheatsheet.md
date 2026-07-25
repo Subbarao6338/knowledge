@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Regular Expressions (Regex) Cheatsheet"
+---
+
 # Regular Expressions (Regex) Cheatsheet
 
 Regular expressions (regex) are special sequence of characters used to find or match patterns in text. This guide covers standard regex features along with specific language rules.

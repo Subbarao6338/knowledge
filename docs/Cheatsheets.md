@@ -15,22 +15,26 @@ Welcome to the unified developer cheatsheets directory. Access over 73 detailed 
 * [Bootstrap](Cheatsheets/bootstrap-cheatsheet.md)
 * [CSS Basics](Cheatsheets/css-cheatsheet.md)
 * [CSS Grid & Flexbox](Cheatsheets/css-grid-flexbox-cheatsheet.md) *(New)*
+* [GraphQL](Cheatsheets/graphql-cheatsheet.md) *(New)*
 * [HTML, XHTML & MHTML](Cheatsheets/html-xhtml-mhtml-cheatsheet.md)
 * [HTMX](Cheatsheets/htmx-cheatsheet.md)
 * [JavaScript](Cheatsheets/javascript-cheatsheet.md)
 * [Next.js App Router](Cheatsheets/nextjs-cheatsheet.md) *(New)*
 * [ReactJS](Cheatsheets/reactjs-cheatsheet.md)
 * [SCSS](Cheatsheets/scss-cheatsheet.md)
+* [Svelte & SvelteKit](Cheatsheets/svelte-cheatsheet.md) *(New)*
 * [Tailwind CSS](Cheatsheets/tailwind-css-cheatsheet.md)
 * [TypeScript](Cheatsheets/typescript-cheatsheet.md)
 * [TypeScript Advanced](Cheatsheets/typescript-advanced-cheatsheet.md) *(New)*
 
 ### 🐍 Backend & Programming Languages
 * [Django](Cheatsheets/django-cheatsheet.md)
+* [FastAPI](Cheatsheets/fastapi-cheatsheet.md) *(New)*
 * [Go](Cheatsheets/go-cheatsheet.md)
 * [Node.js](Cheatsheets/nodejs-cheatsheet.md)
 * [Python Reference](Cheatsheets/python-cheatsheet.md)
 * [Python Commands](Cheatsheets/python-commands-cheatsheet.md)
+* [Rust](Cheatsheets/rust-cheatsheet.md) *(New)*
 
 ### 📊 Data Science, Analysis & Visualization
 * [Excel](Cheatsheets/excel-cheatsheet.md)
@@ -77,6 +81,7 @@ Welcome to the unified developer cheatsheets directory. Access over 73 detailed 
 ### 🗄️ Database Systems
 * [Database Comparison](Cheatsheets/database-comparison-cheatsheet.md)
 * [NoSQL & Elasticsearch](Cheatsheets/nosql-elasticsearch-cheatsheet.md)
+* [Redis](Cheatsheets/redis-cheatsheet.md) *(New)*
 * [SQL](Cheatsheets/sql-cheatsheet.md)
 
 ### 🛠️ Developer Utilities, Formats & Configs

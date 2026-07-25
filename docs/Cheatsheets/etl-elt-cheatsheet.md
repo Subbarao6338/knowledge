@@ -1,3 +1,8 @@
+---
+layout: default
+title: "ETL / ELT Pipelines Cheatsheet"
+---
+
 # ETL / ELT Pipelines Cheatsheet
 
 ## ETL vs ELT

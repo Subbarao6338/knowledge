@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Apache Airflow Cheatsheet"
+---
+
 <!-- {% raw %} -->
 # Apache Airflow Cheatsheet
 

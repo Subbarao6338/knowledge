@@ -1,3 +1,8 @@
+---
+layout: default
+title: "requirements.txt Cheatsheet"
+---
+
 # requirements.txt Cheatsheet
 
 `requirements.txt` is pip's plain-text dependency list format — no formal spec, but a well-established convention pip itself defines and parses.

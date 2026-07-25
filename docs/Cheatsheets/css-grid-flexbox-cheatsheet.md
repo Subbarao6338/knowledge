@@ -1,3 +1,8 @@
+---
+layout: default
+title: "CSS Grid & Flexbox Cheatsheet"
+---
+
 # CSS Grid & Flexbox Cheatsheet
 
 A modern master reference comparing CSS Grid and CSS Flexbox layouts with advanced axis guides, utility tables, responsive patterns, and layout recipes.

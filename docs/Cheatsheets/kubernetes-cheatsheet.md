@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Kubernetes (K8s) Cheatsheet"
+---
+
 # Kubernetes (K8s) Cheatsheet
 
 Kubernetes is an open-source container orchestration platform designed to automate application deployment, scaling, and management.

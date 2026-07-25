@@ -1,3 +1,8 @@
+---
+layout: default
+title: "NumPy Cheatsheet"
+---
+
 # NumPy Cheatsheet
 
 ## Array Creation

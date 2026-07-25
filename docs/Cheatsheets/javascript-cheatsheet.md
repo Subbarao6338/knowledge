@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Javascript Cheatsheet"
+---
+
 # Javascript Cheatsheet
 
 ## ES6+ Core Grammar & Syntax

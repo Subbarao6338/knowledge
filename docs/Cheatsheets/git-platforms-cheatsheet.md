@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Git Platforms Cheatsheet"
+---
+
 # Git Platforms Cheatsheet
 
 ## GitHub Actions CI/CD Pipeline

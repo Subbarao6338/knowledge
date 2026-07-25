@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Azure CLI Cheatsheet"
+---
+
 <!-- {% raw %} -->
 # Azure CLI Cheatsheet
 

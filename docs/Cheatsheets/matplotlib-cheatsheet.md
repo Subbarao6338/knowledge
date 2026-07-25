@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Matplotlib Cheatsheet"
+---
+
 # Matplotlib Cheatsheet
 
 ## Basic Line Plot

@@ -1,3 +1,8 @@
+---
+layout: default
+title: "PowerShell Cheatsheet (.ps1)"
+---
+
 # PowerShell Cheatsheet (.ps1)
 
 PowerShell is object-oriented, not text-oriented — commands (cmdlets) pass structured .NET objects through the pipeline, not plain text.

@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Advanced TypeScript Cheatsheet"
+---
+
 # Advanced TypeScript Cheatsheet
 
 A deep-dive reference guide for advanced TypeScript concepts, type manipulation, and strict compiler-level optimizations.

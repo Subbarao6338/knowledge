@@ -1,3 +1,8 @@
+---
+layout: default
+title: "PDF Cheatsheet (Adobe Acrobat + Command-Line Tools)"
+---
+
 # PDF Cheatsheet (Adobe Acrobat + Command-Line Tools)
 
 ## Adobe Acrobat / Reader — Keyboard Shortcuts

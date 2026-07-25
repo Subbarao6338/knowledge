@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Git Cheatsheet"
+---
+
 # Git Cheatsheet
 
 ## The Four Areas of Git
@@ -410,4 +415,56 @@ git merge upstream/main
 
 # Sync your fork's remote on GitHub
 git push origin main
+
+---
+
+## 23. Git Hooks (Automation and Validation)
+
+Git Hooks are scripts that run automatically before or after key Git actions (like commit, push, or receive). They live in the `.git/hooks/` directory of your repository.
+
+### Standard Hooks
+- **pre-commit:** Runs before a commit is created. Used to validate code syntax, run tests, or run lint/format checks.
+- **prepare-commit-msg:** Runs before the commit message editor opens.
+- **commit-msg:** Validates the format of the commit message (e.g. enforcing conventional commits).
+- **pre-push:** Runs before files are uploaded to the remote server. Ideal for full integration test checks.
+
+### Example: `.git/hooks/pre-commit` (Bash script)
+To make a hook active, create a file named exactly `pre-commit` inside `.git/hooks/`, add your script, and make it executable:
+
+```bash
+#!/bin/sh
+
+echo "Running pre-commit hooks..."
+
+# Execute linting suite
+npm run lint
+
+# Capture exit code
+if [ $? -ne 0 ]; then
+    echo "Linter failed. Commit aborted."
+    exit 1
+fi
+
+echo "All checks passed. Committing changes."
+exit 0
+```
+
+To make the script executable on Unix systems:
+```bash
+chmod +x .git/hooks/pre-commit
+```
+
+### Managing Hooks in Teams: Husky (Node.js ecosystem)
+Since the `.git` directory is not checked into version control, you can use Husky to share hook scripts with team members automatically.
+
+```bash
+# Install Husky
+npm install husky --save-dev
+
+# Enable Git hooks
+npx husky install
+
+# Add a pre-commit check
+npx husky add .husky/pre-commit "npm test"
+```
 ```

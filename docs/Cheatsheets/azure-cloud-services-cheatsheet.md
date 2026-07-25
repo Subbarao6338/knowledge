@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Azure Cloud Services Cheatsheet"
+---
+
 # Azure Cloud Services Cheatsheet
 
 ## Azure Storage (Blob & ADLS Gen2)

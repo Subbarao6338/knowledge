@@ -1,3 +1,8 @@
+---
+layout: default
+title: "GCP Cloud Services Cheatsheet"
+---
+
 # GCP Cloud Services Cheatsheet
 
 ## GCP Cloud Run & Cloud Run Functions

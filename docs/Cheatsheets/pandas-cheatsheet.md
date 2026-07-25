@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Pandas Cheatsheet"
+---
+
 # Pandas Cheatsheet
 
 ## Creating DataFrames

@@ -1,3 +1,8 @@
+---
+layout: default
+title: "AWS Cloud Services Cheatsheet"
+---
+
 # AWS Cloud Services Cheatsheet
 
 ## AWS Lambda (Serverless Compute)

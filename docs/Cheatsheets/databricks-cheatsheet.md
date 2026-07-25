@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Databricks Cheatsheet"
+---
+
 # Databricks Cheatsheet
 
 Databricks is a unified, cloud-based data analytics platform built on Apache Spark. It provides an interactive workspace for data engineers, data scientists, and business analysts to collaborate.

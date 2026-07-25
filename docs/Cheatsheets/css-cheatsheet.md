@@ -1,3 +1,8 @@
+---
+layout: default
+title: "CSS Cheatsheet"
+---
+
 # CSS Cheatsheet
 
 ## Flexbox Layout

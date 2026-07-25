@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Prompt Engineering Cheatsheet"
+---
+
 # Prompt Engineering Cheatsheet
 
 Prompt Engineering is the practice of structuring text inputs to large language models (LLMs) to maximize response accuracy, reasoning quality, and formatting adherence.

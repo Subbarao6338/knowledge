@@ -1,3 +1,8 @@
+---
+layout: default
+title: "INI Cheatsheet"
+---
+
 # INI Cheatsheet
 
 INI files are simple key-value configuration files organized into `[sections]`. There's no single formal standard — behavior below reflects the common conventions supported by Python's `configparser`, PHP's `parse_ini_file`, and most INI parsers.

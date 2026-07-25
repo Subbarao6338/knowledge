@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Enterprise Collaboration Cheatsheet"
+---
+
 # Enterprise Collaboration Cheatsheet
 
 ## Jira Workflows & Querying (JQL)

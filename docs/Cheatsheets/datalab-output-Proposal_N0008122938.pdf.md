@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Digit General Insurance Ltd. Proposal Document"
+---
+
 # Digit General Insurance Ltd. Proposal Document
 
 *(Image assets are stored in the secure cloud vault. To synchronize, trigger the remote sync pipeline).*
