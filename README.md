@@ -4,7 +4,7 @@ Welcome to the ultimate repository and documentation ecosystem for managing, con
 
 This project outlines how Notion's hierarchical page and database backup model functions, and provides robust, enterprise-ready Python automation utilities to prepare local assets, convert raw document formats, crawl online forums, and validate structures for the Notion Importer.
 
-All sample notes, databases, and developers' cheatsheets have been fully organized and unified under a single backup structure under the `Docs/` directory, while all execution utilities have been consolidated inside the `scripts/` directory.
+All sample notes, databases, and developers' cheatsheets have been fully organized and unified under a single backup structure under the `docs/` directory, while all execution utilities have been consolidated inside the `scripts/` directory.
 
 ---
 
@@ -53,6 +53,18 @@ graph TD
 
 ---
 
+## 🌐 Live Documentation & Vault Portal
+
+If you are viewing this repository on **GitHub Pages**, we have created a fully organized and interactive documentation portal.
+
+* **📚 [Portal Home / Master Directory Index](docs/index.md)** — The entry point for the entire local backup vault.
+* **📂 [Developer Cheatsheets Index](docs/Cheatsheets.md)** — Access over 39 beautiful, production-ready cheatsheets.
+* **📁 [Knowledge Hub](docs/Knowledge%2021cb6c26d9ba808da8d4f72eb2193ca2.md)** — Overview of system designs and technical specifications.
+* **📋 [My Notes Database](docs/My%20notes%2021cb6c26d9ba81648e18c1761db2dcca.csv)** — Full database entry list with companion notes.
+* **👥 [People Database](docs/People%20d3db6c26d9ba82dfb0d8014512d331ec.csv)** — Contact databases and user profiles.
+
+---
+
 ## 2. Directory Index & Document Guides
 
 ### 📂 [Notion_structure.md](Notion_structure.md)
@@ -86,11 +98,11 @@ graph TD
 
 ## 3. Unified Repository & Notion Backup Layout
 
-All backups, sample notes, databases, and developer cheatsheets are organized under a single unified directory `Docs/` matching Notion's standard export/import schema, while automation utilities are consolidated in `scripts/`:
+All backups, sample notes, databases, and developer cheatsheets are organized under a single unified directory `docs/` matching Notion's standard export/import schema, while automation utilities are consolidated in `scripts/`:
 
 ```text
 .
-├── Docs/                 # Sample documents, databases and developer cheatsheets in Notion backup layout
+├── docs/                 # Sample documents, databases and developer cheatsheets in Notion backup layout
 │   ├── Cheatsheets.md    # Master parent index page for all developer cheatsheets
 │   ├── Cheatsheets/      # Companion folder with all 39 developer cheatsheet sub-pages
 │   ├── My notes 21cb6c26d9ba81648e18c1761db2dcca.csv

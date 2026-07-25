@@ -1,0 +1,20 @@
+title: "Notion Backup Structure & Automation Ecosystem"
+description: "Master repository and documentation ecosystem for managing, converting, organizing, and importing Markdown vaults into Notion with pixel-perfect compatibility."
+theme: jekyll-theme-minimal
+
+# Configure Plugins
+plugins:
+  - jekyll-relative-links
+
+# Plugin Settings
+relative_links:
+  enabled: true
+  collections: true
+
+# Exclude scripts and development files from Jekyll compilation
+exclude:
+  - scripts/
+  - tests/
+  - .pytest_cache/
+  - .gitignore
+  - README.md.bak
