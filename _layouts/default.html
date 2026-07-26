@@ -138,31 +138,42 @@
     }
     .markdown-body blockquote {
       border-left: 4px solid #10b981;
-      padding-left: 1rem;
-      color: #475569;
+      padding-left: 1.25rem;
+      color: #334155;
       font-style: italic;
-      margin: 1.5rem 0;
-      background: #f0fdf4;
-      padding-top: 0.5rem;
-      padding-bottom: 0.5rem;
-      border-radius: 0 4px 4px 0;
+      margin: 1.75rem 0;
+      background: rgba(240, 253, 244, 0.7);
+      padding-top: 0.75rem;
+      padding-bottom: 0.75rem;
+      border-radius: 0 0.5rem 0.5rem 0;
     }
     .dark .markdown-body blockquote {
-      background: #064e3b33;
+      background: rgba(6, 78, 59, 0.15);
       color: #94a3b8;
     }
     .markdown-body pre {
-      background-color: #1e293b;
-      border-radius: 0.5rem;
-      padding: 1rem;
+      background-color: #111827;
+      border: 1px solid rgba(226, 232, 240, 0.08);
+      border-radius: 0.75rem;
+      padding: 1.25rem;
       overflow-x: auto;
       margin-bottom: 1.5rem;
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.875rem;
       position: relative;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .markdown-body pre:hover {
+      border-color: rgba(16, 185, 129, 0.3);
+      box-shadow: 0 4px 20px -2px rgba(16, 185, 129, 0.05);
     }
     .dark .markdown-body pre {
-      background-color: #0b0f19;
+      background-color: #030712;
+      border: 1px solid rgba(226, 232, 240, 0.04);
+    }
+    .dark .markdown-body pre:hover {
+      border-color: rgba(16, 185, 129, 0.4);
+      box-shadow: 0 4px 20px -2px rgba(16, 185, 129, 0.1);
     }
     .markdown-body code {
       font-family: 'JetBrains Mono', monospace;
@@ -304,6 +315,11 @@
                 <span class="w-1.5 h-1.5 rounded-full bg-black dark:bg-white"></span> Next.js App Router
               </a>
             </li>
+            <li class="sidebar-link-item" data-search-term="playwright browser testing automation chromium e2e webkit">
+              <a href="{{ '/docs/Cheatsheets/playwright-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-cyan-500"></span> Playwright E2E
+              </a>
+            </li>
             <li class="sidebar-link-item" data-search-term="javascript raw js scripting DOM arrays variables">
               <a href="{{ '/docs/Cheatsheets/javascript-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
                 <span class="w-1.5 h-1.5 rounded-full bg-yellow-500"></span> JavaScript
@@ -338,6 +354,16 @@
             <li class="sidebar-link-item" data-search-term="fastapi python pydantic endpoints async dependency api">
               <a href="{{ '/docs/Cheatsheets/fastapi-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
                 <span class="w-1.5 h-1.5 rounded-full bg-teal-500"></span> FastAPI
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="pytest test testing assertions unit mock fixtures decorators">
+              <a href="{{ '/docs/Cheatsheets/pytest-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> Pytest Testing
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="pydantic base-model field validators type-adapter parsing schemas settings">
+              <a href="{{ '/docs/Cheatsheets/pydantic-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span> Pydantic v2
               </a>
             </li>
             <li class="sidebar-link-item" data-search-term="rust ownership borrowing lifetimes types cargo compilation">
@@ -456,6 +482,11 @@
       </div>
     </main>
   </div>
+
+  <!-- Floating Back to Top Button -->
+  <button id="back-to-top" class="fixed bottom-6 right-6 z-50 h-10 w-10 rounded-full bg-emerald-500 text-white shadow-lg hover:bg-emerald-600 transition-all flex items-center justify-center translate-y-16 opacity-0 hover:scale-110 active:scale-95" title="Back to Top">
+    <i class="fa-solid fa-arrow-up"></i>
+  </button>
 
   <!-- Global Portal Page Footer -->
   <footer class="bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 py-6 text-center text-sm text-slate-500 transition-colors duration-200 mt-auto select-none">
@@ -779,6 +810,25 @@
           });
         });
       });
+
+      // --- PART VIII: Floating Back to Top Button Logic ---
+      const backToTopBtn = document.getElementById('back-to-top');
+
+      if (backToTopBtn) {
+        window.addEventListener('scroll', () => {
+          if (window.scrollY > 300) {
+            backToTopBtn.classList.remove('translate-y-16', 'opacity-0');
+            backToTopBtn.classList.add('translate-y-0', 'opacity-100');
+          } else {
+            backToTopBtn.classList.add('translate-y-16', 'opacity-0');
+            backToTopBtn.classList.remove('translate-y-0', 'opacity-100');
+          }
+        });
+
+        backToTopBtn.addEventListener('click', () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      }
 
     });
   </script>
