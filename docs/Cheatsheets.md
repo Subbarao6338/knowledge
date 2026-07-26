@@ -5,7 +5,7 @@ title: "Cheatsheets"
 
 # Cheatsheets
 
-Welcome to the unified developer cheatsheets directory. Access over 73 detailed cheatsheets covering programming languages, frameworks, developer tools, database systems, platforms, and devops methodologies.
+Welcome to the unified developer cheatsheets directory. Access over 76 detailed cheatsheets covering programming languages, frameworks, developer tools, database systems, platforms, and devops methodologies.
 
 ---
 
@@ -20,6 +20,7 @@ Welcome to the unified developer cheatsheets directory. Access over 73 detailed 
 * [HTMX](Cheatsheets/htmx-cheatsheet.md)
 * [JavaScript](Cheatsheets/javascript-cheatsheet.md)
 * [Next.js App Router](Cheatsheets/nextjs-cheatsheet.md) *(New)*
+* [Playwright](Cheatsheets/playwright-cheatsheet.md) *(New)*
 * [ReactJS](Cheatsheets/reactjs-cheatsheet.md)
 * [SCSS](Cheatsheets/scss-cheatsheet.md)
 * [Svelte & SvelteKit](Cheatsheets/svelte-cheatsheet.md) *(New)*
@@ -32,6 +33,8 @@ Welcome to the unified developer cheatsheets directory. Access over 73 detailed 
 * [FastAPI](Cheatsheets/fastapi-cheatsheet.md) *(New)*
 * [Go](Cheatsheets/go-cheatsheet.md)
 * [Node.js](Cheatsheets/nodejs-cheatsheet.md)
+* [Pydantic v2](Cheatsheets/pydantic-cheatsheet.md) *(New)*
+* [Pytest](Cheatsheets/pytest-cheatsheet.md) *(New)*
 * [Python Reference](Cheatsheets/python-cheatsheet.md)
 * [Python Commands](Cheatsheets/python-commands-cheatsheet.md)
 * [Rust](Cheatsheets/rust-cheatsheet.md) *(New)*

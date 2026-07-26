@@ -19,7 +19,7 @@ This section is organized in a pixel-perfect layout mimicking Notion's structura
     <div>
       <h2 class="text-xl md:text-2xl font-bold mb-2 !border-none !m-0 !p-0 text-white">Interactive Developer Ecosystem & Backup</h2>
       <p class="text-emerald-50 text-sm md:text-base leading-relaxed m-0">
-        Explore a fully-relational Markdown vault synced directly with Notion. Search across over 73 cheatsheets, inspect system specifications, and access contact records or work logs natively.
+        Explore a fully-relational Markdown vault synced directly with Notion. Search across over 76+ cheatsheets, inspect system specifications, and access contact records or work logs natively.
       </p>
     </div>
   </div>
@@ -37,7 +37,7 @@ This section is organized in a pixel-perfect layout mimicking Notion's structura
       <h3 class="text-base font-bold text-slate-900 dark:text-slate-50 m-0 p-0">Developer Cheatsheets</h3>
     </div>
     <p class="text-sm text-slate-500 dark:text-slate-400 mb-4 leading-relaxed">
-      Access over 73 highly detailed developer reference guides covering languages, tools, frameworks, and devops utilities.
+      Access over 76+ highly detailed developer reference guides covering languages, tools, frameworks, and devops utilities.
     </p>
     <div class="flex flex-wrap gap-1.5">
       <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-blue-50 text-blue-600 dark:bg-blue-950/40 dark:text-blue-400">Python</span>

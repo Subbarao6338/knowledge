@@ -102,6 +102,20 @@ async def secure_endpoint(current_user: dict = Depends(get_current_user)):
     return {"message": "You have access!", "user": current_user}
 ```
 
+### Advanced Sub-Dependencies (Hierarchy)
+FastAPI dependencies can rely on other dependencies, building a powerful dependency injection tree:
+
+```python
+async def verify_token(token: str = Depends(oauth2_scheme)):
+    if not token:
+         raise HTTPException(status_code=400, detail="Token missing")
+    return token
+
+async def get_active_user(token: str = Depends(verify_token)):
+    # Relies on verify_token first, then fetches active user profiles
+    return {"username": "sub_dep_user", "active": True}
+```
+
 ---
 
 ## 5. APIRouter & Modular Code Organization
@@ -171,4 +185,74 @@ uvicorn main:app --reload --port 8000 --host 0.0.0.0
 
 # Run in production with gunicorn + uvicorn workers
 gunicorn main:app -w 4 -k uvicorn.workers.UvicornWorker -b 0.0.0.0:8000
+```
+
+---
+
+## 9. Lifespan Events (Startup & Shutdown)
+
+Lifespan events let you define logic that runs before the application starts up, and after it shuts down, using async context managers. This replaces the deprecated `@app.on_event("startup")` and `"shutdown"` syntax.
+
+```python
+from contextlib import asynccontextmanager
+from fastapi import FastAPI
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup: Load ML models, connect to database pool
+    print("Application is starting up... loading models")
+    db_pool = "database_pool_connection"
+    yield {"db_pool": db_pool} # State passed to requests
+    # Shutdown: Clean up connections, disconnect pools
+    print("Application is shutting down... closing connections")
+
+app = FastAPI(lifespan=lifespan)
+```
+
+---
+
+## 10. Custom Exception Handlers
+
+Register global handlers for specific exceptions to control response structures.
+
+```python
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
+
+class ServiceUnavailableException(Exception):
+    def __init__(self, name: str):
+        self.name = name
+
+app = FastAPI()
+
+@app.exception_handler(ServiceUnavailableException)
+async def service_unavailable_handler(request: Request, exc: ServiceUnavailableException):
+    return JSONResponse(
+        status_code=503,
+        content={"message": f"Service '{exc.name}' is temporarily unavailable. Please try again later."},
+    )
+```
+
+---
+
+## 11. Testing FastAPI with `TestClient`
+
+Use Starlette's `TestClient` to perform request testing against your endpoints:
+
+```python
+from fastapi import FastAPI
+from fastapi.testclient import TestClient
+
+app = FastAPI()
+
+@app.get("/health")
+def health():
+    return {"status": "ok"}
+
+client = TestClient(app)
+
+def test_read_main():
+    response = client.get("/health")
+    assert response.status_code == 200
+    assert response.json() == {"status": "ok"}
 ```
