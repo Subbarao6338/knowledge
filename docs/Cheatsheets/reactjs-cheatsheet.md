@@ -96,3 +96,190 @@ export function useFetch(url) {
   return { data, loading };
 }
 ```
+
+---
+
+## 4. Context API (Global Prop-Drilling Avoidance)
+
+Context provides a way to pass data through the component tree without having to pass props down manually at every level.
+
+```jsx
+import React, { createContext, useContext, useState } from 'react';
+
+// 1. Create Context Object
+const ThemeContext = createContext({
+  theme: 'light',
+  toggleTheme: () => {}
+});
+
+// 2. Context Provider Component
+export function ThemeProvider({ children }) {
+  const [theme, setTheme] = useState('light');
+
+  const toggleTheme = () => {
+    setTheme(prev => prev === 'light' ? 'dark' : 'light');
+  };
+
+  return (
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      {children}
+    </ThemeContext.Provider>
+  );
+}
+
+// 3. Consumer Component via useContext Hook
+export function ThemeToggleButton() {
+  const { theme, toggleTheme } = useContext(ThemeContext);
+
+  return (
+    <button
+      onClick={toggleTheme}
+      style={{
+        background: theme === 'light' ? '#fff' : '#333',
+        color: theme === 'light' ? '#000' : '#fff',
+        padding: '8px 16px',
+        border: '1px solid #ccc',
+        borderRadius: '4px'
+      }}
+    >
+      Active Theme: {theme} (Click to toggle)
+    </button>
+  );
+}
+```
+
+---
+
+## 5. Performance Optimization & Memoization
+
+Avoid unnecessary re-renders with `React.memo`, `useMemo`, and `useCallback`.
+
+```jsx
+import React, { useState, useMemo, useCallback } from 'react';
+
+// 1. React.memo prevents re-rendering a component if its props haven't changed
+const ExpensiveButton = React.memo(({ onClick, label }) => {
+  console.log(`Rendering button: ${label}`);
+  return <button onClick={onClick}>{label}</button>;
+});
+
+ExpensiveButton.displayName = 'ExpensiveButton';
+
+export function ParentDashboard() {
+  const [count, setCount] = useState(0);
+  const [text, setText] = useState('');
+
+  // 2. useCallback caches the function definition between re-renders
+  const incrementCount = useCallback(() => {
+    setCount(prev => prev + 1);
+  }, []); // Empty dependency array means the function is only created once
+
+  // 3. useMemo caches the returned value of a computation between re-renders
+  const expensiveCalculationValue = useMemo(() => {
+    console.log('Calculating expensive result...');
+    let result = 0;
+    for (let i = 0; i < 10000000; i++) {
+      result += i;
+    }
+    return result + count;
+  }, [count]); // Recalculates only when 'count' changes
+
+  return (
+    <div>
+      <input value={text} onChange={e => setText(e.target.value)} placeholder="Type here..." />
+      <p>Expensive Calculation Result: {expensiveCalculationValue}</p>
+      <ExpensiveButton onClick={incrementCount} label="Add Count" />
+    </div>
+  );
+}
+```
+
+---
+
+## 6. Forward Refs & Imperative Handle
+
+Expose custom instance values/methods to parent components using `forwardRef` and `useImperativeHandle`.
+
+```jsx
+import React, { useRef, useImperativeHandle, forwardRef } from 'react';
+
+const CustomTextInput = forwardRef((props, ref) => {
+  const inputRef = useRef();
+
+  // Expose specific custom behaviors to parent
+  useImperativeHandle(ref, () => ({
+    focusAndHighlight: () => {
+      inputRef.current.focus();
+      inputRef.current.style.borderColor = 'red';
+      inputRef.current.style.backgroundColor = '#fff0f0';
+    },
+    clearValue: () => {
+      inputRef.current.value = '';
+    }
+  }));
+
+  return <input ref={inputRef} type="text" placeholder="Imperative focus input" />;
+});
+
+CustomTextInput.displayName = 'CustomTextInput';
+
+export function FocusControlPanel() {
+  const textInputRef = useRef();
+
+  return (
+    <div>
+      <CustomTextInput ref={textInputRef} />
+      <button onClick={() => textInputRef.current.focusAndHighlight()}>
+        Focus & Highlight
+      </button>
+      <button onClick={() => textInputRef.current.clearValue()}>
+        Clear Input
+      </button>
+    </div>
+  );
+}
+```
+
+---
+
+## 7. React 18 Concurrent Rendering Features
+
+Concurrent features allow React to prioritize non-blocking UI updates and split rendering phases.
+
+```jsx
+import React, { useState, useTransition, useDeferredValue } from 'react';
+
+export function SearchFilterDashboard() {
+  const [query, setQuery] = useState('');
+  const [items, setItems] = useState([]);
+
+  // 1. useTransition for low-priority state updates
+  const [isPending, startTransition] = useTransition();
+
+  // 2. useDeferredValue defers recalculating slow values until main threads are clear
+  const deferredQuery = useDeferredValue(query);
+
+  const handleSearch = (e) => {
+    const value = e.target.value;
+    setQuery(value); // High priority: update input instantly
+
+    startTransition(() => {
+      // Low priority: filter array (may take time)
+      const filtered = Array.from({ length: 5000 }, (_, i) => `${value} item ${i}`);
+      setItems(filtered);
+    });
+  };
+
+  return (
+    <div>
+      <input type="text" value={query} onChange={handleSearch} placeholder="Type query..." />
+      {isPending && <p>Filtering large item list...</p>}
+      <ul>
+        {items.slice(0, 10).map((item, idx) => (
+          <li key={idx}>{item}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+```
