@@ -12,6 +12,7 @@ Welcome to the unified developer cheatsheets directory. Access over 76 detailed 
 ## 🗂️ Categories
 
 ### 🌐 Frontend & Web Development
+* [Angular](Cheatsheets/angular-cheatsheet.md) *(New)*
 * [Bootstrap](Cheatsheets/bootstrap-cheatsheet.md)
 * [CSS Basics](Cheatsheets/css-cheatsheet.md)
 * [CSS Grid & Flexbox](Cheatsheets/css-grid-flexbox-cheatsheet.md) *(New)*
@@ -27,11 +28,14 @@ Welcome to the unified developer cheatsheets directory. Access over 76 detailed 
 * [Tailwind CSS](Cheatsheets/tailwind-css-cheatsheet.md)
 * [TypeScript](Cheatsheets/typescript-cheatsheet.md)
 * [TypeScript Advanced](Cheatsheets/typescript-advanced-cheatsheet.md) *(New)*
+* [Vue.js](Cheatsheets/vue-cheatsheet.md) *(New)*
 
 ### 🐍 Backend & Programming Languages
 * [Django](Cheatsheets/django-cheatsheet.md)
 * [FastAPI](Cheatsheets/fastapi-cheatsheet.md) *(New)*
+* [Flask](Cheatsheets/flask-cheatsheet.md) *(New)*
 * [Go](Cheatsheets/go-cheatsheet.md)
+* [NestJS](Cheatsheets/nest-js-cheatsheet.md) *(New)*
 * [Node.js](Cheatsheets/nodejs-cheatsheet.md)
 * [Pydantic v2](Cheatsheets/pydantic-cheatsheet.md) *(New)*
 * [Pytest](Cheatsheets/pytest-cheatsheet.md) *(New)*
@@ -83,6 +87,7 @@ Welcome to the unified developer cheatsheets directory. Access over 76 detailed 
 
 ### 🗄️ Database Systems
 * [Database Comparison](Cheatsheets/database-comparison-cheatsheet.md)
+* [MongoDB & Mongoose](Cheatsheets/mongodb-cheatsheet.md) *(New)*
 * [NoSQL & Elasticsearch](Cheatsheets/nosql-elasticsearch-cheatsheet.md)
 * [Redis](Cheatsheets/redis-cheatsheet.md) *(New)*
 * [SQL](Cheatsheets/sql-cheatsheet.md)

@@ -266,12 +266,12 @@
         </div>
       </div>
 
-      <!-- Navigation Links Container -->
-      <nav class="flex-grow p-4 space-y-6 select-none" id="sidebar-nav">
+            <!-- Navigation Links Container -->
+      <nav class="flex-grow p-4 space-y-4 select-none" id="sidebar-nav">
 
         <!-- Core Navigation -->
         <div>
-          <h4 class="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 px-3 mb-2">Core Vault</h4>
+          <h4 class="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 px-3 mb-2">Core Vault</h4>
           <ul class="space-y-1">
             <li>
               <a href="{{ '/' | relative_url }}" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-900 text-slate-700 dark:text-slate-300 transition-colors">
@@ -291,150 +291,527 @@
           </ul>
         </div>
 
-        <!-- Featured Cheatsheets Categorized -->
+        <!-- Collapsible Cheatsheet Directory Accordions -->
+
+        <!-- Category 1: Frontend & Web -->
         <div class="sidebar-category">
-          <h4 class="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 px-3 mb-2">Frontend & Web</h4>
-          <ul class="space-y-1 text-sm text-slate-600 dark:text-slate-400 font-medium">
-            <li class="sidebar-link-item" data-search-term="css grid flexbox layout responsive design style flex">
+          <button class="w-full flex items-center justify-between px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors focus:outline-none" onclick="toggleCategory('cat-frontend')">
+            <span class="flex items-center gap-1.5">Frontend & Web <span class="bg-slate-100 dark:bg-slate-800 text-slate-500 text-[9px] px-1.5 py-0.2 rounded-full font-semibold">17</span></span>
+            <svg id="arrow-cat-frontend" class="w-3 h-3 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+          </button>
+          <ul id="cat-frontend" class="hidden mt-1 space-y-0.5 text-xs text-slate-600 dark:text-slate-400 font-medium pl-1.5">
+            <li class="sidebar-link-item" data-search-term="angular standalone components directives rxjs signals">
+              <a href="{{ '/docs/Cheatsheets/angular-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-red-600"></span> Angular
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="bootstrap style web css layout responsive forms grid">
+              <a href="{{ '/docs/Cheatsheets/bootstrap-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-indigo-600"></span> Bootstrap
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="css layout styling custom properties box model animation transitions media query">
+              <a href="{{ '/docs/Cheatsheets/css-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> CSS Basics
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="css grid flexbox layout responsive design style flex align justify gap template">
               <a href="{{ '/docs/Cheatsheets/css-grid-flexbox-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
-                <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> CSS Grid & Flexbox
+                <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span> CSS Grid & Flexbox
               </a>
             </li>
-            <li class="sidebar-link-item" data-search-term="tailwind css css-framework utility-first classes design">
-              <a href="{{ '/docs/Cheatsheets/tailwind-css-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Tailwind CSS
-              </a>
-            </li>
-            <li class="sidebar-link-item" data-search-term="typescript type-checking static interfaces generics advanced ts">
-              <a href="{{ '/docs/Cheatsheets/typescript-advanced-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
-                <span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span> TypeScript Advanced
-              </a>
-            </li>
-            <li class="sidebar-link-item" data-search-term="next.js nextjs app-router react server-components page-router ssr">
-              <a href="{{ '/docs/Cheatsheets/nextjs-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
-                <span class="w-1.5 h-1.5 rounded-full bg-black dark:bg-white"></span> Next.js App Router
-              </a>
-            </li>
-            <li class="sidebar-link-item" data-search-term="playwright browser testing automation chromium e2e webkit">
-              <a href="{{ '/docs/Cheatsheets/playwright-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
-                <span class="w-1.5 h-1.5 rounded-full bg-cyan-500"></span> Playwright E2E
-              </a>
-            </li>
-            <li class="sidebar-link-item" data-search-term="javascript raw js scripting DOM arrays variables">
-              <a href="{{ '/docs/Cheatsheets/javascript-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
-                <span class="w-1.5 h-1.5 rounded-full bg-yellow-500"></span> JavaScript
-              </a>
-            </li>
-            <li class="sidebar-link-item" data-search-term="reactjs react-hooks component virtual-dom state functional state">
-              <a href="{{ '/docs/Cheatsheets/reactjs-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
-                <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span> ReactJS
-              </a>
-            </li>
-            <li class="sidebar-link-item" data-search-term="svelte sveltekit reactive store components framework">
-              <a href="{{ '/docs/Cheatsheets/svelte-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
-                <span class="w-1.5 h-1.5 rounded-full bg-orange-600"></span> Svelte & SvelteKit
-              </a>
-            </li>
-            <li class="sidebar-link-item" data-search-term="graphql schema query mutation apollo api fields">
+            <li class="sidebar-link-item" data-search-term="graphql schema query mutation variables fragments apollo client">
               <a href="{{ '/docs/Cheatsheets/graphql-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
                 <span class="w-1.5 h-1.5 rounded-full bg-pink-500"></span> GraphQL Reference
               </a>
             </li>
+            <li class="sidebar-link-item" data-search-term="html xhtml mhtml structures tags elements forms attributes">
+              <a href="{{ '/docs/Cheatsheets/html-xhtml-mhtml-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span> HTML & XHTML
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="htmx hypermedia hx-get hx-post hx-target swapping ajax trigger">
+              <a href="{{ '/docs/Cheatsheets/htmx-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-cyan-600"></span> HTMX
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="javascript raw js variables functions closures event-loop promises array-methods">
+              <a href="{{ '/docs/Cheatsheets/javascript-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-yellow-500"></span> JavaScript
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="next.js nextjs app-router react server-components routing dynamic page">
+              <a href="{{ '/docs/Cheatsheets/nextjs-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-teal-600"></span> Next.js App Router
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="playwright browser testing automation chromium firefox webkit e2e">
+              <a href="{{ '/docs/Cheatsheets/playwright-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Playwright E2E
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="reactjs react component hooks state effect memoization context reducer">
+              <a href="{{ '/docs/Cheatsheets/reactjs-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span> ReactJS
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="scss sass variables nesting mixins imports styling nesting extensions">
+              <a href="{{ '/docs/Cheatsheets/scss-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-pink-600"></span> SCSS Styles
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="svelte sveltekit reactive store components bind transition animated routing">
+              <a href="{{ '/docs/Cheatsheets/svelte-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-orange-600"></span> Svelte & SvelteKit
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="tailwind css classes styles framework utility responsive design spacing">
+              <a href="{{ '/docs/Cheatsheets/tailwind-css-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Tailwind CSS
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="typescript type checking interfaces generics classes aliases ts">
+              <a href="{{ '/docs/Cheatsheets/typescript-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span> TypeScript
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="typescript advanced types assertions utility-types decorators advanced generics ts">
+              <a href="{{ '/docs/Cheatsheets/typescript-advanced-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-indigo-600"></span> TypeScript Advanced
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="vue vuejs composition options sfc pinia router vite components">
+              <a href="{{ '/docs/Cheatsheets/vue-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> Vue.js
+              </a>
+            </li>
           </ul>
         </div>
 
+        <!-- Category 2: Backend & Languages -->
         <div class="sidebar-category">
-          <h4 class="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 px-3 mb-2">Backend & Databases</h4>
-          <ul class="space-y-1 text-sm text-slate-600 dark:text-slate-400 font-medium">
-            <li class="sidebar-link-item" data-search-term="python dicts loops lists tuples functions standard-library py">
-              <a href="{{ '/docs/Cheatsheets/python-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
-                <span class="w-1.5 h-1.5 rounded-full bg-yellow-400"></span> Python Reference
+          <button class="w-full flex items-center justify-between px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors focus:outline-none" onclick="toggleCategory('cat-backend')">
+            <span class="flex items-center gap-1.5">Backend & Languages <span class="bg-slate-100 dark:bg-slate-800 text-slate-500 text-[9px] px-1.5 py-0.2 rounded-full font-semibold">11</span></span>
+            <svg id="arrow-cat-backend" class="w-3 h-3 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+          </button>
+          <ul id="cat-backend" class="hidden mt-1 space-y-0.5 text-xs text-slate-600 dark:text-slate-400 font-medium pl-1.5">
+            <li class="sidebar-link-item" data-search-term="django python mvt ORM forms admin routing templates auth">
+              <a href="{{ '/docs/Cheatsheets/django-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-green-700"></span> Django
               </a>
             </li>
-            <li class="sidebar-link-item" data-search-term="fastapi python pydantic endpoints async dependency api">
+            <li class="sidebar-link-item" data-search-term="fastapi python async pydantic openapi validation endpoint routes API">
               <a href="{{ '/docs/Cheatsheets/fastapi-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
                 <span class="w-1.5 h-1.5 rounded-full bg-teal-500"></span> FastAPI
               </a>
             </li>
-            <li class="sidebar-link-item" data-search-term="pytest test testing assertions unit mock fixtures decorators">
-              <a href="{{ '/docs/Cheatsheets/pytest-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> Pytest Testing
+            <li class="sidebar-link-item" data-search-term="flask python blueprints sql-alchemy requests context globals g session routing API">
+              <a href="{{ '/docs/Cheatsheets/flask-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-stone-500"></span> Flask
               </a>
             </li>
-            <li class="sidebar-link-item" data-search-term="pydantic base-model field validators type-adapter parsing schemas settings">
-              <a href="{{ '/docs/Cheatsheets/pydantic-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
-                <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span> Pydantic v2
-              </a>
-            </li>
-            <li class="sidebar-link-item" data-search-term="rust ownership borrowing lifetimes types cargo compilation">
-              <a href="{{ '/docs/Cheatsheets/rust-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
-                <span class="w-1.5 h-1.5 rounded-full bg-orange-700"></span> Rust Language
-              </a>
-            </li>
-            <li class="sidebar-link-item" data-search-term="sql relational database query postgres mysql sqlite join CTE window">
-              <a href="{{ '/docs/Cheatsheets/sql-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
-                <span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span> SQL Reference
-              </a>
-            </li>
-            <li class="sidebar-link-item" data-search-term="redis in-memory cache lists sets hashes sorted transactions pub/sub pipeline">
-              <a href="{{ '/docs/Cheatsheets/redis-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
-                <span class="w-1.5 h-1.5 rounded-full bg-red-600"></span> Redis Caching & DB
-              </a>
-            </li>
-            <li class="sidebar-link-item" data-search-term="go golang channels routines structs maps backend lang">
+            <li class="sidebar-link-item" data-search-term="go golang channels routines structs maps compiler backend concurrency">
               <a href="{{ '/docs/Cheatsheets/go-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
                 <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span> Go Language
               </a>
             </li>
-            <li class="sidebar-link-item" data-search-term="nodejs node backend server-side modules npm packages express">
+            <li class="sidebar-link-item" data-search-term="nestjs decorators modules controllers providers injection pipes guards validation">
+              <a href="{{ '/docs/Cheatsheets/nest-js-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span> NestJS
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="nodejs node events stream buffers cluster threads express http modules">
               <a href="{{ '/docs/Cheatsheets/nodejs-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
-                <span class="w-1.5 h-1.5 rounded-full bg-green-600"></span> Node.js
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Node.js
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="pydantic python data validation models field types custom validation v2">
+              <a href="{{ '/docs/Cheatsheets/pydantic-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-red-600"></span> Pydantic v2
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="pytest python testing asserts fixtures markers mock parametrizes">
+              <a href="{{ '/docs/Cheatsheets/pytest-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> Pytest Testing
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="python dicts loops lists tuples functions standard-library py oop dataclasses">
+              <a href="{{ '/docs/Cheatsheets/python-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-yellow-400"></span> Python Reference
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="python commands execution pip modules scripts venv shell terminal">
+              <a href="{{ '/docs/Cheatsheets/python-commands-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-yellow-500"></span> Python Commands
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="rust lang borrow ownership lifetime cargo types matching structures pattern">
+              <a href="{{ '/docs/Cheatsheets/rust-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-orange-600"></span> Rust Language
               </a>
             </li>
           </ul>
         </div>
 
+        <!-- Category 3: Data Science & Analysis -->
         <div class="sidebar-category">
-          <h4 class="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 px-3 mb-2">Devops & Shells</h4>
-          <ul class="space-y-1 text-sm text-slate-600 dark:text-slate-400 font-medium">
-            <li class="sidebar-link-item" data-search-term="git commits branches merging rebase reflog rerere staging tags">
-              <a href="{{ '/docs/Cheatsheets/git-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
-                <span class="w-1.5 h-1.5 rounded-full bg-orange-600"></span> Git Version Control
+          <button class="w-full flex items-center justify-between px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors focus:outline-none" onclick="toggleCategory('cat-datascience')">
+            <span class="flex items-center gap-1.5">Data Science & Analysis <span class="bg-slate-100 dark:bg-slate-800 text-slate-500 text-[9px] px-1.5 py-0.2 rounded-full font-semibold">11</span></span>
+            <svg id="arrow-cat-datascience" class="w-3 h-3 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+          </button>
+          <ul id="cat-datascience" class="hidden mt-1 space-y-0.5 text-xs text-slate-600 dark:text-slate-400 font-medium pl-1.5">
+            <li class="sidebar-link-item" data-search-term="excel formulas sheets lookups pivot tables math finance columns cells">
+              <a href="{{ '/docs/Cheatsheets/excel-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-green-600"></span> Excel
               </a>
             </li>
-            <li class="sidebar-link-item" data-search-term="github actions workflows CI CD pipelines runners steps secrets">
-              <a href="{{ '/docs/Cheatsheets/github-actions-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
-                <span class="w-1.5 h-1.5 rounded-full bg-violet-600"></span> GitHub Actions
+            <li class="sidebar-link-item" data-search-term="matplotlib python plots graphs coordinates axes charts visualizations figures">
+              <a href="{{ '/docs/Cheatsheets/matplotlib-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-cyan-600"></span> Matplotlib
               </a>
             </li>
-            <li class="sidebar-link-item" data-search-term="docker containers dockerfile images volumes network docker-compose compose">
+            <li class="sidebar-link-item" data-search-term="numpy arrays matrices math computations arrays dimensions structures linear algebra">
+              <a href="{{ '/docs/Cheatsheets/numpy-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-400"></span> NumPy
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="openrefine data cleaning clustering reconciliation transform filters datasets">
+              <a href="{{ '/docs/Cheatsheets/openrefine-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-teal-500"></span> OpenRefine
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="pandas dataframes series loading grouping parsing cleaning manipulation tables">
+              <a href="{{ '/docs/Cheatsheets/pandas-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span> Pandas
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="pandas polars performance differences dataframes loading benchmarks lazy-execution">
+              <a href="{{ '/docs/Cheatsheets/pandas-vs-polars.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-violet-500"></span> Pandas vs Polars
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="polars dataframes rust-backend speed manipulation expressions lazy evaluation">
+              <a href="{{ '/docs/Cheatsheets/polars-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-yellow-600"></span> Polars
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="powerbi charts dax expressions models measures business intelligence dashboard">
+              <a href="{{ '/docs/Cheatsheets/powerbi-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span> PowerBI
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="scipy scientific calculations math integrals optimization statistics signals py">
+              <a href="{{ '/docs/Cheatsheets/scipy-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-300"></span> SciPy
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="seaborn statistical visualizations graphs matrices palettes distribution python py">
+              <a href="{{ '/docs/Cheatsheets/seaborn-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span> Seaborn
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="tableau dashboards metrics queries worksheets data blending mapping BI">
+              <a href="{{ '/docs/Cheatsheets/tableau-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> Tableau
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Category 4: DevOps & SRE -->
+        <div class="sidebar-category">
+          <button class="w-full flex items-center justify-between px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors focus:outline-none" onclick="toggleCategory('cat-devops')">
+            <span class="flex items-center gap-1.5">DevOps & SRE <span class="bg-slate-100 dark:bg-slate-800 text-slate-500 text-[9px] px-1.5 py-0.2 rounded-full font-semibold">11</span></span>
+            <svg id="arrow-cat-devops" class="w-3 h-3 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+          </button>
+          <ul id="cat-devops" class="hidden mt-1 space-y-0.5 text-xs text-slate-600 dark:text-slate-400 font-medium pl-1.5">
+            <li class="sidebar-link-item" data-search-term="airflow dags scheduling workflows pipelines task executors python">
+              <a href="{{ '/docs/Cheatsheets/airflow-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-cyan-500"></span> Airflow
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="databricks spark tables notebooks clusters delta-lake queries workspace">
+              <a href="{{ '/docs/Cheatsheets/databricks-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span> Databricks
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="data engineering pipeline modeling architectures warehousing sql schemas">
+              <a href="{{ '/docs/Cheatsheets/data-engineering-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-indigo-600"></span> Data Engineering
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="docker containers images dockerfile volumes network compose registry daemon">
               <a href="{{ '/docs/Cheatsheets/docker-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
                 <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> Docker Containers
               </a>
             </li>
-            <li class="sidebar-link-item" data-search-term="kubernetes k8s kubectl pods services deployments nodes helm clusters">
-              <a href="{{ '/docs/Cheatsheets/kubernetes-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
-                <span class="w-1.5 h-1.5 rounded-full bg-blue-700"></span> Kubernetes (K8s)
+            <li class="sidebar-link-item" data-search-term="etl elt pipeline extraction load transform warehousing databases datasets">
+              <a href="{{ '/docs/Cheatsheets/etl-elt-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span> ETL & ELT
               </a>
             </li>
-            <li class="sidebar-link-item" data-search-term="linux bash unix terminal directories files redirection commands utilities">
-              <a href="{{ '/docs/Cheatsheets/linux-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
-                <span class="w-1.5 h-1.5 rounded-full bg-gray-500"></span> Linux Commands
+            <li class="sidebar-link-item" data-search-term="finops devops cost cloud optimization governance budgets teams resources">
+              <a href="{{ '/docs/Cheatsheets/finops-devops-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-teal-500"></span> FinOps & DevOps
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="github actions workflows workflows runners pipelines steps credentials actions secrets">
+              <a href="{{ '/docs/Cheatsheets/github-actions-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-purple-600"></span> GitHub Actions
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="kubernetes k8s kubectl pods services node deployments clusters ingress replicas">
+              <a href="{{ '/docs/Cheatsheets/kubernetes-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span> Kubernetes (K8s)
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="multi-cloud cost optimization aws azure gcp budgets instances discounts sizing">
+              <a href="{{ '/docs/Cheatsheets/multi-cloud-cost-optimization-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> Cloud Cost Optimization
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="pyspark spark python clusters pipelines maps dataframe processing rdd">
+              <a href="{{ '/docs/Cheatsheets/pyspark-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-orange-600"></span> PySpark
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="sre monitoring alerting prometheus grafana metrics logging dashboards slas">
+              <a href="{{ '/docs/Cheatsheets/sre-monitoring-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span> SRE Monitoring
               </a>
             </li>
           </ul>
         </div>
 
+        <!-- Category 5: Shell & OS -->
         <div class="sidebar-category">
-          <h4 class="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 px-3 mb-2">Relational databases</h4>
-          <ul class="space-y-1 text-sm text-slate-600 dark:text-slate-400 font-medium">
+          <button class="w-full flex items-center justify-between px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors focus:outline-none" onclick="toggleCategory('cat-shell')">
+            <span class="flex items-center gap-1.5">Shell & OS <span class="bg-slate-100 dark:bg-slate-800 text-slate-500 text-[9px] px-1.5 py-0.2 rounded-full font-semibold">5</span></span>
+            <svg id="arrow-cat-shell" class="w-3 h-3 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+          </button>
+          <ul id="cat-shell" class="hidden mt-1 space-y-0.5 text-xs text-slate-600 dark:text-slate-400 font-medium pl-1.5">
+            <li class="sidebar-link-item" data-search-term="adb android debug bridge terminal shell devices packages logs flashing">
+              <a href="{{ '/docs/Cheatsheets/adb-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span> ADB Android
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="bat command cat replacement terminal style syntax highlights formatting">
+              <a href="{{ '/docs/Cheatsheets/bat-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-stone-500"></span> Bat Command
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="linux bash commands unix folders paths files redirection permissions processes ps">
+              <a href="{{ '/docs/Cheatsheets/linux-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-gray-500"></span> Linux Commands
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="powershell windows scripting objects pipelines modules cmdlets automation">
+              <a href="{{ '/docs/Cheatsheets/powershell-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> PowerShell
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="shell scripting bash scripts loops files strings operators redirection cron parameters">
+              <a href="{{ '/docs/Cheatsheets/shell-scripting-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-gray-600"></span> Shell Scripting
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Category 6: Cloud & Platforms -->
+        <div class="sidebar-category">
+          <button class="w-full flex items-center justify-between px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors focus:outline-none" onclick="toggleCategory('cat-cloud')">
+            <span class="flex items-center gap-1.5">Cloud & Platforms <span class="bg-slate-100 dark:bg-slate-800 text-slate-500 text-[9px] px-1.5 py-0.2 rounded-full font-semibold">7</span></span>
+            <svg id="arrow-cat-cloud" class="w-3 h-3 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+          </button>
+          <ul id="cat-cloud" class="hidden mt-1 space-y-0.5 text-xs text-slate-600 dark:text-slate-400 font-medium pl-1.5">
+            <li class="sidebar-link-item" data-search-term="aws cli amazon s3 ec2 credentials profile resources command-line">
+              <a href="{{ '/docs/Cheatsheets/aws-cli-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span> AWS CLI
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="aws cloud services amazon lambda s3 rds dynanodb iam vpc ec2 sagemaker">
+              <a href="{{ '/docs/Cheatsheets/aws-cloud-services-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> AWS Cloud Services
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="azure cli microsoft login groups storage virtual-machines networks portal">
+              <a href="{{ '/docs/Cheatsheets/azure-cli-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span> Azure CLI
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="azure cloud services microsoft active directory blobs sql app functions cosmos">
+              <a href="{{ '/docs/Cheatsheets/azure-cloud-services-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> Azure Cloud Services
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="gcp cli google cloud sdk gcloud billing configurations compute services storage">
+              <a href="{{ '/docs/Cheatsheets/gcp-cli-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span> GCP CLI
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="gcp cloud services google compute-engine app-engine bigquery cloud-run pubsub storage">
+              <a href="{{ '/docs/Cheatsheets/gcp-cloud-services-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-red-400"></span> GCP Cloud Services
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="git platform guides github gitlab bitbucket setups features workspaces flows">
+              <a href="{{ '/docs/Cheatsheets/git-platforms-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-violet-500"></span> Git Platforms Guide
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Category 7: Database Systems -->
+        <div class="sidebar-category">
+          <button class="w-full flex items-center justify-between px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors focus:outline-none" onclick="toggleCategory('cat-database')">
+            <span class="flex items-center gap-1.5">Database Systems <span class="bg-slate-100 dark:bg-slate-800 text-slate-500 text-[9px] px-1.5 py-0.2 rounded-full font-semibold">5</span></span>
+            <svg id="arrow-cat-database" class="w-3 h-3 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+          </button>
+          <ul id="cat-database" class="hidden mt-1 space-y-0.5 text-xs text-slate-600 dark:text-slate-400 font-medium pl-1.5">
+            <li class="sidebar-link-item" data-search-term="database comparison relational sql nonrelational nosql properties transactions acid cap">
+              <a href="{{ '/docs/Cheatsheets/database-comparison-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-indigo-600"></span> Database Comparison
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="mongodb mongoose database queries schemas aggregates indexes fields collections nosql">
+              <a href="{{ '/docs/Cheatsheets/mongodb-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> MongoDB & Mongoose
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="nosql elasticsearch index mappings nodes clusters searching mappings analyzers indices">
+              <a href="{{ '/docs/Cheatsheets/nosql-elasticsearch-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Elasticsearch NoSQL
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="redis cache memory storage hashes lists transactions pubsub pipeline redis-cli key-value">
+              <a href="{{ '/docs/Cheatsheets/redis-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-red-600"></span> Redis Caching & DB
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="sql queries database tables joins transactions cte windows indexes triggers select select-statements">
+              <a href="{{ '/docs/Cheatsheets/sql-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span> SQL Reference
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Category 8: Utilities & Configs -->
+        <div class="sidebar-category">
+          <button class="w-full flex items-center justify-between px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors focus:outline-none" onclick="toggleCategory('cat-utilities')">
+            <span class="flex items-center gap-1.5">Utilities & Configs <span class="bg-slate-100 dark:bg-slate-800 text-slate-500 text-[9px] px-1.5 py-0.2 rounded-full font-semibold">18</span></span>
+            <svg id="arrow-cat-utilities" class="w-3 h-3 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+          </button>
+          <ul id="cat-utilities" class="hidden mt-1 space-y-0.5 text-xs text-slate-600 dark:text-slate-400 font-medium pl-1.5">
+            <li class="sidebar-link-item" data-search-term="datalab output proposal document reference specifications format parsed contents">
+              <a href="{{ '/docs/Cheatsheets/datalab-output-Proposal_N0008122938.pdf.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-gray-400"></span> Datalab Output Proposal
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="environment variables env setups system credentials secrets files configuration shell">
+              <a href="{{ '/docs/Cheatsheets/env-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-teal-600"></span> Environment Variables
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="enterprise collaboration platforms tools integrations communication teams docs setup">
+              <a href="{{ '/docs/Cheatsheets/enterprise-collaboration-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-slate-500"></span> Enterprise Collaboration
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="git commands repository version control commits branching stash rebase diff blame merge">
+              <a href="{{ '/docs/Cheatsheets/git-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-orange-600"></span> Git Version Control
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="ini files configuration syntax parameters sections keys values format parser">
+              <a href="{{ '/docs/Cheatsheets/ini-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-stone-400"></span> INI Configurations
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="json data format arrays nested objects keys values parsers validator parsing text">
+              <a href="{{ '/docs/Cheatsheets/json-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-yellow-600"></span> JSON Format
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="jupyter notebooks interactive kernel scripts code cells outputs markdown exports ipynb">
+              <a href="{{ '/docs/Cheatsheets/jupyter-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span> Jupyter Notebooks
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="latex typesetting documents formatting math formulas equations layout structures pdf tex">
+              <a href="{{ '/docs/Cheatsheets/latex-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span> LaTeX Typesetting
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="markdown syntax formatting headers text blockquotes links images code markdown-cheatsheet">
+              <a href="{{ '/docs/Cheatsheets/markdown-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-slate-500"></span> Markdown Guide
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="mermaid diagrams syntax flowcharts sequence gantt state charts graphs text rendered">
+              <a href="{{ '/docs/Cheatsheets/mermaid-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span> Mermaid Diagrams
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="npm package manager commands updates installations script definitions json scripts package">
+              <a href="{{ '/docs/Cheatsheets/npm-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span> NPM Package Manager
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="pdf reference structures standards text streams formatting parsed files readers">
+              <a href="{{ '/docs/Cheatsheets/pdf-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-red-600"></span> PDF Specifications
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="powerpoint slides formats ppt layouts designs specifications shapes presentation">
+              <a href="{{ '/docs/Cheatsheets/powerpoint-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-orange-700"></span> PowerPoint Files
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="prompt engineering ai models instructions zero-shot few-shot chain-of-thought system tokens">
+              <a href="{{ '/docs/Cheatsheets/prompt-engineering-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span> Prompt Engineering
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="requirements.txt python packaging dependencies pins versions libraries pip requirements">
+              <a href="{{ '/docs/Cheatsheets/requirements-txt-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-yellow-600"></span> Requirements.txt
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="toml syntax configuration tables objects keys format parser specifications setting">
+              <a href="{{ '/docs/Cheatsheets/toml-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-400"></span> TOML Format
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="word documents files specifications formats xml docx structures styling layouts">
+              <a href="{{ '/docs/Cheatsheets/word-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-700"></span> Word Documents
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="yaml format syntax arrays blocks nodes parser specs hierarchy data configuration">
+              <a href="{{ '/docs/Cheatsheets/yaml-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-stone-500"></span> YAML Format
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Category 9: Relational cloud databases -->
+        <div class="sidebar-category">
+          <button class="w-full flex items-center justify-between px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors focus:outline-none" onclick="toggleCategory('cat-relational-dbs')">
+            <span class="flex items-center gap-1.5">Relational Databases <span class="bg-slate-100 dark:bg-slate-800 text-slate-500 text-[9px] px-1.5 py-0.2 rounded-full font-semibold">2</span></span>
+            <svg id="arrow-cat-relational-dbs" class="w-3 h-3 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+          </button>
+          <ul id="cat-relational-dbs" class="hidden mt-1 space-y-0.5 text-xs text-slate-600 dark:text-slate-400 font-medium pl-1.5">
             <li>
-              <a href="{{ '/docs/My notes 21cb6c26d9ba81648e18c1761db2dcca.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+              <a href="{{ '/docs/My notes 21cb6c26d9ba81648e18c1761db2dcca.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all">
                 <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span> My Notes DB (CSV)
               </a>
             </li>
             <li>
-              <a href="{{ '/docs/People d3db6c26d9ba82dfb0d8014512d331ec.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+              <a href="{{ '/docs/People d3db6c26d9ba82dfb0d8014512d331ec.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all">
                 <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span> People DB (CSV)
               </a>
             </li>
@@ -705,10 +1082,42 @@
       menuToggle.addEventListener('click', toggleSidebar);
       backdrop.addEventListener('click', toggleSidebar);
 
-      // --- PART VI: Live Client-Side Fuzzy Search / Filter ---
+      // --- PART VI: Live Client-Side Fuzzy Search / Filter with Auto-Accordion Expander ---
       const searchClear = document.getElementById('search-clear');
       const sidebarLinks = document.querySelectorAll('.sidebar-link-item');
       const categories = document.querySelectorAll('.sidebar-category');
+
+      // Global Accordion toggle
+      window.toggleCategory = function(catId) {
+        const cat = document.getElementById(catId);
+        const arrow = document.getElementById('arrow-' + catId);
+        if (!cat || !arrow) return;
+
+        if (cat.classList.contains('hidden')) {
+          cat.classList.remove('hidden');
+          arrow.classList.add('rotate-90');
+        } else {
+          cat.classList.add('hidden');
+          arrow.classList.remove('rotate-90');
+        }
+      }
+
+      // Auto-expand category matching active page
+      window.expandActiveCategory = function() {
+        // Find links that have the emerald active background/border classes
+        const activeLinkEl = document.querySelector('.sidebar-link-item a.bg-emerald-500\\/10, #sidebar-nav a.bg-emerald-500\\/10');
+        if (activeLinkEl) {
+          const parentUl = activeLinkEl.closest('ul');
+          if (parentUl) {
+            const catId = parentUl.id;
+            parentUl.classList.remove('hidden');
+            const arrowEl = document.getElementById('arrow-' + catId);
+            if (arrowEl) {
+              arrowEl.classList.add('rotate-90');
+            }
+          }
+        }
+      }
 
       function handleSearch() {
         const value = searchInput.value.toLowerCase().trim();
@@ -732,9 +1141,15 @@
           }
         });
 
-        // Hide categories if they contain no visible children
+        // Expand categories containing matching links, hide empty categories
         categories.forEach(category => {
           const links = category.querySelectorAll('.sidebar-link-item');
+          const catUl = category.querySelector('ul');
+          if (!catUl) return;
+          const catId = catUl.id;
+          const catEl = document.getElementById(catId);
+          const arrowEl = document.getElementById('arrow-' + catId);
+
           let hasVisible = false;
           links.forEach(link => {
             if (!link.classList.contains('hidden')) {
@@ -744,13 +1159,36 @@
 
           if (hasVisible) {
             category.classList.remove('hidden');
+            if (value.length > 0 && catEl && arrowEl) {
+              catEl.classList.remove('hidden');
+              arrowEl.classList.add('rotate-90');
+            }
           } else {
             category.classList.add('hidden');
           }
         });
+
+        // Restore active category expand when search query is cleared
+        if (value.length === 0) {
+          categories.forEach(category => {
+            category.classList.remove('hidden');
+            const catUl = category.querySelector('ul');
+            if (catUl) {
+              catUl.classList.add('hidden');
+              const arrowEl = document.getElementById('arrow-' + catUl.id);
+              if (arrowEl) {
+                arrowEl.classList.remove('rotate-90');
+              }
+            }
+          });
+          expandActiveCategory();
+        }
       }
 
       searchInput.addEventListener('input', handleSearch);
+
+      // Auto-run active expander on initial load
+      setTimeout(expandActiveCategory, 200);
       searchClear.addEventListener('click', () => {
         searchInput.value = '';
         handleSearch();
