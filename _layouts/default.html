@@ -29,6 +29,40 @@
 
   <!-- Custom Theme overrides & Markdown-Prose Stylings -->
   <style>
+    /* Reading Progress Bar Style */
+    #progress-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: transparent;
+      z-index: 100;
+      pointer-events: none;
+    }
+    #progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(to right, #10b981, #14b8a6);
+      transition: width 0.1s ease-out;
+      box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+    }
+
+    /* Page load fade-in animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .animate-content-load {
+      animation: fadeInUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
     /* Custom Scrollbar Styles */
     ::-webkit-scrollbar {
       width: 8px;
@@ -213,6 +247,11 @@
 
 <body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 min-h-screen transition-colors duration-200 font-sans flex flex-col">
 
+  <!-- Reading Progress Bar -->
+  <div id="progress-container">
+    <div id="progress-bar"></div>
+  </div>
+
   <!-- Header Section with Mobile Toggle and Dark Mode Switcher -->
   <header class="sticky top-0 z-40 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors duration-200">
     <div class="max-w-[1600px] mx-auto px-4 lg:px-8 h-16 flex items-center justify-between">
@@ -264,6 +303,15 @@
           </div>
           <button id="search-clear" class="hidden absolute right-10 top-3 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"><i class="fa-solid fa-xmark"></i></button>
         </div>
+      </div>
+
+      <!-- Search No-Results State Overlay -->
+      <div id="search-no-results" class="hidden p-6 text-center select-none animate-content-load">
+        <svg class="mx-auto h-12 w-12 text-slate-300 dark:text-slate-750 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <h5 class="text-sm font-semibold text-slate-700 dark:text-slate-300">No results found</h5>
+        <p class="text-xs text-slate-400 mt-1">Try searching for other tags, keywords, or folders.</p>
       </div>
 
             <!-- Navigation Links Container -->
@@ -391,10 +439,15 @@
         <!-- Category 2: Backend & Languages -->
         <div class="sidebar-category">
           <button class="w-full flex items-center justify-between px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors focus:outline-none" onclick="toggleCategory('cat-backend')">
-            <span class="flex items-center gap-1.5">Backend & Languages <span class="bg-slate-100 dark:bg-slate-800 text-slate-500 text-[9px] px-1.5 py-0.2 rounded-full font-semibold">11</span></span>
+            <span class="flex items-center gap-1.5">Backend & Languages <span class="bg-slate-100 dark:bg-slate-800 text-slate-500 text-[9px] px-1.5 py-0.2 rounded-full font-semibold">13</span></span>
             <svg id="arrow-cat-backend" class="w-3 h-3 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
           </button>
           <ul id="cat-backend" class="hidden mt-1 space-y-0.5 text-xs text-slate-600 dark:text-slate-400 font-medium pl-1.5">
+            <li class="sidebar-link-item" data-search-term="cpp c++ variables memory smart pointers templates stl templates modern cpp code">
+              <a href="{{ '/docs/Cheatsheets/cpp-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-700"></span> C++
+              </a>
+            </li>
             <li class="sidebar-link-item" data-search-term="django python mvt ORM forms admin routing templates auth">
               <a href="{{ '/docs/Cheatsheets/django-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
                 <span class="w-1.5 h-1.5 rounded-full bg-green-700"></span> Django
@@ -413,6 +466,11 @@
             <li class="sidebar-link-item" data-search-term="go golang channels routines structs maps compiler backend concurrency">
               <a href="{{ '/docs/Cheatsheets/go-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
                 <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span> Go Language
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="java oop streams collections hashmap arraylist generics concurrency multithreading threads">
+              <a href="{{ '/docs/Cheatsheets/java-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-orange-600"></span> Java
               </a>
             </li>
             <li class="sidebar-link-item" data-search-term="nestjs decorators modules controllers providers injection pipes guards validation">
@@ -701,7 +759,7 @@
         <!-- Category 8: Utilities & Configs -->
         <div class="sidebar-category">
           <button class="w-full flex items-center justify-between px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors focus:outline-none" onclick="toggleCategory('cat-utilities')">
-            <span class="flex items-center gap-1.5">Utilities & Configs <span class="bg-slate-100 dark:bg-slate-800 text-slate-500 text-[9px] px-1.5 py-0.2 rounded-full font-semibold">18</span></span>
+            <span class="flex items-center gap-1.5">Utilities & Configs <span class="bg-slate-100 dark:bg-slate-800 text-slate-500 text-[9px] px-1.5 py-0.2 rounded-full font-semibold">19</span></span>
             <svg id="arrow-cat-utilities" class="w-3 h-3 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
           </button>
           <ul id="cat-utilities" class="hidden mt-1 space-y-0.5 text-xs text-slate-600 dark:text-slate-400 font-medium pl-1.5">
@@ -775,6 +833,11 @@
                 <span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span> Prompt Engineering
               </a>
             </li>
+            <li class="sidebar-link-item" data-search-term="regex regular expressions search match find replace characters pattern grouping anchors boundaries">
+              <a href="{{ '/docs/Cheatsheets/regex-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-pink-500"></span> Regular Expressions (Regex)
+              </a>
+            </li>
             <li class="sidebar-link-item" data-search-term="requirements.txt python packaging dependencies pins versions libraries pip requirements">
               <a href="{{ '/docs/Cheatsheets/requirements-txt-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
                 <span class="w-1.5 h-1.5 rounded-full bg-yellow-600"></span> Requirements.txt
@@ -835,7 +898,14 @@
 
         <!-- Left Side: Article Content Card -->
         <div class="col-span-12 xl:col-span-9">
-          <article class="bg-white dark:bg-slate-950 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-6 md:p-10 shadow-sm transition-all duration-200">
+          <!-- Elegant Breadcrumbs Navigation -->
+          <nav class="flex items-center gap-2 text-xs text-slate-400 dark:text-slate-500 mb-4 select-none" id="breadcrumbs">
+            <a href="{{ '/' | relative_url }}" class="hover:text-emerald-500 transition-colors flex items-center gap-1"><i class="fa-solid fa-house"></i> Home</a>
+            <span class="text-slate-300 dark:text-slate-700">/</span>
+            <span id="breadcrumb-current" class="font-medium text-slate-600 dark:text-slate-300 truncate max-w-[200px]">Page</span>
+          </nav>
+
+          <article class="bg-white dark:bg-slate-950 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-6 md:p-10 shadow-sm transition-all duration-200 animate-content-load hover:shadow-lg hover:border-slate-300/60 dark:hover:border-slate-800/80">
             <!-- Content section for Markdown output -->
             <div class="markdown-body text-slate-800 dark:text-slate-200">
               {{ content }}
@@ -884,6 +954,40 @@
   <!-- Core Interactive Features: JS Implementation -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+
+      // --- PART 0: Reading Progress Bar & Dynamic Breadcrumbs ---
+      const progressBar = document.getElementById('progress-bar');
+      window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+        if (progressBar) {
+          progressBar.style.width = scrolled + "%";
+        }
+      });
+
+      // Update Breadcrumbs
+      const breadcrumbCurrent = document.getElementById('breadcrumb-current');
+      if (breadcrumbCurrent) {
+        // Extract page title from heading or filename
+        const mainHeading = document.querySelector('.markdown-body h1');
+        if (mainHeading) {
+          breadcrumbCurrent.textContent = mainHeading.textContent.trim();
+        } else {
+          const pathSegments = window.location.pathname.split('/');
+          const filename = pathSegments[pathSegments.length - 1];
+          if (filename && filename !== 'index.html' && filename !== '') {
+            const cleanName = decodeURIComponent(filename)
+              .replace(/\.html$/, '')
+              .replace(/-cheatsheet$/, ' Cheatsheet')
+              .replace(/[0-9a-f]{32}/g, '') // remove hash if present
+              .trim();
+            breadcrumbCurrent.textContent = cleanName || 'Page';
+          } else {
+            breadcrumbCurrent.textContent = 'Portal Home';
+          }
+        }
+      }
 
       // --- PART I: Dark/Light Theme Switcher & Storage ---
       const themeToggle = document.getElementById('theme-toggle');
@@ -1142,6 +1246,16 @@
         });
 
         // Expand categories containing matching links, hide empty categories
+        let totalVisibleLinks = 0;
+        sidebarLinks.forEach(item => {
+          if (!item.classList.contains('hidden')) {
+            totalVisibleLinks++;
+          }
+        });
+
+        const noResultsOverlay = document.getElementById('search-no-results');
+        const sidebarNavContainer = document.getElementById('sidebar-nav');
+
         categories.forEach(category => {
           const links = category.querySelectorAll('.sidebar-link-item');
           const catUl = category.querySelector('ul');
@@ -1168,6 +1282,15 @@
           }
         });
 
+        // Check if no results were found at all
+        if (value.length > 0 && totalVisibleLinks === 0) {
+          if (noResultsOverlay) noResultsOverlay.classList.remove('hidden');
+          if (sidebarNavContainer) sidebarNavContainer.classList.add('hidden');
+        } else {
+          if (noResultsOverlay) noResultsOverlay.classList.add('hidden');
+          if (sidebarNavContainer) sidebarNavContainer.classList.remove('hidden');
+        }
+
         // Restore active category expand when search query is cleared
         if (value.length === 0) {
           categories.forEach(category => {
@@ -1182,6 +1305,8 @@
             }
           });
           expandActiveCategory();
+          if (noResultsOverlay) noResultsOverlay.classList.add('hidden');
+          if (sidebarNavContainer) sidebarNavContainer.classList.remove('hidden');
         }
       }
 
