@@ -467,4 +467,49 @@ npx husky install
 # Add a pre-commit check
 npx husky add .husky/pre-commit "npm test"
 ```
+
+---
+
+## 24. Git Large File Storage (LFS)
+
+Git Large File Storage (LFS) replaces large files such as audio clips, videos, datasets, and graphics with text pointers inside Git, while storing the file contents on a remote server like GitHub or GitLab.
+
+### Installation & Initialization
+```bash
+# Install Git LFS command-line extension
+git lfs install
+```
+
+### Tracking Large Files
+```bash
+# Track all .psd or large dataset files
+git lfs track "*.psd"
+git lfs track "*.zip"
+
+# Ensure the LFS tracking configuration is committed
+git add .gitattributes
+git commit -m "chore: track psd and zip files via git lfs"
+```
+
+### Inspection & Status
+```bash
+# List all tracked paths
+git lfs track
+
+# List all files currently being tracked in LFS in the active commit
+git lfs ls-files
+```
+
+---
+
+## 25. Advanced Branch Auditing & Garbage Collection
+
+When working on large repositories over several years, references pile up and the underlying Object Database needs optimization or cleaning.
+
+```bash
+# Check database health and find dangling/unreachable objects
+git fsck --full --strict
+
+# Run garbage collection, compressing file revisions and removing unreachable objects
+git gc --prune=now --aggressive
 ```

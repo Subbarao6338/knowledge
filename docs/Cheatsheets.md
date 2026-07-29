@@ -31,10 +31,12 @@ Welcome to the unified developer cheatsheets directory. Access over 76 detailed 
 * [Vue.js](Cheatsheets/vue-cheatsheet.md) *(New)*
 
 ### 🐍 Backend & Programming Languages
+* [C++](Cheatsheets/cpp-cheatsheet.md) *(New)*
 * [Django](Cheatsheets/django-cheatsheet.md)
 * [FastAPI](Cheatsheets/fastapi-cheatsheet.md) *(New)*
 * [Flask](Cheatsheets/flask-cheatsheet.md) *(New)*
 * [Go](Cheatsheets/go-cheatsheet.md)
+* [Java](Cheatsheets/java-cheatsheet.md) *(New)*
 * [NestJS](Cheatsheets/nest-js-cheatsheet.md) *(New)*
 * [Node.js](Cheatsheets/nodejs-cheatsheet.md)
 * [Pydantic v2](Cheatsheets/pydantic-cheatsheet.md) *(New)*
@@ -106,6 +108,7 @@ Welcome to the unified developer cheatsheets directory. Access over 76 detailed 
 * [PDF Reference](Cheatsheets/pdf-cheatsheet.md)
 * [PowerPoint Files](Cheatsheets/powerpoint-cheatsheet.md)
 * [Prompt Engineering](Cheatsheets/prompt-engineering-cheatsheet.md)
+* [Regular Expressions (Regex)](Cheatsheets/regex-cheatsheet.md) *(New)*
 * [Requirements.txt](Cheatsheets/requirements-txt-cheatsheet.md)
 * [TOML](Cheatsheets/toml-cheatsheet.md)
 * [Word Documents](Cheatsheets/word-cheatsheet.md)

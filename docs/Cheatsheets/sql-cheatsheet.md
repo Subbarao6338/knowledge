@@ -365,3 +365,59 @@ WHERE EXISTS (SELECT 1 FROM orders o WHERE o.customer_id = c.id);
 - `GROUP BY` requires every non-aggregated `SELECT` column to appear in the `GROUP BY` clause (strict in Postgres/most engines; MySQL historically more lenient).
 - `HAVING` filters after aggregation; `WHERE` filters before — using `WHERE` to filter an aggregate value is a common mistake.
 - Be careful with `UNION` vs `UNION ALL` performance — `UNION` always dedups, which requires a sort/hash step.
+
+## SQL Partitioning and Sharding Strategies
+
+For hyper-scale databases holding hundreds of millions of records, partitioning split single massive tables into smaller, manageable logical chunks.
+
+### 1. Range Partitioning
+Splits records based on a continuous range of values, typically dates or sequenced IDs.
+```sql
+CREATE TABLE sales (
+    id INT,
+    order_date DATE,
+    amount DECIMAL(10,2)
+) PARTITION BY RANGE (order_date);
+
+-- Define partition tables (Postgres syntax)
+CREATE TABLE sales_2025 PARTITION OF sales
+    FOR VALUES FROM ('2025-01-01') TO ('2026-01-01');
+
+CREATE TABLE sales_2026 PARTITION OF sales
+    FOR VALUES FROM ('2026-01-01') TO ('2027-01-01');
+```
+
+### 2. List Partitioning
+Splits records explicitly based on a set of categorical string/enum values.
+```sql
+CREATE TABLE customers (
+    id INT,
+    name VARCHAR(100),
+    region VARCHAR(50)
+) PARTITION BY LIST (region);
+
+CREATE TABLE customers_americas PARTITION OF customers
+    FOR VALUES IN ('US', 'CA', 'MX');
+
+CREATE TABLE customers_europe PARTITION OF customers
+    FOR VALUES IN ('UK', 'DE', 'FR', 'IT');
+```
+
+### 3. Hash Partitioning
+Distributes records evenly using a modulus and remainder hashing strategy over a primary key. Good for preventing database "hotspots" in high-concurrency systems.
+```sql
+CREATE TABLE web_logs (
+    log_id INT,
+    url VARCHAR(255),
+    ip_address VARCHAR(45)
+) PARTITION BY HASH (log_id);
+
+CREATE TABLE web_logs_part1 PARTITION OF web_logs
+    FOR VALUES WITH (MODULUS 3, REMAINDER 0);
+
+CREATE TABLE web_logs_part2 PARTITION OF web_logs
+    FOR VALUES WITH (MODULUS 3, REMAINDER 1);
+
+CREATE TABLE web_logs_part3 PARTITION OF web_logs
+    FOR VALUES WITH (MODULUS 3, REMAINDER 2);
+```
