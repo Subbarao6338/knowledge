@@ -13,6 +13,7 @@ Welcome to the unified developer cheatsheets directory. Access over 79 detailed 
 
 ### 🌐 Frontend & Web Development
 * [Angular](Cheatsheets/angular-cheatsheet.md) *(New)*
+* [Astro](Cheatsheets/astro-cheatsheet.md) *(New)*
 * [Bootstrap](Cheatsheets/bootstrap-cheatsheet.md)
 * [CSS Basics](Cheatsheets/css-cheatsheet.md)
 * [CSS Grid & Flexbox](Cheatsheets/css-grid-flexbox-cheatsheet.md) *(New)*
@@ -32,12 +33,15 @@ Welcome to the unified developer cheatsheets directory. Access over 79 detailed 
 * [Vue.js](Cheatsheets/vue-cheatsheet.md) *(New)*
 
 ### 🐍 Backend & Programming Languages
+* [Bun](Cheatsheets/bun-cheatsheet.md) *(New)*
 * [C++](Cheatsheets/cpp-cheatsheet.md) *(New)*
+* [Deno](Cheatsheets/deno-cheatsheet.md) *(New)*
 * [Django](Cheatsheets/django-cheatsheet.md)
 * [FastAPI](Cheatsheets/fastapi-cheatsheet.md) *(New)*
 * [Flask](Cheatsheets/flask-cheatsheet.md) *(New)*
 * [Go](Cheatsheets/go-cheatsheet.md)
 * [Java](Cheatsheets/java-cheatsheet.md) *(New)*
+* [LangChain](Cheatsheets/langchain-cheatsheet.md) *(New)*
 * [NestJS](Cheatsheets/nest-js-cheatsheet.md) *(New)*
 * [Node.js](Cheatsheets/nodejs-cheatsheet.md)
 * [Pydantic v2](Cheatsheets/pydantic-cheatsheet.md) *(New)*
@@ -98,6 +102,7 @@ Welcome to the unified developer cheatsheets directory. Access over 79 detailed 
 * [SQL](Cheatsheets/sql-cheatsheet.md)
 
 ### 🛠️ Developer Utilities, Formats & Configs
+* [Chrome DevTools](Cheatsheets/chrome-devtools-cheatsheet.md) *(New)*
 * [Datalab Output Proposal](Cheatsheets/datalab-output-Proposal_N0008122938.pdf.md)
 * [Environment Variables](Cheatsheets/env-cheatsheet.md)
 * [Git Commands](Cheatsheets/git-cheatsheet.md)
