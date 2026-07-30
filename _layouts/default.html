@@ -43,9 +43,9 @@
     #progress-bar {
       height: 100%;
       width: 0%;
-      background: linear-gradient(to right, #10b981, #14b8a6);
+      background: linear-gradient(to right, var(--primary), var(--primary-hover));
       transition: width 0.1s ease-out;
-      box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+      box-shadow: 0 0 8px rgba(var(--primary-rgb), 0.6);
     }
 
     /* Page load fade-in animations */
@@ -171,18 +171,18 @@
       background-color: #1a2333;
     }
     .markdown-body blockquote {
-      border-left: 4px solid #10b981;
+      border-left: 4px solid var(--primary);
       padding-left: 1.25rem;
       color: #334155;
       font-style: italic;
       margin: 1.75rem 0;
-      background: rgba(240, 253, 244, 0.7);
+      background: var(--primary-light-bg);
       padding-top: 0.75rem;
       padding-bottom: 0.75rem;
       border-radius: 0 0.5rem 0.5rem 0;
     }
     .dark .markdown-body blockquote {
-      background: rgba(6, 78, 59, 0.15);
+      background: rgba(var(--primary-rgb), 0.15);
       color: #94a3b8;
     }
     .markdown-body pre {
@@ -230,7 +230,7 @@
     /* Hover anchors on headings */
     .markdown-body h2:hover::after, .markdown-body h3:hover::after {
       content: ' #';
-      color: #10b981;
+      color: var(--primary);
       font-weight: 400;
     }
 
@@ -241,6 +241,42 @@
     }
     .dark .search-match {
       background-color: rgba(234, 179, 8, 0.3);
+    }
+    /* Dynamic Accent Themes Support */
+    :root {
+      --primary: #10b981;
+      --primary-hover: #059669;
+      --primary-rgb: 16, 185, 129;
+      --primary-light-bg: rgba(240, 253, 244, 0.7);
+    }
+    .text-accent {
+      color: var(--primary) !important;
+    }
+    .hover\:text-accent-hover:hover {
+      color: var(--primary-hover) !important;
+    }
+    .bg-accent {
+      background-color: var(--primary) !important;
+    }
+    .hover\:bg-accent-hover:hover {
+      background-color: var(--primary-hover) !important;
+    }
+    .border-accent {
+      border-color: var(--primary) !important;
+    }
+    .bg-accent-10 {
+      background-color: rgba(var(--primary-rgb), 0.1) !important;
+    }
+    .bg-accent-20 {
+      background-color: rgba(var(--primary-rgb), 0.2) !important;
+    }
+    .shadow-accent {
+      box-shadow: 0 4px 6px -1px rgba(var(--primary-rgb), 0.2), 0 2px 4px -2px rgba(var(--primary-rgb), 0.2) !important;
+    }
+    .focus-accent:focus {
+      border-color: var(--primary) !important;
+      outline: none !important;
+      box-shadow: 0 0 0 2px rgba(var(--primary-rgb), 0.2) !important;
     }
   </style>
 </head>
@@ -258,21 +294,30 @@
 
       <!-- Logo and Site Name -->
       <a href="{{ '/' | relative_url }}" class="flex items-center gap-3">
-        <div class="h-9 w-9 rounded-lg bg-emerald-500 flex items-center justify-center text-white shadow-md shadow-emerald-500/20">
+        <div class="h-9 w-9 rounded-lg bg-accent flex items-center justify-center text-white shadow-md shadow-accent">
           <i class="fa-solid fa-cube text-lg"></i>
         </div>
         <div>
           <span class="font-bold text-lg tracking-tight text-slate-900 dark:text-slate-50 block leading-tight">Notion Vault Portal</span>
-          <span class="text-xs text-emerald-500 font-medium">Backup & Automation Hub</span>
+          <span class="text-xs text-accent font-medium">Backup & Automation Hub</span>
         </div>
       </a>
 
       <!-- Quick Action Buttons (Search toggle on mobile, dark mode toggle, link to Notion structure) -->
       <div class="flex items-center gap-2">
         <!-- Notion Spec Quicklink -->
-        <a href="{{ '/docs/Knowledge 21cb6c26d9ba808da8d4f72eb2193ca2.html' | relative_url }}" class="hidden md:flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400 hover:opacity-90 transition-opacity">
+        <a href="{{ '/docs/Knowledge 21cb6c26d9ba808da8d4f72eb2193ca2.html' | relative_url }}" class="hidden md:flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-accent-10 text-accent hover:opacity-90 transition-opacity">
           <i class="fa-solid fa-graduation-cap"></i> Knowledge Hub
         </a>
+
+        <!-- Accent Theme Palette Swatches -->
+        <div class="hidden sm:flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-2 py-1.5 rounded-lg mr-1">
+          <button data-theme="emerald" onclick="setAccentTheme('emerald')" class="theme-swatch w-3.5 h-3.5 rounded-full bg-emerald-500 border border-white dark:border-slate-900 focus:outline-none transition-transform hover:scale-110" title="Emerald Accent"></button>
+          <button data-theme="indigo" onclick="setAccentTheme('indigo')" class="theme-swatch w-3.5 h-3.5 rounded-full bg-indigo-500 border border-white dark:border-slate-900 focus:outline-none transition-transform hover:scale-110" title="Indigo Accent"></button>
+          <button data-theme="violet" onclick="setAccentTheme('violet')" class="theme-swatch w-3.5 h-3.5 rounded-full bg-violet-500 border border-white dark:border-slate-900 focus:outline-none transition-transform hover:scale-110" title="Violet Accent"></button>
+          <button data-theme="rose" onclick="setAccentTheme('rose')" class="theme-swatch w-3.5 h-3.5 rounded-full bg-rose-500 border border-white dark:border-slate-900 focus:outline-none transition-transform hover:scale-110" title="Rose Accent"></button>
+          <button data-theme="amber" onclick="setAccentTheme('amber')" class="theme-swatch w-3.5 h-3.5 rounded-full bg-amber-500 border border-white dark:border-slate-900 focus:outline-none transition-transform hover:scale-110" title="Amber Accent"></button>
+        </div>
 
         <!-- Dark Mode Toggle Button -->
         <button id="theme-toggle" class="h-9 w-9 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors" title="Toggle Light/Dark Theme">
@@ -297,7 +342,7 @@
       <div class="p-4 border-b border-slate-100 dark:border-slate-800 sticky top-0 bg-white dark:bg-slate-950 z-10">
         <div class="relative">
           <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-400 dark:text-slate-500 text-sm"></i>
-          <input type="text" id="sidebar-search" placeholder="Search 77+ cheatsheets..." class="w-full pl-9 pr-14 py-2 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all">
+          <input type="text" id="sidebar-search" placeholder="Search 77+ cheatsheets..." class="w-full pl-9 pr-14 py-2 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 focus-accent transition-all">
           <div class="absolute right-3 top-2 flex items-center gap-0.5 pointer-events-none text-[10px] font-bold text-slate-400 dark:text-slate-500 bg-slate-150 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-1.5 py-0.5 rounded shadow-sm">
             <span>/</span>
           </div>
@@ -433,6 +478,11 @@
                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> Vue.js
               </a>
             </li>
+            <li class="sidebar-link-item" data-search-term="vite bundler frontend tools build configuration hmr build-optimizations plugins dev-server">
+              <a href="{{ '/docs/Cheatsheets/vite-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span> Vite
+              </a>
+            </li>
           </ul>
         </div>
 
@@ -531,6 +581,11 @@
             <li class="sidebar-link-item" data-search-term="numpy arrays matrices math computations arrays dimensions structures linear algebra">
               <a href="{{ '/docs/Cheatsheets/numpy-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
                 <span class="w-1.5 h-1.5 rounded-full bg-blue-400"></span> NumPy
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="pytorch deep learning machine learning neural networks artificial intelligence tensors cuda autograd torch training-loop">
+              <a href="{{ '/docs/Cheatsheets/pytorch-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-orange-600"></span> PyTorch
               </a>
             </li>
             <li class="sidebar-link-item" data-search-term="openrefine data cleaning clustering reconciliation transform filters datasets">
@@ -636,6 +691,11 @@
             <li class="sidebar-link-item" data-search-term="sre monitoring alerting prometheus grafana metrics logging dashboards slas">
               <a href="{{ '/docs/Cheatsheets/sre-monitoring-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
                 <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span> SRE Monitoring
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="terraform iac infrastructure as code devops hcl providers modules state cloud aws s3 state-locking">
+              <a href="{{ '/docs/Cheatsheets/terraform-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-purple-600"></span> Terraform
               </a>
             </li>
           </ul>
@@ -900,7 +960,7 @@
         <div class="col-span-12 xl:col-span-9">
           <!-- Elegant Breadcrumbs Navigation -->
           <nav class="flex items-center gap-2 text-xs text-slate-400 dark:text-slate-500 mb-4 select-none" id="breadcrumbs">
-            <a href="{{ '/' | relative_url }}" class="hover:text-emerald-500 transition-colors flex items-center gap-1"><i class="fa-solid fa-house"></i> Home</a>
+            <a href="{{ '/' | relative_url }}" class="hover:text-accent transition-colors flex items-center gap-1"><i class="fa-solid fa-house"></i> Home</a>
             <span class="text-slate-300 dark:text-slate-700">/</span>
             <span id="breadcrumb-current" class="font-medium text-slate-600 dark:text-slate-300 truncate max-w-[200px]">Page</span>
           </nav>
@@ -917,7 +977,7 @@
         <div class="hidden xl:block xl:col-span-3">
           <div class="sticky top-24 self-start bg-white dark:bg-slate-950 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-5 shadow-sm max-h-[calc(100vh-8rem)] flex flex-col">
             <h3 class="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-4 flex items-center gap-2 select-none">
-              <i class="fa-solid fa-list-ul text-emerald-500"></i> On this page
+              <i class="fa-solid fa-list-ul text-accent"></i> On this page
             </h3>
             <nav id="toc-list" class="overflow-y-auto text-xs space-y-3 pr-2 scroll-smooth select-none max-h-[50vh]">
               <!-- Dynamically populated by JS -->
@@ -931,7 +991,7 @@
   </div>
 
   <!-- Floating Back to Top Button -->
-  <button id="back-to-top" class="fixed bottom-6 right-6 z-50 h-10 w-10 rounded-full bg-emerald-500 text-white shadow-lg hover:bg-emerald-600 transition-all flex items-center justify-center translate-y-16 opacity-0 hover:scale-110 active:scale-95" title="Back to Top">
+  <button id="back-to-top" class="fixed bottom-6 right-6 z-50 h-10 w-10 rounded-full bg-accent text-white shadow-lg hover:bg-accent-hover transition-all flex items-center justify-center translate-y-16 opacity-0 hover:scale-110 active:scale-95" title="Back to Top">
     <i class="fa-solid fa-arrow-up"></i>
   </button>
 
@@ -1056,16 +1116,14 @@
       }
 
       if (activeLink) {
-        // Apply beautiful emerald accent active styling
+        // Apply beautiful accent active styling
         activeLink.classList.remove('text-slate-700', 'dark:text-slate-300', 'hover:bg-slate-50', 'dark:hover:bg-slate-900');
         activeLink.classList.add(
-          'bg-emerald-500/10',
-          'text-emerald-600',
-          'dark:bg-emerald-500/20',
-          'dark:text-emerald-400',
+          'bg-accent-10',
+          'text-accent',
           'font-semibold',
           'border-l-4',
-          'border-emerald-500',
+          'border-accent',
           'pl-2'
         );
 
@@ -1073,7 +1131,7 @@
         const icon = activeLink.querySelector('i');
         if (icon) {
           icon.classList.remove('text-slate-400');
-          icon.classList.add('text-emerald-500');
+          icon.classList.add('text-accent');
         }
 
         // Auto-scroll the sidebar viewport to bring the active link into visual center
@@ -1113,9 +1171,9 @@
 
             // Indent h3 elements for a beautiful nested hierarchy
             if (heading.tagName.toLowerCase() === 'h3') {
-              tocItem.className = 'block pl-4 py-0.5 text-[11px] text-slate-500 dark:text-slate-400 border-l border-slate-200 dark:border-slate-800 hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors duration-150';
+              tocItem.className = 'block pl-4 py-0.5 text-[11px] text-slate-500 dark:text-slate-400 border-l border-slate-200 dark:border-slate-800 hover:text-accent transition-colors duration-150';
             } else {
-              tocItem.className = 'block pl-2 py-0.5 font-medium text-slate-600 dark:text-slate-300 border-l-2 border-slate-200 dark:border-slate-800 hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors duration-150';
+              tocItem.className = 'block pl-2 py-0.5 font-medium text-slate-600 dark:text-slate-300 border-l-2 border-slate-200 dark:border-slate-800 hover:text-accent transition-colors duration-150';
             }
 
             tocList.appendChild(tocItem);
@@ -1132,12 +1190,12 @@
                 if (matched) {
                   // Reset previous active item style
                   tocElements.forEach(el => {
-                    el.tocItem.classList.remove('text-emerald-500', 'dark:text-emerald-400', 'font-semibold', 'border-emerald-500');
+                    el.tocItem.classList.remove('text-accent', 'font-semibold', 'border-accent');
                     el.tocItem.classList.add('text-slate-500', 'dark:text-slate-400', 'text-slate-600', 'dark:text-slate-300');
                   });
 
                   // Set current active item style
-                  matched.tocItem.classList.add('text-emerald-500', 'dark:text-emerald-400', 'font-semibold', 'border-emerald-500');
+                  matched.tocItem.classList.add('text-accent', 'font-semibold', 'border-accent');
                   matched.tocItem.classList.remove('text-slate-500', 'dark:text-slate-400', 'text-slate-600', 'dark:text-slate-300');
 
                   // Keep container scrolled with items
@@ -1209,7 +1267,7 @@
       // Auto-expand category matching active page
       window.expandActiveCategory = function() {
         // Find links that have the emerald active background/border classes
-        const activeLinkEl = document.querySelector('.sidebar-link-item a.bg-emerald-500\\/10, #sidebar-nav a.bg-emerald-500\\/10');
+        const activeLinkEl = document.querySelector('.sidebar-link-item a.bg-accent-10, #sidebar-nav a.bg-accent-10');
         if (activeLinkEl) {
           const parentUl = activeLinkEl.closest('ul');
           if (parentUl) {
@@ -1361,12 +1419,12 @@
           }
 
           navigator.clipboard.writeText(textToCopy).then(() => {
-            copyButton.innerHTML = '<i class="fa-solid fa-check text-emerald-500"></i> Copied!';
-            copyButton.classList.add('bg-slate-900', 'border-emerald-500', 'text-slate-200');
+            copyButton.innerHTML = '<i class="fa-solid fa-check text-accent"></i> Copied!';
+            copyButton.classList.add('bg-slate-900', 'border-accent', 'text-slate-200');
 
             setTimeout(() => {
               copyButton.innerHTML = '<i class="fa-regular fa-copy"></i> Copy';
-              copyButton.classList.remove('bg-slate-900', 'border-emerald-500', 'text-slate-200');
+              copyButton.classList.remove('bg-slate-900', 'border-accent', 'text-slate-200');
             }, 2000);
           }).catch(err => {
             console.error('Failed to copy text: ', err);
@@ -1393,6 +1451,71 @@
         });
       }
 
+      // --- ACCENT THEME SYSTEM ---
+      const themes = {
+        emerald: {
+          primary: '#10b981',
+          primaryHover: '#059669',
+          rgb: '16, 185, 129',
+          lightBg: 'rgba(240, 253, 244, 0.7)'
+        },
+        indigo: {
+          primary: '#6366f1',
+          primaryHover: '#4f46e5',
+          rgb: '99, 102, 241',
+          lightBg: 'rgba(245, 243, 255, 0.7)'
+        },
+        violet: {
+          primary: '#8b5cf6',
+          primaryHover: '#7c3aed',
+          rgb: '139, 92, 246',
+          lightBg: 'rgba(245, 243, 255, 0.7)'
+        },
+        rose: {
+          primary: '#f43f5e',
+          primaryHover: '#e11d48',
+          rgb: '244, 63, 94',
+          lightBg: 'rgba(255, 241, 242, 0.7)'
+        },
+        amber: {
+          primary: '#f59e0b',
+          primaryHover: '#d97706',
+          rgb: '245, 158, 11',
+          lightBg: 'rgba(254, 243, 199, 0.7)'
+        }
+      };
+
+      window.setAccentTheme = function(themeName) {
+        const theme = themes[themeName] || themes.emerald;
+        document.documentElement.style.setProperty('--primary', theme.primary);
+        document.documentElement.style.setProperty('--primary-hover', theme.primaryHover);
+        document.documentElement.style.setProperty('--primary-rgb', theme.rgb);
+        document.documentElement.style.setProperty('--primary-light-bg', theme.lightBg);
+        localStorage.setItem('accent-theme', themeName);
+
+        // Update visual active swatches rings
+        document.querySelectorAll('.theme-swatch').forEach(btn => {
+          if (btn.getAttribute('data-theme') === themeName) {
+            btn.classList.add('ring-2', 'ring-offset-2', 'ring-slate-400', 'dark:ring-offset-slate-900', 'scale-110');
+          } else {
+            btn.classList.remove('ring-2', 'ring-offset-2', 'ring-slate-400', 'dark:ring-offset-slate-900', 'scale-110');
+          }
+        });
+      };
+
+      // Load active theme
+      const activeAccent = localStorage.getItem('accent-theme') || 'emerald';
+      window.setAccentTheme(activeAccent);
+
+      // --- DYNAMIC SIDEBAR CATEGORIES COUNTING SYSTEM ---
+      document.querySelectorAll('.sidebar-category').forEach(cat => {
+        const listItems = cat.querySelectorAll('.sidebar-link-item');
+        const linkCount = listItems.length;
+        const countBadge = cat.querySelector('button span span');
+        if (countBadge) {
+          countBadge.textContent = linkCount;
+        }
+      });
     });
   </script>
 </body>

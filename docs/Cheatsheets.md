@@ -5,7 +5,7 @@ title: "Cheatsheets"
 
 # Cheatsheets
 
-Welcome to the unified developer cheatsheets directory. Access over 76 detailed cheatsheets covering programming languages, frameworks, developer tools, database systems, platforms, and devops methodologies.
+Welcome to the unified developer cheatsheets directory. Access over 79 detailed cheatsheets covering programming languages, frameworks, developer tools, database systems, platforms, and devops methodologies.
 
 ---
 
@@ -28,6 +28,7 @@ Welcome to the unified developer cheatsheets directory. Access over 76 detailed 
 * [Tailwind CSS](Cheatsheets/tailwind-css-cheatsheet.md)
 * [TypeScript](Cheatsheets/typescript-cheatsheet.md)
 * [TypeScript Advanced](Cheatsheets/typescript-advanced-cheatsheet.md) *(New)*
+* [Vite](Cheatsheets/vite-cheatsheet.md) *(New)*
 * [Vue.js](Cheatsheets/vue-cheatsheet.md) *(New)*
 
 ### 🐍 Backend & Programming Languages
@@ -54,6 +55,7 @@ Welcome to the unified developer cheatsheets directory. Access over 76 detailed 
 * [Pandas vs Polars](Cheatsheets/pandas-vs-polars.md)
 * [Polars](Cheatsheets/polars-cheatsheet.md)
 * [PowerBI](Cheatsheets/powerbi-cheatsheet.md)
+* [PyTorch](Cheatsheets/pytorch-cheatsheet.md) *(New)*
 * [SciPy](Cheatsheets/scipy-cheatsheet.md)
 * [Seaborn](Cheatsheets/seaborn-cheatsheet.md)
 * [Tableau](Cheatsheets/tableau-cheatsheet.md)
@@ -70,6 +72,7 @@ Welcome to the unified developer cheatsheets directory. Access over 76 detailed 
 * [Multi-Cloud Cost Optimization](Cheatsheets/multi-cloud-cost-optimization-cheatsheet.md)
 * [PySpark](Cheatsheets/pyspark-cheatsheet.md)
 * [SRE Monitoring](Cheatsheets/sre-monitoring-cheatsheet.md)
+* [Terraform](Cheatsheets/terraform-cheatsheet.md) *(New)*
 
 ### 🖥️ Shell & Operating Systems
 * [ADB (Android Debug Bridge)](Cheatsheets/adb-cheatsheet.md)

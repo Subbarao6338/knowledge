@@ -74,3 +74,127 @@ POST /users/_search
   }
 }
 ```
+
+---
+
+## Advanced Elasticsearch Query DSL
+
+Elasticsearch provides a rich Query Domain Specific Language (DSL) based on JSON.
+
+### Match Query (Full-Text) vs Term Query (Exact Match)
+* **Match:** Analyzes the search string and queries full-text fields (e.g., matching "Cloud Automation" in a bio).
+* **Term:** Looks for exact values in keyword fields (e.g., UUIDs, statuses, or exact usernames).
+
+### Compound Boolean Query (`bool`)
+```json
+POST /users/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        { "match": { "bio": "engineer" } }
+      ],
+      "should": [
+        { "match": { "bio": "python" } }
+      ],
+      "must_not": [
+        { "term": { "role.keyword": "Junior" } }
+      ],
+      "filter": [
+        { "term": { "status": "active" } },
+        { "range": { "created_at": { "gte": "now-30d/d" } } }
+      ]
+    }
+  }
+}
+```
+* **must:** Document must match. Affects search score.
+* **should:** Document doesn't have to match, but if it does, it increases the relevance score.
+* **must_not:** Document must NOT match.
+* **filter:** Exact matching. Does NOT affect search score and is fully cached for speed.
+
+---
+
+## Index Mapping Configuration
+
+Explicit mappings define how a document and its fields are stored and indexed under Lucene.
+
+```json
+PUT /users
+{
+  "settings": {
+    "number_of_shards": 2,
+    "number_of_replicas": 1
+  },
+  "mappings": {
+    "properties": {
+      "username": { "type": "keyword" },
+      "role": {
+        "type": "text",
+        "fields": {
+          "keyword": { "type": "keyword", "ignore_above": 256 }
+        }
+      },
+      "bio": { "type": "text", "analyzer": "standard" },
+      "status": { "type": "keyword" },
+      "created_at": { "type": "date" }
+    }
+  }
+}
+```
+
+---
+
+## Aggregations Reference
+
+Aggregations summarize your data as metrics, statistics, or buckets (groupings).
+
+```json
+POST /users/_search
+{
+  "size": 0, // We only want aggregation results, not raw search hits
+  "aggs": {
+    "roles_distribution": {
+      "terms": {
+        "field": "role.keyword",
+        "size": 10
+      },
+      "aggs": {
+        "average_experience": {
+          "avg": {
+            "field": "years_experience"
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+---
+
+## Bulk Indexing API
+
+Perform multiple indexing/deletion operations in a single network request for maximum performance.
+
+```json
+POST /_bulk
+{ "index" : { "_index" : "users", "_id" : "2" } }
+{ "username" : "jane_sre", "role" : "SRE", "bio": "Security analyst and cluster builder", "status": "active" }
+{ "delete" : { "_index" : "users", "_id" : "1" } }
+```
+
+---
+
+## Cluster Diagnostics
+
+```bash
+# Get overall cluster health status (Green, Yellow, Red)
+GET /_cluster/health
+
+# List all index allocations, statuses, document counts, and memory footprints
+GET /_cat/indices?v
+
+# List of all active cluster nodes
+GET /_cat/nodes?v
+```
