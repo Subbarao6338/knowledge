@@ -297,4 +297,56 @@ Next.js 15 introduces several major upgrades:
      return <div>ID: {id}</div>;
    }
    ```
+
+---
+
+## 10. Next.js 15 Advanced Architectural Patterns
+
+### Partial Prerendering (PPR)
+Partial Prerendering combines static layout compilation with dynamic page elements without loading overheads.
+
+```typescript
+// next.config.js
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  experimental: {
+    ppr: 'incremental', // Enable PPR incrementally on select routes
+  },
+};
+
+module.exports = nextConfig;
+```
+
+To enable PPR on a route, wrap dynamic child components inside standard React Suspense boundaries:
+```tsx
+// app/store/page.tsx
+import { Suspense } from 'react';
+import StaticBanner from '@/components/StaticBanner';
+import DynamicCartDetails from '@/components/DynamicCartDetails';
+
+export const experimental_ppr = true; // Enable PPR on this specific route
+
+export default function StorePage() {
+  return (
+    <main class="p-6">
+      <StaticBanner /> <!-- Pre-rendered statically at build time -->
+
+      <Suspense fallback={<div>Loading your cart details...</div>}>
+        <DynamicCartDetails /> <!-- Rendered dynamically on request -->
+      </Suspense>
+    </main>
+  );
+}
+```
+
+### Next.js 15 Caching Opt-Out Directives
+Since `fetch` is uncached by default, explicit opt-in is required to persist cache states.
+
+```typescript
+// 1. Force fetch cache globally/locally in Next 15:
+const cachedData = await fetch('https://api.example.com', { cache: 'force-cache' });
+
+// 2. Opt-out of client navigation caches:
+export const dynamic = 'force-dynamic';
+```
 ```

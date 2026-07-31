@@ -349,4 +349,46 @@ docker compose --profile tools up
 COMPOSE_PROFILES=tools docker compose up -d
 ```
 
+---
+
+## Docker Buildx & Multi-Platform Compilation
+
+Docker Buildx is a utility extending the standard docker build capabilities with support for builders running on multiple CPU architectures (e.g. `amd64` and `arm64`), caching exports, and parallel builds.
+
+```bash
+# 1. Create and switch to a custom multi-platform builder instance
+docker buildx create --name multiplatform-builder --use
+docker buildx bootstrap
+
+# 2. Compile image for multiple platforms simultaneously and push to registry
+docker buildx build --platform linux/amd64,linux/arm64 -t myrepo/myapp:latest --push .
+
+# 3. View build cache size and details
+docker buildx du
+docker buildx prune -f
+```
+
+---
+
+## Docker Compose Secrets Management
+
+Avoid placing environment variables containing sensitive database credentials or access keys inside `docker-compose.yml` or standard `.env` configuration files on disk. Instead, use Compose secrets to securely mount files into memory as read-only files.
+
+```yaml
+version: "3.9"
+
+services:
+  web:
+    image: node:20-alpine
+    secrets:
+      - db_api_password
+    environment:
+      # Secrets are mounted securely inside '/run/secrets/' directory inside container
+      - PASSWORD_FILE=/run/secrets/db_api_password
+
+secrets:
+  db_api_password:
+    file: ./secrets/db_password.txt
+```
+
 <!-- {% endraw %} -->

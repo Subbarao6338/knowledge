@@ -34,6 +34,99 @@ export function CounterComponent({ initialCount = 0 }) {
     </div>
   );
 }
+
+---
+
+## 8. React 19 New Features & Hooks
+
+React 19 introduces native support for Async Actions, automatic form management, direct `ref` props, and the `use` API for resources.
+
+### Server Actions & Form hooks (`useActionState`, `useFormStatus`)
+Async Actions allow you to handle pending states, errors, and sequential data mutations automatically.
+
+```jsx
+import { useActionState } from 'react';
+import { useFormStatus } from 'react-dom';
+
+// Server Action function
+async function updateProfileName(prevState, formData) {
+  const name = formData.get("name");
+  try {
+    await api.updateName(name);
+    return { success: true, message: "Profile updated successfully!" };
+  } catch (err) {
+    return { success: false, message: err.message };
+  }
+}
+
+// Sub-component to access form submitting status
+function SubmitButton() {
+  const { pending } = useFormStatus(); // Must be nested inside a <form>
+  return (
+    <button type="submit" disabled={pending}>
+      {pending ? "Saving profile name..." : "Save Name"}
+    </button>
+  );
+}
+
+export function ProfileForm() {
+  const [state, formAction, isPending] = useActionState(updateProfileName, {
+    success: null,
+    message: ""
+  });
+
+  return (
+    <form action={formAction} class="space-y-4">
+      <input type="text" name="name" placeholder="Enter new name" required />
+      <SubmitButton />
+      {state.message && (
+        <p style={{ color: state.success ? 'green' : 'red' }}>
+          {state.message}
+        </p>
+      )}
+    </form>
+  );
+}
+```
+
+### The `use` Hook (Consuming Promises and Context)
+In React 19, you can read promises or React context directly during the render phase.
+
+```jsx
+import { use, Suspense } from 'react';
+
+// Fetch resource promise (e.g. from api client)
+const weatherPromise = fetch("https://api.example.com/weather").then(res => res.json());
+
+function WeatherDisplay() {
+  // Directly resolves the Promise in-render!
+  const data = use(weatherPromise);
+  return <p>Current Temperature: {data.temp}°C</p>;
+}
+
+export function WeatherDashboard() {
+  return (
+    <Suspense fallback={<div>Loading dynamic weather promises...</div>}>
+      <WeatherDisplay />
+    </Suspense>
+  );
+}
+```
+
+### Native Element `ref` Prop
+In React 19, `forwardRef` is no longer required. You can pass `ref` directly as a standard component prop!
+
+```jsx
+// React 19: No forwardRef wrapper needed!
+export function ModernInput({ ref, label }) {
+  return (
+    <label>
+      {label}
+      <input ref={ref} class="border border-slate-300" />
+    </label>
+  );
+}
+```
 ```
 
 ## 2. Advanced State Management (useReducer)

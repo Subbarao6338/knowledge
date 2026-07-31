@@ -578,4 +578,23 @@ def process_event(event):
             return f"Special key pressed: {key}"
         case _:
             return "Unknown event"
+
+# 7. Modern Generic Type Syntax (PEP 695 - Python 3.12+)
+# Python 3.12 introduces a new, cleaner syntax for defining generic classes, generic functions, and custom type aliases.
+
+# New generic function syntax:
+def get_first_element[T](items: list[T]) -> T:
+    return items[0]
+
+# New generic class syntax:
+class Box[T]:
+    def __init__(self, content: T) -> None:
+        self.content = content
+    def get_content(self) -> T:
+        return self.content
+
+# New type alias syntax (replaces typing.TypeVar and typing.Union for aliasing):
+type Point3D = tuple[float, float, float]
+type IntOrString = int | str
+type NumericList[T: (int, float)] = list[T] # Generic alias with type constraints
 ```

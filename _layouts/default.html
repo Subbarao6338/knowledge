@@ -29,6 +29,45 @@
 
   <!-- Custom Theme overrides & Markdown-Prose Stylings -->
   <style>
+    /* Dynamic Dot Grid Ambient Background responsive to selected theme */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image:
+        radial-gradient(rgba(var(--primary-rgb), 0.04) 1.5px, transparent 1.5px),
+        radial-gradient(rgba(var(--primary-rgb), 0.025) 1px, transparent 1px);
+      background-size: 40px 40px, 20px 20px;
+      pointer-events: none;
+      z-index: -10;
+      transition: background 0.3s ease;
+    }
+
+    /* Glassmorphism Classes */
+    .glass-header {
+      background: rgba(255, 255, 255, 0.75) !important;
+      backdrop-filter: blur(12px) !important;
+      -webkit-backdrop-filter: blur(12px) !important;
+    }
+    .dark .glass-header {
+      background: rgba(15, 23, 42, 0.75) !important;
+      backdrop-filter: blur(12px) !important;
+      -webkit-backdrop-filter: blur(12px) !important;
+    }
+    .glass-sidebar {
+      background: rgba(255, 255, 255, 0.8) !important;
+      backdrop-filter: blur(16px) !important;
+      -webkit-backdrop-filter: blur(16px) !important;
+    }
+    .dark .glass-sidebar {
+      background: rgba(15, 23, 42, 0.8) !important;
+      backdrop-filter: blur(16px) !important;
+      -webkit-backdrop-filter: blur(16px) !important;
+    }
+
     /* Reading Progress Bar Style */
     #progress-container {
       position: fixed;
@@ -45,14 +84,14 @@
       width: 0%;
       background: linear-gradient(to right, var(--primary), var(--primary-hover));
       transition: width 0.1s ease-out;
-      box-shadow: 0 0 8px rgba(var(--primary-rgb), 0.6);
+      box-shadow: 0 0 10px rgba(var(--primary-rgb), 0.8);
     }
 
     /* Page load fade-in animations */
     @keyframes fadeInUp {
       from {
         opacity: 0;
-        transform: translateY(12px);
+        transform: translateY(16px);
       }
       to {
         opacity: 1;
@@ -60,7 +99,7 @@
       }
     }
     .animate-content-load {
-      animation: fadeInUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
     /* Custom Scrollbar Styles */
@@ -72,18 +111,18 @@
       background: transparent;
     }
     .dark ::-webkit-scrollbar-thumb {
-      background: #334155;
+      background: rgba(var(--primary-rgb), 0.15);
       border-radius: 4px;
     }
     ::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
+      background: rgba(var(--primary-rgb), 0.2);
       border-radius: 4px;
     }
     .dark ::-webkit-scrollbar-thumb:hover {
-      background: #475569;
+      background: rgba(var(--primary-rgb), 0.4);
     }
     ::-webkit-scrollbar-thumb:hover {
-      background: #94a3b8;
+      background: rgba(var(--primary-rgb), 0.5);
     }
 
     /* Style the Markdown Rendered Content beautifully */
@@ -198,16 +237,16 @@
       transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
     .markdown-body pre:hover {
-      border-color: rgba(16, 185, 129, 0.3);
-      box-shadow: 0 4px 20px -2px rgba(16, 185, 129, 0.05);
+      border-color: rgba(var(--primary-rgb), 0.4);
+      box-shadow: 0 10px 30px -10px rgba(var(--primary-rgb), 0.15);
     }
     .dark .markdown-body pre {
       background-color: #030712;
       border: 1px solid rgba(226, 232, 240, 0.04);
     }
     .dark .markdown-body pre:hover {
-      border-color: rgba(16, 185, 129, 0.4);
-      box-shadow: 0 4px 20px -2px rgba(16, 185, 129, 0.1);
+      border-color: rgba(var(--primary-rgb), 0.5);
+      box-shadow: 0 10px 30px -10px rgba(var(--primary-rgb), 0.25);
     }
     .markdown-body code {
       font-family: 'JetBrains Mono', monospace;
@@ -289,7 +328,7 @@
   </div>
 
   <!-- Header Section with Mobile Toggle and Dark Mode Switcher -->
-  <header class="sticky top-0 z-40 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors duration-200">
+  <header class="sticky top-0 z-40 glass-header border-b border-slate-200 dark:border-slate-800 transition-colors duration-200">
     <div class="max-w-[1600px] mx-auto px-4 lg:px-8 h-16 flex items-center justify-between">
 
       <!-- Logo and Site Name -->
@@ -336,13 +375,13 @@
   <div class="flex-grow max-w-[1600px] w-full mx-auto flex">
 
     <!-- Sticky Left Sidebar (Navigation Drawer) -->
-    <aside id="sidebar" class="fixed lg:sticky top-16 left-0 bottom-0 z-30 w-[280px] bg-white dark:bg-slate-950 border-r border-slate-200 dark:border-slate-800 lg:h-[calc(100vh-4rem)] flex flex-col transition-transform duration-300 transform -translate-x-full lg:translate-x-0 overflow-y-auto">
+    <aside id="sidebar" class="fixed lg:sticky top-16 left-0 bottom-0 z-30 w-[280px] glass-sidebar border-r border-slate-200 dark:border-slate-800 lg:h-[calc(100vh-4rem)] flex flex-col transition-transform duration-300 transform -translate-x-full lg:translate-x-0 overflow-y-auto">
 
       <!-- Live Search Box inside Sidebar with Keyboard Shortcut Pill -->
       <div class="p-4 border-b border-slate-100 dark:border-slate-800 sticky top-0 bg-white dark:bg-slate-950 z-10">
         <div class="relative">
           <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-400 dark:text-slate-500 text-sm"></i>
-          <input type="text" id="sidebar-search" placeholder="Search 77+ cheatsheets..." class="w-full pl-9 pr-14 py-2 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 focus-accent transition-all">
+          <input type="text" id="sidebar-search" placeholder="Search developer cheatsheets..." class="w-full pl-9 pr-14 py-2 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 focus-accent transition-all">
           <div class="absolute right-3 top-2 flex items-center gap-0.5 pointer-events-none text-[10px] font-bold text-slate-400 dark:text-slate-500 bg-slate-150 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-1.5 py-0.5 rounded shadow-sm">
             <span>/</span>
           </div>
@@ -389,13 +428,18 @@
         <!-- Category 1: Frontend & Web -->
         <div class="sidebar-category">
           <button class="w-full flex items-center justify-between px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors focus:outline-none" onclick="toggleCategory('cat-frontend')">
-            <span class="flex items-center gap-1.5">Frontend & Web <span class="bg-slate-100 dark:bg-slate-800 text-slate-500 text-[9px] px-1.5 py-0.2 rounded-full font-semibold">17</span></span>
+            <span class="flex items-center gap-1.5">Frontend & Web <span class="bg-slate-100 dark:bg-slate-800 text-slate-500 text-[9px] px-1.5 py-0.2 rounded-full font-semibold">18</span></span>
             <svg id="arrow-cat-frontend" class="w-3 h-3 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
           </button>
           <ul id="cat-frontend" class="hidden mt-1 space-y-0.5 text-xs text-slate-600 dark:text-slate-400 font-medium pl-1.5">
             <li class="sidebar-link-item" data-search-term="angular standalone components directives rxjs signals">
               <a href="{{ '/docs/Cheatsheets/angular-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
                 <span class="w-1.5 h-1.5 rounded-full bg-red-600"></span> Angular
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="astro frameworks static site islands layout templates ssr web content">
+              <a href="{{ '/docs/Cheatsheets/astro-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span> Astro
               </a>
             </li>
             <li class="sidebar-link-item" data-search-term="bootstrap style web css layout responsive forms grid">
@@ -489,13 +533,23 @@
         <!-- Category 2: Backend & Languages -->
         <div class="sidebar-category">
           <button class="w-full flex items-center justify-between px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors focus:outline-none" onclick="toggleCategory('cat-backend')">
-            <span class="flex items-center gap-1.5">Backend & Languages <span class="bg-slate-100 dark:bg-slate-800 text-slate-500 text-[9px] px-1.5 py-0.2 rounded-full font-semibold">13</span></span>
+            <span class="flex items-center gap-1.5">Backend & Languages <span class="bg-slate-100 dark:bg-slate-800 text-slate-500 text-[9px] px-1.5 py-0.2 rounded-full font-semibold">16</span></span>
             <svg id="arrow-cat-backend" class="w-3 h-3 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
           </button>
           <ul id="cat-backend" class="hidden mt-1 space-y-0.5 text-xs text-slate-600 dark:text-slate-400 font-medium pl-1.5">
+            <li class="sidebar-link-item" data-search-term="bun package manager test-runner runtime bundler sqlite shell execution fast">
+              <a href="{{ '/docs/Cheatsheets/bun-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-yellow-500"></span> Bun
+              </a>
+            </li>
             <li class="sidebar-link-item" data-search-term="cpp c++ variables memory smart pointers templates stl templates modern cpp code">
               <a href="{{ '/docs/Cheatsheets/cpp-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
                 <span class="w-1.5 h-1.5 rounded-full bg-blue-700"></span> C++
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="deno security sandbox permissions typescript modules jsr kv databases web standard">
+              <a href="{{ '/docs/Cheatsheets/deno-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span> Deno
               </a>
             </li>
             <li class="sidebar-link-item" data-search-term="django python mvt ORM forms admin routing templates auth">
@@ -521,6 +575,11 @@
             <li class="sidebar-link-item" data-search-term="java oop streams collections hashmap arraylist generics concurrency multithreading threads">
               <a href="{{ '/docs/Cheatsheets/java-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
                 <span class="w-1.5 h-1.5 rounded-full bg-orange-600"></span> Java
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="langchain large language models prompts chains memory vector retrieval rag agents ai">
+              <a href="{{ '/docs/Cheatsheets/langchain-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-teal-600"></span> LangChain
               </a>
             </li>
             <li class="sidebar-link-item" data-search-term="nestjs decorators modules controllers providers injection pipes guards validation">
@@ -819,10 +878,15 @@
         <!-- Category 8: Utilities & Configs -->
         <div class="sidebar-category">
           <button class="w-full flex items-center justify-between px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors focus:outline-none" onclick="toggleCategory('cat-utilities')">
-            <span class="flex items-center gap-1.5">Utilities & Configs <span class="bg-slate-100 dark:bg-slate-800 text-slate-500 text-[9px] px-1.5 py-0.2 rounded-full font-semibold">19</span></span>
+            <span class="flex items-center gap-1.5">Utilities & Configs <span class="bg-slate-100 dark:bg-slate-800 text-slate-500 text-[9px] px-1.5 py-0.2 rounded-full font-semibold">20</span></span>
             <svg id="arrow-cat-utilities" class="w-3 h-3 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
           </button>
           <ul id="cat-utilities" class="hidden mt-1 space-y-0.5 text-xs text-slate-600 dark:text-slate-400 font-medium pl-1.5">
+            <li class="sidebar-link-item" data-search-term="chrome devtools elements console api styles network mock profiling storage memory shortcuts">
+              <a href="{{ '/docs/Cheatsheets/chrome-devtools-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Chrome DevTools
+              </a>
+            </li>
             <li class="sidebar-link-item" data-search-term="datalab output proposal document reference specifications format parsed contents">
               <a href="{{ '/docs/Cheatsheets/datalab-output-Proposal_N0008122938.pdf.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
                 <span class="w-1.5 h-1.5 rounded-full bg-gray-400"></span> Datalab Output Proposal
