@@ -513,3 +513,48 @@ git fsck --full --strict
 # Run garbage collection, compressing file revisions and removing unreachable objects
 git gc --prune=now --aggressive
 ```
+
+---
+
+## 26. Git Plumbing vs Porcelain Commands
+
+Git has two main categories of commands: **Porcelain** (user-friendly, high-level commands like `git checkout`, `git commit`, `git status`) and **Plumbing** (low-level utility commands that directly interact with objects and directories under the hood).
+
+```bash
+# Write contents to Git database, returning its SHA-1 hash (Plumbing)
+echo "content description" | git hash-object -w --stdin
+
+# Read raw details or content of any hash object (Plumbing)
+git cat-file -p <sha_hash>             # -p pretty-prints content
+git cat-file -t <sha_hash>             # -t returns object type (blob, tree, commit)
+
+# Write index file to matching tree structure (Plumbing)
+git write-tree
+
+# Directly update branch references to a specific commit SHA (Plumbing)
+git update-ref refs/heads/main <sha_hash>
+```
+
+---
+
+## 27. Git Attributes & Custom Merge Drivers
+
+Using `.gitattributes`, you can customize how Git handles specific files or file extensions, including configuring specialized merge drivers.
+
+### Define custom rules in `.gitattributes`:
+```
+# Force text files to use LF line endings on commit
+*.sh text eol=lf
+
+# Force specific binary files to avoid diff rendering
+*.pdf -diff
+
+# Assign a custom merge driver for database files
+db.sqlite merge=sqlite-merge-driver
+```
+
+### Configure the custom merge driver inside `.git/config`:
+```bash
+git config merge.sqlite-merge-driver.name "A custom merge driver for SQLite databases"
+git config merge.sqlite-merge-driver.driver "sqlite-merge-utility %O %A %B %L"
+```

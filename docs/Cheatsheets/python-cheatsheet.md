@@ -597,4 +597,48 @@ class Box[T]:
 type Point3D = tuple[float, float, float]
 type IntOrString = int | str
 type NumericList[T: (int, float)] = list[T] # Generic alias with type constraints
+
+# 8. Advanced Metaprogramming & Class Construction
+# Custom Metaclasses control class creation at runtime by overriding __new__ or __init__.
+class CustomMeta(type):
+    def __new__(cls, name, bases, attrs):
+        # Intercept and modify attributes during class definition
+        attrs["custom_attribute"] = "Added by CustomMeta"
+        return super().__new__(cls, name, bases, attrs)
+
+class MyMetaClassedClass(metaclass=CustomMeta):
+    pass
+
+# __init_subclass__ allows customizing subclass creation without a full metaclass
+class ParentClass:
+    def __init_subclass__(cls, **kwargs):
+        super().__init_subclass__(**kwargs)
+        cls.is_customized = True
+
+class ChildClass(ParentClass):
+    pass
+
+# 9. Descriptor Protocol
+# Descriptors manage attribute access (__get__, __set__, __delete__) in a reusable way.
+class NonNegative:
+    def __init__(self, name):
+        self.name = name
+
+    def __get__(self, instance, owner):
+        if instance is None:
+            return self
+        return instance.__dict__.get(self.name, 0)
+
+    def __set__(self, instance, value):
+        if value < 0:
+            raise ValueError(f"{self.name} cannot be negative")
+        instance.__dict__[self.name] = value
+
+class Product:
+    price = NonNegative("price")
+    quantity = NonNegative("quantity")
+
+    def __init__(self, price, quantity):
+        self.price = price
+        self.quantity = quantity
 ```
