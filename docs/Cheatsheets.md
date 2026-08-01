@@ -45,8 +45,10 @@ Welcome to the unified developer cheatsheets directory. Access over 85 detailed 
 * [Java](Cheatsheets/java-cheatsheet.md) *(New)*
 * [Kotlin & Android](Cheatsheets/kotlin-cheatsheet.md) *(New)*
 * [LangChain](Cheatsheets/langchain-cheatsheet.md) *(New)*
+* [LangGraph](Cheatsheets/langgraph-cheatsheet.md) *(New)*
 * [NestJS](Cheatsheets/nest-js-cheatsheet.md) *(New)*
 * [Node.js](Cheatsheets/nodejs-cheatsheet.md)
+* [Ollama Local Models](Cheatsheets/ollama-cheatsheet.md) *(New)*
 * [PHP & Laravel](Cheatsheets/php-cheatsheet.md) *(New)*
 * [Pydantic v2](Cheatsheets/pydantic-cheatsheet.md) *(New)*
 * [Pytest](Cheatsheets/pytest-cheatsheet.md) *(New)*
@@ -104,6 +106,7 @@ Welcome to the unified developer cheatsheets directory. Access over 85 detailed 
 * [Database Comparison](Cheatsheets/database-comparison-cheatsheet.md)
 * [MongoDB & Mongoose](Cheatsheets/mongodb-cheatsheet.md) *(New)*
 * [NoSQL & Elasticsearch](Cheatsheets/nosql-elasticsearch-cheatsheet.md)
+* [Qdrant Vector DB](Cheatsheets/qdrant-cheatsheet.md) *(New)*
 * [Redis](Cheatsheets/redis-cheatsheet.md) *(New)*
 * [SQL](Cheatsheets/sql-cheatsheet.md)
 
