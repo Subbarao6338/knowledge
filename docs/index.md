@@ -19,7 +19,7 @@ This section is organized in a pixel-perfect layout mimicking Notion's structura
     <div>
       <h2 class="text-xl md:text-2xl font-bold mb-2 !border-none !m-0 !p-0 text-white">Interactive Developer Ecosystem & Backup</h2>
       <p class="text-emerald-50 text-sm md:text-base leading-relaxed m-0">
-        Explore a fully-relational Markdown vault synced directly with Notion. Search across over 76+ cheatsheets, inspect system specifications, and access contact records or work logs natively.
+        Explore a fully-relational Markdown vault synced directly with Notion. Search across over 85+ cheatsheets, inspect system specifications, and access contact records or work logs natively.
       </p>
     </div>
   </div>
@@ -37,13 +37,14 @@ This section is organized in a pixel-perfect layout mimicking Notion's structura
       <h3 class="text-base font-bold text-slate-900 dark:text-slate-50 m-0 p-0">Developer Cheatsheets</h3>
     </div>
     <p class="text-sm text-slate-500 dark:text-slate-400 mb-4 leading-relaxed">
-      Access over 76+ highly detailed developer reference guides covering languages, tools, frameworks, and devops utilities.
+      Access over 85+ highly detailed developer reference guides covering languages, tools, frameworks, and devops utilities.
     </p>
     <div class="flex flex-wrap gap-1.5">
       <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-blue-50 text-blue-600 dark:bg-blue-950/40 dark:text-blue-400">Python</span>
       <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-orange-50 text-orange-600 dark:bg-orange-950/40 dark:text-orange-400">Git</span>
       <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-blue-50 text-blue-500 dark:bg-blue-950/40 dark:text-blue-400">Docker</span>
-      <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-indigo-50 text-indigo-600 dark:bg-indigo-950/40 dark:text-indigo-400">SQL</span>
+      <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-pink-50 text-pink-600 dark:bg-pink-950/40 dark:text-pink-400">Swift & SwiftUI</span>
+      <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-teal-50 text-teal-600 dark:bg-teal-950/40 dark:text-teal-400">REST API Design</span>
     </div>
   </a>
 

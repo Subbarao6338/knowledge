@@ -5,7 +5,7 @@ title: "Cheatsheets"
 
 # Cheatsheets
 
-Welcome to the unified developer cheatsheets directory. Access over 79 detailed cheatsheets covering programming languages, frameworks, developer tools, database systems, platforms, and devops methodologies.
+Welcome to the unified developer cheatsheets directory. Access over 85 detailed cheatsheets covering programming languages, frameworks, developer tools, database systems, platforms, and devops methodologies.
 
 ---
 
@@ -26,6 +26,7 @@ Welcome to the unified developer cheatsheets directory. Access over 79 detailed 
 * [ReactJS](Cheatsheets/reactjs-cheatsheet.md)
 * [SCSS](Cheatsheets/scss-cheatsheet.md)
 * [Svelte & SvelteKit](Cheatsheets/svelte-cheatsheet.md) *(New)*
+* [Swift & SwiftUI](Cheatsheets/swift-cheatsheet.md) *(New)*
 * [Tailwind CSS](Cheatsheets/tailwind-css-cheatsheet.md)
 * [TypeScript](Cheatsheets/typescript-cheatsheet.md)
 * [TypeScript Advanced](Cheatsheets/typescript-advanced-cheatsheet.md) *(New)*
@@ -35,20 +36,25 @@ Welcome to the unified developer cheatsheets directory. Access over 79 detailed 
 ### 🐍 Backend & Programming Languages
 * [Bun](Cheatsheets/bun-cheatsheet.md) *(New)*
 * [C++](Cheatsheets/cpp-cheatsheet.md) *(New)*
+* [C# & .NET](Cheatsheets/csharp-cheatsheet.md) *(New)*
 * [Deno](Cheatsheets/deno-cheatsheet.md) *(New)*
 * [Django](Cheatsheets/django-cheatsheet.md)
 * [FastAPI](Cheatsheets/fastapi-cheatsheet.md) *(New)*
 * [Flask](Cheatsheets/flask-cheatsheet.md) *(New)*
 * [Go](Cheatsheets/go-cheatsheet.md)
 * [Java](Cheatsheets/java-cheatsheet.md) *(New)*
+* [Kotlin & Android](Cheatsheets/kotlin-cheatsheet.md) *(New)*
 * [LangChain](Cheatsheets/langchain-cheatsheet.md) *(New)*
 * [NestJS](Cheatsheets/nest-js-cheatsheet.md) *(New)*
 * [Node.js](Cheatsheets/nodejs-cheatsheet.md)
+* [PHP & Laravel](Cheatsheets/php-cheatsheet.md) *(New)*
 * [Pydantic v2](Cheatsheets/pydantic-cheatsheet.md) *(New)*
 * [Pytest](Cheatsheets/pytest-cheatsheet.md) *(New)*
 * [Python Reference](Cheatsheets/python-cheatsheet.md)
 * [Python Commands](Cheatsheets/python-commands-cheatsheet.md)
+* [REST API Design](Cheatsheets/rest-api-cheatsheet.md) *(New)*
 * [Rust](Cheatsheets/rust-cheatsheet.md) *(New)*
+* [Spring Boot](Cheatsheets/spring-boot-cheatsheet.md) *(New)*
 
 ### 📊 Data Science, Analysis & Visualization
 * [Excel](Cheatsheets/excel-cheatsheet.md)
