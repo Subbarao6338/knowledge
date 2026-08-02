@@ -19,9 +19,60 @@ This section is organized in a pixel-perfect layout mimicking Notion's structura
     <div>
       <h2 class="text-xl md:text-2xl font-bold mb-2 !border-none !m-0 !p-0 text-white">Interactive Developer Ecosystem & Backup</h2>
       <p class="text-emerald-50 text-sm md:text-base leading-relaxed m-0">
-        Explore a fully-relational Markdown vault synced directly with Notion. Search across over 85+ cheatsheets, inspect system specifications, and access contact records or work logs natively.
+        Explore a fully-relational Markdown vault synced directly with Notion. Search across over 108+ cheatsheets, inspect system specifications, and access contact records or work logs natively.
       </p>
     </div>
+  </div>
+</div>
+
+<!-- Premium Interactive Quick Stats Grid -->
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 my-8 select-none">
+  <!-- Stat Card 1 -->
+  <div class="p-5 bg-white dark:bg-slate-950 border border-slate-200/80 dark:border-slate-800 rounded-xl hover:border-emerald-500/50 hover:shadow-md transition-all group">
+    <div class="flex items-center gap-3 mb-2">
+      <div class="h-8 w-8 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 text-emerald-500 flex items-center justify-center text-sm font-bold group-hover:scale-110 transition-transform">
+        <i class="fa-solid fa-file-code"></i>
+      </div>
+      <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Cheatsheets</div>
+    </div>
+    <div class="text-2xl font-extrabold text-slate-900 dark:text-slate-50">108</div>
+    <div class="text-[10px] text-slate-400 mt-1">Across 8 directory categories</div>
+  </div>
+
+  <!-- Stat Card 2 -->
+  <div class="p-5 bg-white dark:bg-slate-950 border border-slate-200/80 dark:border-slate-800 rounded-xl hover:border-emerald-500/50 hover:shadow-md transition-all group">
+    <div class="flex items-center gap-3 mb-2">
+      <div class="h-8 w-8 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 text-emerald-500 flex items-center justify-center text-sm font-bold group-hover:scale-110 transition-transform">
+        <i class="fa-solid fa-database"></i>
+      </div>
+      <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Databases</div>
+    </div>
+    <div class="text-2xl font-extrabold text-slate-900 dark:text-slate-50">3</div>
+    <div class="text-[10px] text-slate-400 mt-1">Relational metadata schemas</div>
+  </div>
+
+  <!-- Stat Card 3 -->
+  <div class="p-5 bg-white dark:bg-slate-950 border border-slate-200/80 dark:border-slate-800 rounded-xl hover:border-emerald-500/50 hover:shadow-md transition-all group">
+    <div class="flex items-center gap-3 mb-2">
+      <div class="h-8 w-8 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 text-emerald-500 flex items-center justify-center text-sm font-bold group-hover:scale-110 transition-transform">
+        <i class="fa-solid fa-gears"></i>
+      </div>
+      <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Utilities</div>
+    </div>
+    <div class="text-2xl font-extrabold text-slate-900 dark:text-slate-50">4</div>
+    <div class="text-[10px] text-slate-400 mt-1">Workspace automation scripts</div>
+  </div>
+
+  <!-- Stat Card 4 -->
+  <div class="p-5 bg-white dark:bg-slate-950 border border-slate-200/80 dark:border-slate-800 rounded-xl hover:border-emerald-500/50 hover:shadow-md transition-all group">
+    <div class="flex items-center gap-3 mb-2">
+      <div class="h-8 w-8 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 text-emerald-500 flex items-center justify-center text-sm font-bold group-hover:scale-110 transition-transform">
+        <i class="fa-solid fa-bolt"></i>
+      </div>
+      <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Interactivity</div>
+    </div>
+    <div class="text-2xl font-extrabold text-slate-900 dark:text-slate-50">Active</div>
+    <div class="text-[10px] text-slate-400 mt-1">Live search & bookmarks sync</div>
   </div>
 </div>
 
@@ -37,7 +88,7 @@ This section is organized in a pixel-perfect layout mimicking Notion's structura
       <h3 class="text-base font-bold text-slate-900 dark:text-slate-50 m-0 p-0">Developer Cheatsheets</h3>
     </div>
     <p class="text-sm text-slate-500 dark:text-slate-400 mb-4 leading-relaxed">
-      Access over 85+ highly detailed developer reference guides covering languages, tools, frameworks, and devops utilities.
+      Access over 108+ highly detailed developer reference guides covering languages, tools, frameworks, and devops utilities.
     </p>
     <div class="flex flex-wrap gap-1.5">
       <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-blue-50 text-blue-600 dark:bg-blue-950/40 dark:text-blue-400">Python</span>

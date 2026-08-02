@@ -444,6 +444,16 @@
           </ul>
         </div>
 
+        <!-- Starred Favorites Category (Dynamically Populated) -->
+        <div id="starred-favorites-container" class="hidden">
+          <h4 class="text-[10px] font-bold uppercase tracking-wider text-amber-500 dark:text-amber-400 px-3 mb-2 flex items-center gap-1.5 select-none">
+            <i class="fa-solid fa-star"></i> Starred Favorites
+          </h4>
+          <ul id="starred-favorites-list" class="space-y-0.5 text-xs font-medium pl-1.5 mb-4">
+            <!-- Populated dynamically via JS -->
+          </ul>
+        </div>
+
         <!-- Collapsible Cheatsheet Directory Accordions -->
 
         <!-- Category 1: Frontend & Web -->
@@ -591,6 +601,11 @@
             <li class="sidebar-link-item" data-search-term="fastapi python async pydantic openapi validation endpoint routes API">
               <a href="{{ '/docs/Cheatsheets/fastapi-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
                 <span class="w-1.5 h-1.5 rounded-full bg-teal-500"></span> FastAPI
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="fastapi python async advanced middleware dependency inject lifespan">
+              <a href="{{ '/docs/Cheatsheets/fastapi-advanced-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-teal-600"></span> FastAPI Advanced
               </a>
             </li>
             <li class="sidebar-link-item" data-search-term="flask python blueprints sql-alchemy requests context globals g session routing API">
@@ -778,6 +793,11 @@
                 <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> Docker Containers
               </a>
             </li>
+            <li class="sidebar-link-item" data-search-term="docker compose services yaml multi container orchestration scale volumes config">
+              <a href="{{ '/docs/Cheatsheets/docker-compose-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span> Docker Compose
+              </a>
+            </li>
             <li class="sidebar-link-item" data-search-term="etl elt pipeline extraction load transform warehousing databases datasets">
               <a href="{{ '/docs/Cheatsheets/etl-elt-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
                 <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span> ETL & ELT
@@ -936,6 +956,11 @@
             <li class="sidebar-link-item" data-search-term="sql queries database tables joins transactions cte windows indexes triggers select select-statements">
               <a href="{{ '/docs/Cheatsheets/sql-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
                 <span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span> SQL Reference
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="sql window functions partitions analytical aggregation ranking lead lag range frame running total">
+              <a href="{{ '/docs/Cheatsheets/sql-window-functions-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-700"></span> SQL Window Functions
               </a>
             </li>
           </ul>
@@ -1816,6 +1841,110 @@
       // Load active theme
       const activeAccent = localStorage.getItem('accent-theme') || 'emerald';
       window.setAccentTheme(activeAccent);
+
+      // --- PART IX: Bookmarking / Starred Favorites System ---
+      const starredContainer = document.getElementById('starred-favorites-container');
+      const starredList = document.getElementById('starred-favorites-list');
+
+      function getStarred() {
+        try {
+          return JSON.parse(localStorage.getItem('starred-cheatsheets')) || [];
+        } catch (e) {
+          return [];
+        }
+      }
+
+      function saveStarred(starred) {
+        localStorage.setItem('starred-cheatsheets', JSON.stringify(starred));
+      }
+
+      function updateStarredSidebar() {
+        if (!starredContainer || !starredList) return;
+        const starred = getStarred();
+
+        if (starred.length === 0) {
+          starredContainer.classList.add('hidden');
+          starredList.innerHTML = '';
+        } else {
+          starredContainer.classList.remove('hidden');
+          starredList.innerHTML = '';
+          starred.forEach(item => {
+            const li = document.createElement('li');
+            li.className = 'group flex items-center justify-between py-1 px-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 transition-all';
+
+            const link = document.createElement('a');
+            link.href = item.url;
+            link.className = 'flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-accent font-medium truncate w-[180px]';
+            link.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span> ${item.title}`;
+
+            const removeBtn = document.createElement('button');
+            removeBtn.className = 'text-slate-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity focus:outline-none';
+            removeBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+            removeBtn.title = "Remove favorite";
+            removeBtn.addEventListener('click', (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              toggleStar(item.title, item.url);
+            });
+
+            li.appendChild(link);
+            li.appendChild(removeBtn);
+            starredList.appendChild(li);
+          });
+        }
+      }
+
+      function toggleStar(title, url) {
+        let starred = getStarred();
+        const index = starred.findIndex(item => item.url === url);
+        if (index > -1) {
+          starred.splice(index, 1);
+        } else {
+          starred.push({ title, url });
+        }
+        saveStarred(starred);
+        updateStarredSidebar();
+        updateStarButtonState();
+      }
+
+      function updateStarButtonState() {
+        const starBtn = document.getElementById('page-favorite-toggle');
+        if (!starBtn) return;
+        const starred = getStarred();
+        const isStarred = starred.some(item => item.url === window.location.pathname || window.location.pathname.endsWith(item.url));
+        if (isStarred) {
+          starBtn.innerHTML = '<i class="fa-solid fa-star text-amber-400"></i>';
+          starBtn.title = "Remove from bookmarks";
+        } else {
+          starBtn.innerHTML = '<i class="fa-regular fa-star"></i>';
+          starBtn.title = "Bookmark this cheatsheet";
+        }
+      }
+
+      // Prepend star toggle button to main H1 heading dynamically
+      const mainH1 = document.querySelector('.markdown-body h1');
+      if (mainH1 && (window.location.pathname.includes('/Cheatsheets/') || window.location.pathname.includes('cheatsheet'))) {
+        mainH1.style.position = 'relative';
+        mainH1.style.paddingRight = '2.5rem';
+
+        const starBtn = document.createElement('button');
+        starBtn.id = 'page-favorite-toggle';
+        starBtn.className = 'absolute right-0 top-1/2 -translate-y-1/2 text-slate-300 hover:text-amber-400 dark:text-slate-600 dark:hover:text-amber-400 transition-colors text-xl focus:outline-none';
+
+        mainH1.appendChild(starBtn);
+
+        const pageTitle = mainH1.innerText.replace('#', '').trim();
+        const pageUrl = window.location.pathname;
+
+        starBtn.addEventListener('click', () => {
+          toggleStar(pageTitle, pageUrl);
+        });
+
+        updateStarButtonState();
+      }
+
+      // Initial sidebar sync
+      updateStarredSidebar();
 
       // --- DYNAMIC SIDEBAR CATEGORIES COUNTING SYSTEM ---
       document.querySelectorAll('.sidebar-category').forEach(cat => {

@@ -5,7 +5,7 @@ title: "Cheatsheets"
 
 # Cheatsheets
 
-Welcome to the unified developer cheatsheets directory. Access over 85 detailed cheatsheets covering programming languages, frameworks, developer tools, database systems, platforms, and devops methodologies.
+Welcome to the unified developer cheatsheets directory. Access over 108 detailed cheatsheets covering programming languages, frameworks, developer tools, database systems, platforms, and devops methodologies.
 
 ---
 
@@ -40,6 +40,7 @@ Welcome to the unified developer cheatsheets directory. Access over 85 detailed 
 * [Deno](Cheatsheets/deno-cheatsheet.md) *(New)*
 * [Django](Cheatsheets/django-cheatsheet.md)
 * [FastAPI](Cheatsheets/fastapi-cheatsheet.md) *(New)*
+* [FastAPI Advanced](Cheatsheets/fastapi-advanced-cheatsheet.md) *(New)*
 * [Flask](Cheatsheets/flask-cheatsheet.md) *(New)*
 * [Go](Cheatsheets/go-cheatsheet.md)
 * [Java](Cheatsheets/java-cheatsheet.md) *(New)*
@@ -77,6 +78,7 @@ Welcome to the unified developer cheatsheets directory. Access over 85 detailed 
 * [Databricks](Cheatsheets/databricks-cheatsheet.md)
 * [Data Engineering](Cheatsheets/data-engineering-cheatsheet.md)
 * [Docker](Cheatsheets/docker-cheatsheet.md)
+* [Docker Compose](Cheatsheets/docker-compose-cheatsheet.md) *(New)*
 * [ETL & ELT](Cheatsheets/etl-elt-cheatsheet.md)
 * [FinOps & DevOps](Cheatsheets/finops-devops-cheatsheet.md)
 * [GitHub Actions](Cheatsheets/github-actions-cheatsheet.md) *(New)*
@@ -109,6 +111,7 @@ Welcome to the unified developer cheatsheets directory. Access over 85 detailed 
 * [Qdrant Vector DB](Cheatsheets/qdrant-cheatsheet.md) *(New)*
 * [Redis](Cheatsheets/redis-cheatsheet.md) *(New)*
 * [SQL](Cheatsheets/sql-cheatsheet.md)
+* [SQL Window Functions](Cheatsheets/sql-window-functions-cheatsheet.md) *(New)*
 
 ### 🛠️ Developer Utilities, Formats & Configs
 * [Chrome DevTools](Cheatsheets/chrome-devtools-cheatsheet.md) *(New)*
