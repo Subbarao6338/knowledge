@@ -281,6 +281,20 @@
     .dark .search-match {
       background-color: rgba(234, 179, 8, 0.3);
     }
+    /* Accent Theme Palette Swatches visual enhancement */
+    .theme-swatch {
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    }
+    .theme-swatch:hover {
+      transform: scale(1.25) translateY(-1px);
+      box-shadow: 0 0 10px rgba(var(--primary-rgb), 0.6);
+    }
+    .theme-swatch.active-swatch {
+      box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--primary) !important;
+    }
+    .dark .theme-swatch.active-swatch {
+      box-shadow: 0 0 0 2px #0f172a, 0 0 0 4px var(--primary) !important;
+    }
     /* Dynamic Accent Themes Support */
     :root {
       --primary: #10b981;
@@ -360,8 +374,13 @@
           <button data-theme="obsidian" onclick="setAccentTheme('obsidian')" class="theme-swatch w-3.5 h-3.5 rounded-full bg-sky-500 border border-white dark:border-slate-900 focus:outline-none transition-transform hover:scale-110" title="Obsidian Accent"></button>
         </div>
 
+        <!-- Help & Shortcuts Modal Button -->
+        <button id="help-toggle" class="h-9 w-9 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors mr-1" title="Keyboard Shortcuts & Help (Press '?')">
+          <i class="fa-solid fa-circle-question"></i>
+        </button>
+
         <!-- Dark Mode Toggle Button -->
-        <button id="theme-toggle" class="h-9 w-9 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors" title="Toggle Light/Dark Theme">
+        <button id="theme-toggle" class="h-9 w-9 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors mr-1" title="Toggle Light/Dark Theme">
           <i id="theme-icon" class="fa-solid fa-moon"></i>
         </button>
 
@@ -599,6 +618,11 @@
                 <span class="w-1.5 h-1.5 rounded-full bg-teal-600"></span> LangChain
               </a>
             </li>
+            <li class="sidebar-link-item" data-search-term="langgraph multi-agent workflow stategraph nodes edges state cyclic charts">
+              <a href="{{ '/docs/Cheatsheets/langgraph-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-teal-500"></span> LangGraph
+              </a>
+            </li>
             <li class="sidebar-link-item" data-search-term="nestjs decorators modules controllers providers injection pipes guards validation">
               <a href="{{ '/docs/Cheatsheets/nest-js-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
                 <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span> NestJS
@@ -612,6 +636,11 @@
             <li class="sidebar-link-item" data-search-term="nodejs node events stream buffers cluster threads express http modules">
               <a href="{{ '/docs/Cheatsheets/nodejs-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Node.js
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="ollama local models running chat inference cli api modelfile custom">
+              <a href="{{ '/docs/Cheatsheets/ollama-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-yellow-500"></span> Ollama Local
               </a>
             </li>
             <li class="sidebar-link-item" data-search-term="pydantic python data validation models field types custom validation v2">
@@ -894,6 +923,11 @@
                 <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Elasticsearch NoSQL
               </a>
             </li>
+            <li class="sidebar-link-item" data-search-term="qdrant vector db collections search points payloads distance metric python client rag ann">
+              <a href="{{ '/docs/Cheatsheets/qdrant-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> Qdrant Vector DB
+              </a>
+            </li>
             <li class="sidebar-link-item" data-search-term="redis cache memory storage hashes lists transactions pubsub pipeline redis-cli key-value">
               <a href="{{ '/docs/Cheatsheets/redis-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
                 <span class="w-1.5 h-1.5 rounded-full bg-red-600"></span> Redis Caching & DB
@@ -1054,12 +1088,17 @@
 
         <!-- Left Side: Article Content Card -->
         <div class="col-span-12 xl:col-span-9">
-          <!-- Elegant Breadcrumbs Navigation -->
-          <nav class="flex items-center gap-2 text-xs text-slate-400 dark:text-slate-500 mb-4 select-none" id="breadcrumbs">
-            <a href="{{ '/' | relative_url }}" class="hover:text-accent transition-colors flex items-center gap-1"><i class="fa-solid fa-house"></i> Home</a>
-            <span class="text-slate-300 dark:text-slate-700">/</span>
-            <span id="breadcrumb-current" class="font-medium text-slate-600 dark:text-slate-300 truncate max-w-[200px]">Page</span>
-          </nav>
+          <!-- Elegant Breadcrumbs Navigation & Reading Time -->
+          <div class="flex items-center justify-between flex-wrap gap-2 mb-4">
+            <nav class="flex items-center gap-2 text-xs text-slate-400 dark:text-slate-500 select-none" id="breadcrumbs">
+              <a href="{{ '/' | relative_url }}" class="hover:text-accent transition-colors flex items-center gap-1"><i class="fa-solid fa-house"></i> Home</a>
+              <span class="text-slate-300 dark:text-slate-700">/</span>
+              <span id="breadcrumb-current" class="font-medium text-slate-600 dark:text-slate-300 truncate max-w-[200px]">Page</span>
+            </nav>
+            <div id="reading-time-container" class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-slate-100 dark:bg-slate-800/60 text-slate-500 dark:text-slate-400 border border-slate-200/50 dark:border-slate-700/50 select-none">
+              <i class="fa-regular fa-clock text-accent"></i> <span id="reading-time-val">1 min read</span>
+            </div>
+          </div>
 
           <article class="bg-white dark:bg-slate-950 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-6 md:p-10 shadow-sm transition-all duration-200 animate-content-load hover:shadow-lg hover:border-slate-300/60 dark:hover:border-slate-800/80">
             <!-- Content section for Markdown output -->
@@ -1086,6 +1125,91 @@
     </main>
   </div>
 
+  <!-- Keyboard Shortcuts & Help Modal Dialog -->
+  <div id="help-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden p-4">
+    <!-- Backdrop -->
+    <div id="help-modal-backdrop" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md"></div>
+
+    <!-- Modal Container -->
+    <div class="relative w-full max-w-lg bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl p-6 overflow-hidden animate-content-load z-10">
+      <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3 mb-4 select-none">
+        <h3 class="text-base font-bold text-slate-900 dark:text-slate-50 flex items-center gap-2">
+          <i class="fa-solid fa-keyboard text-accent"></i> Keyboard Shortcuts & Portal Help
+        </h3>
+        <button id="help-modal-close" class="h-8 w-8 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 flex items-center justify-center transition-colors">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Shortcuts list -->
+      <div class="space-y-4 text-sm text-slate-600 dark:text-slate-300">
+        <div>
+          <h4 class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2 select-none">Navigation & Search</h4>
+          <div class="grid grid-cols-2 gap-2">
+            <div class="flex items-center justify-between py-1 border-b border-slate-50 dark:border-slate-900/60">
+              <span>Focus Search</span>
+              <kbd class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-mono font-bold text-slate-600 dark:text-slate-300">/</kbd>
+            </div>
+            <div class="flex items-center justify-between py-1 border-b border-slate-50 dark:border-slate-900/60">
+              <span>Home View</span>
+              <kbd class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-mono font-bold text-slate-600 dark:text-slate-300">H</kbd>
+            </div>
+            <div class="flex items-center justify-between py-1 border-b border-slate-50 dark:border-slate-900/60">
+              <span>Toggle Dark Mode</span>
+              <kbd class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-mono font-bold text-slate-600 dark:text-slate-300">T</kbd>
+            </div>
+            <div class="flex items-center justify-between py-1 border-b border-slate-50 dark:border-slate-900/60">
+              <span>Close Panels/Modal</span>
+              <kbd class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-mono font-bold text-slate-600 dark:text-slate-300">Esc</kbd>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2 select-none">Accent Palette Toggles</h4>
+          <div class="grid grid-cols-2 gap-2">
+            <div class="flex items-center justify-between py-1 border-b border-slate-50 dark:border-slate-900/60">
+              <span>Emerald Theme</span>
+              <kbd class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-mono font-bold text-slate-600 dark:text-slate-300">1</kbd>
+            </div>
+            <div class="flex items-center justify-between py-1 border-b border-slate-50 dark:border-slate-900/60">
+              <span>Indigo Theme</span>
+              <kbd class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-mono font-bold text-slate-600 dark:text-slate-300">2</kbd>
+            </div>
+            <div class="flex items-center justify-between py-1 border-b border-slate-50 dark:border-slate-900/60">
+              <span>Violet Theme</span>
+              <kbd class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-mono font-bold text-slate-600 dark:text-slate-300">3</kbd>
+            </div>
+            <div class="flex items-center justify-between py-1 border-b border-slate-50 dark:border-slate-900/60">
+              <span>Rose Theme</span>
+              <kbd class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-mono font-bold text-slate-600 dark:text-slate-300">4</kbd>
+            </div>
+            <div class="flex items-center justify-between py-1 border-b border-slate-50 dark:border-slate-900/60">
+              <span>Amber Theme</span>
+              <kbd class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-mono font-bold text-slate-600 dark:text-slate-300">5</kbd>
+            </div>
+            <div class="flex items-center justify-between py-1 border-b border-slate-50 dark:border-slate-900/60">
+              <span>Cyberpunk Theme</span>
+              <kbd class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-mono font-bold text-slate-600 dark:text-slate-300">6</kbd>
+            </div>
+            <div class="flex items-center justify-between py-1 border-b border-slate-50 dark:border-slate-900/60">
+              <span>Obsidian Theme</span>
+              <kbd class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-mono font-bold text-slate-600 dark:text-slate-300">7</kbd>
+            </div>
+            <div class="flex items-center justify-between py-1 border-b border-slate-50 dark:border-slate-900/60">
+              <span>Show Help Menu</span>
+              <kbd class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-mono font-bold text-slate-600 dark:text-slate-300">?</kbd>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-5 pt-4 border-t border-slate-100 dark:border-slate-800 text-xs text-center text-slate-400 select-none">
+        Press <kbd class="px-1.5 py-0.5 rounded bg-slate-50 dark:bg-slate-900 border text-[10px] font-mono font-bold">Esc</kbd> anytime to return to reading.
+      </div>
+    </div>
+  </div>
+
   <!-- Floating Back to Top Button -->
   <button id="back-to-top" class="fixed bottom-6 right-6 z-50 h-10 w-10 rounded-full bg-accent text-white shadow-lg hover:bg-accent-hover transition-all flex items-center justify-center translate-y-16 opacity-0 hover:scale-110 active:scale-95" title="Back to Top">
     <i class="fa-solid fa-arrow-up"></i>
@@ -1110,6 +1234,84 @@
   <!-- Core Interactive Features: JS Implementation -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+
+      // Dynamic Reading Time Estimator
+      const articleEl = document.querySelector('.markdown-body');
+      const readingTimeContainer = document.getElementById('reading-time-container');
+      const readingTimeVal = document.getElementById('reading-time-val');
+      if (articleEl && readingTimeContainer && readingTimeVal) {
+        const text = articleEl.innerText || articleEl.textContent || '';
+        const words = text.trim().split(/\s+/).filter(w => w.length > 0).length;
+        const minutes = Math.max(1, Math.ceil(words / 200)); // avg 200 wpm
+        readingTimeVal.textContent = `${minutes} min read`;
+        readingTimeContainer.classList.remove('hidden');
+      }
+
+      // Keyboard Shortcuts & Help Modal Controller
+      const helpToggle = document.getElementById('help-toggle');
+      const helpModal = document.getElementById('help-modal');
+      const helpModalBackdrop = document.getElementById('help-modal-backdrop');
+      const helpModalClose = document.getElementById('help-modal-close');
+
+      function toggleHelpModal() {
+        if (helpModal) {
+          helpModal.classList.toggle('hidden');
+          document.body.classList.toggle('overflow-hidden');
+        }
+      }
+
+      if (helpToggle) helpToggle.addEventListener('click', toggleHelpModal);
+      if (helpModalBackdrop) helpModalBackdrop.addEventListener('click', toggleHelpModal);
+      if (helpModalClose) helpModalClose.addEventListener('click', toggleHelpModal);
+
+      // Document keydown event for shortcuts
+      document.addEventListener('keydown', (e) => {
+        // Only trigger if user is not typing in inputs/textareas
+        const activeEl = document.activeElement;
+        if (activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA' || activeEl.isContentEditable)) {
+          if (e.key === 'Escape' && helpModal && !helpModal.classList.contains('hidden')) {
+            toggleHelpModal();
+          }
+          return;
+        }
+
+        // '?' key opens Help Modal
+        if (e.key === '?') {
+          e.preventDefault();
+          toggleHelpModal();
+        }
+
+        // 'Esc' closes Modal & sidebar
+        if (e.key === 'Escape') {
+          if (helpModal && !helpModal.classList.contains('hidden')) {
+            toggleHelpModal();
+          }
+        }
+
+        // 'T' or 't' toggles theme
+        if (e.key === 't' || e.key === 'T') {
+          e.preventDefault();
+          const tBtn = document.getElementById('theme-toggle');
+          if (tBtn) tBtn.click();
+        }
+
+        // 'H' or 'h' redirects to Home
+        if (e.key === 'h' || e.key === 'H') {
+          e.preventDefault();
+          window.location.href = "{{ '/' | relative_url }}";
+        }
+
+        // Keys 1 to 7 trigger accent themes
+        const swatchThemes = ['emerald', 'indigo', 'violet', 'rose', 'amber', 'cyberpunk', 'obsidian'];
+        if (e.key >= '1' && e.key <= '7') {
+          const idx = parseInt(e.key) - 1;
+          const themeName = swatchThemes[idx];
+          if (themeName && typeof window.setAccentTheme === 'function') {
+            e.preventDefault();
+            window.setAccentTheme(themeName);
+          }
+        }
+      });
 
       // --- PART 0: Reading Progress Bar & Dynamic Breadcrumbs ---
       const progressBar = document.getElementById('progress-bar');
@@ -1604,9 +1806,9 @@
         // Update visual active swatches rings
         document.querySelectorAll('.theme-swatch').forEach(btn => {
           if (btn.getAttribute('data-theme') === themeName) {
-            btn.classList.add('ring-2', 'ring-offset-2', 'ring-slate-400', 'dark:ring-offset-slate-900', 'scale-110');
+            btn.classList.add('ring-2', 'ring-offset-2', 'ring-slate-400', 'dark:ring-offset-slate-900', 'scale-110', 'active-swatch');
           } else {
-            btn.classList.remove('ring-2', 'ring-offset-2', 'ring-slate-400', 'dark:ring-offset-slate-900', 'scale-110');
+            btn.classList.remove('ring-2', 'ring-offset-2', 'ring-slate-400', 'dark:ring-offset-slate-900', 'scale-110', 'active-swatch');
           }
         });
       };
