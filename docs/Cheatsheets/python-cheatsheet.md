@@ -642,3 +642,56 @@ class Product:
         self.price = price
         self.quantity = quantity
 ```
+
+---
+
+## 10. Advanced Dynamic Type Analysis & Protocols
+
+Static types in Python are checked at build/commit time via MyPy, but can also be dynamically verified or enforced at runtime.
+
+### Runtime Structural Subtyping: `typing.Protocol`
+Unlike normal abstract base classes (`abc.ABC`) which require explicit subclassing, `Protocol` implements structural subtyping (Duck Typing) that satisfies static checkers.
+
+```python
+from typing import Protocol, runtime_checkable
+
+@runtime_checkable
+class Renderable(Protocol):
+    def render(self) -> str:
+        ...
+
+class Button:
+    def render(self) -> str:
+        return "<button>Click Me</button>"
+
+class Label:
+    # Notice: No explicit inheritance from Renderable
+    def render(self) -> str:
+        return "<label>Username</label>"
+
+# Verification
+b = Button()
+isinstance(b, Renderable) # Returns True because @runtime_checkable was supplied
+```
+
+---
+
+## 11. Custom Dict Metaprogramming: __missing__ hook
+
+To create specialized key fallback or default behaviors without overriding every dictionary method, utilize the specific `__missing__` hook supported natively by Python's `dict` base class.
+
+```python
+class AutoLowerDict(dict):
+    """Automatically converts string keys to lowercase when accessed, preventing key collisions."""
+    def __missing__(self, key):
+        if isinstance(key, str):
+            lower_key = key.lower()
+            if lower_key in self:
+                return self[lower_key]
+        raise KeyError(key)
+
+d = AutoLowerDict()
+d["user_name"] = "jules_verne"
+
+print(d["USER_NAME"]) # Outputs: jules_verne
+```

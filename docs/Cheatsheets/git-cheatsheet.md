@@ -558,3 +558,58 @@ db.sqlite merge=sqlite-merge-driver
 git config merge.sqlite-merge-driver.name "A custom merge driver for SQLite databases"
 git config merge.sqlite-merge-driver.driver "sqlite-merge-utility %O %A %B %L"
 ```
+
+---
+
+## 28. Advanced Git Refspec Configuration
+
+Refspecs control how local branch names are mapped to remote branch references during fetch and push operations. This is defined in `.git/config` for each remote:
+
+```ini
+[remote "origin"]
+    url = https://github.com/example/repo.git
+    fetch = +refs/heads/*:refs/remotes/origin/*
+```
+
+### Fetching Pull Requests Locally (GitHub)
+To configure Git to download pull request branches automatically on fetch, modify your `.git/config` with an additional fetch refspec:
+
+```bash
+# Add refspec for GitHub pull requests
+git config --add remote.origin.fetch "+refs/pull/*/head:refs/remotes/origin/pr/*"
+
+# Fetch all PRs locally
+git fetch origin
+
+# Check out a specific pull request
+git checkout pr/42
+```
+
+---
+
+## 29. Git Signed Commits & Tags with GPG / SSH
+
+Signing your commits verifies your identity as the author, preventing impersonation attacks. Modern Git supports signing commits using both GPG and SSH keys.
+
+### Configuring SSH Key Signing (Simpler setup)
+If you already use an SSH key for push authentication, you can use it to sign commits:
+
+```bash
+# Set SSH as the signing format
+git config --global gpg.format ssh
+
+# Set your signing key path
+git config --global user.signingkey "~/.ssh/id_ed25519.pub"
+
+# Enable automatic commit signing globally
+git config --global commit.gpgsign true
+
+# Enable tag signing
+git config --global tag.gpgSign true
+```
+
+### Verification
+```bash
+# View signature validation status in log
+git log --show-signature -n 5
+```

@@ -209,3 +209,44 @@ Enables elements to style themselves dynamically depending on how much width the
   color: white;
 }
 ```
+
+---
+
+## 6. Advanced CSS Grid Areas & Layout Templates
+
+Using `grid-template-areas` provides a highly visual grid cell configuration that simplifies complex desktop-to-mobile responsive grid adjustments.
+
+```css
+.site-layout {
+  display: grid;
+  grid-template-columns: 240px 1fr 200px;
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas:
+    "header  header  header"
+    "sidebar main    aside"
+    "footer  footer  footer";
+  min-height: 100vh;
+}
+
+.header  { grid-area: header; }
+.sidebar { grid-area: sidebar; }
+.main    { grid-area: main; }
+.aside   { grid-area: aside; }
+.footer  { grid-area: footer; }
+
+/* Responsive overlay for mobile tablets */
+@media (max-width: 1024px) {
+  .site-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 1fr auto;
+    grid-template-areas:
+      "header"
+      "sidebar"
+      "main"
+      "footer";
+  }
+  .aside {
+    display: none; /* Hide side panel on tablets */
+  }
+}
+```
