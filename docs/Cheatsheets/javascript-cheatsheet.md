@@ -250,6 +250,34 @@ export class EnterpriseUser {
 
 ---
 
+## 7. Custom Iterators & Generators Protocol
+
+Objects can customize their iteration behavior (like supporting `for...of` loops) by implementing the `Symbol.iterator` property.
+
+```javascript
+const collection = {
+  items: ["Alpha", "Beta", "Gamma"],
+  [Symbol.iterator]() {
+    let index = 0;
+    return {
+      next: () => {
+        if (index < this.items.length) {
+          return { value: this.items[index++], done: false };
+        } else {
+          return { value: undefined, done: true };
+        }
+      }
+    };
+  }
+};
+
+for (const name of collection) {
+  console.log(name); // Prints Alpha, Beta, Gamma
+}
+```
+
+---
+
 ## 6. Advanced Fetch Requests with Cancelation (AbortController)
 
 Cancel pending HTTP fetch requests to optimize network resources when components unmount or user searches again.

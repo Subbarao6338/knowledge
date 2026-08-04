@@ -391,4 +391,27 @@ secrets:
     file: ./secrets/db_password.txt
 ```
 
+---
+
+## Docker Engine Daemon JSON Config (`daemon.json`)
+
+To configure network routing, security, storage paths, logging drivers, or metrics dashboards globally for the entire host Docker server, edit `/etc/docker/daemon.json`:
+
+```json
+{
+  "storage-driver": "overlay2",
+  "dns": ["8.8.8.8", "1.1.1.1"],
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "10m",
+    "max-file": "3"
+  },
+  "experimental": true,
+  "metrics-addr": "127.0.0.1:9323",
+  "live-restore": true
+}
+```
+
+- **live-restore**: Keeps containers running when the Docker daemon is being updated or restarted.
+
 <!-- {% endraw %} -->
