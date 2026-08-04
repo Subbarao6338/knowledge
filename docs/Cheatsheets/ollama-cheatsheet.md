@@ -47,12 +47,12 @@ Include code snippets and security best practices where applicable. Keep respons
 """
 
 # 4. Set custom prompt template matching LLM token boundaries
-TEMPLATE """{{ if .System }}<|im_start|>system
+TEMPLATE """{% raw %}{{ if .System }}<|im_start|>system
 {{ .System }}<|im_end|>
 {{ end }}{{ if .Prompt }}<|im_start|>user
 {{ .Prompt }}<|im_end|>
 {{ end }}<|im_start|>assistant
-{{ .Response }}<|im_end|>"""
+{{ .Response }}<|im_end|>{% endraw %}"""
 
 # 5. Inject custom stop tokens
 PARAMETER stop "<|im_start|>"
