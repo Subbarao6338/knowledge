@@ -248,3 +248,56 @@ go get github.com/x/y     # fetch and add remote dependency
 go mod tidy               # remove unused and add missing modules
 go tool cover -html=c.out # analyze visual code coverage representation
 ```
+
+
+---
+
+## Best Practices & Production Standards
+
+1. **Prevent Goroutine Leaks**: Always pair goroutines with contexts or cancel channels to guarantee correct resource teardowns.
+2. **Explicit Error Checks**: Never ignore returned errors; verify error variables before continuing business flows.
+3. **Pre-allocate Slices**: Provide size capacities inside `make([]T, 0, capacity)` when building sequences to prevent unnecessary slice re-allocations.
+
+---
+
+## Common Mistakes & Antipatterns
+
+1. **Sharing Memory directly**: Accessing variables concurrently from multiple goroutines without explicit channel communication or Mutex locking.
+2. **Forgetting to Close Channels**: Leaving active channels open when readers expect close triggers, resulting in deadlocks.
+3. **Closure capturing in Loops**: Capturing loop index variables inside nested goroutines, causing concurrency errors (fixed natively in Go 1.22+).
+
+---
+
+## Troubleshooting & Debugging Guide
+
+1. **Detecting Race Conditions**: Run application builds using the `-race` flag to automatically capture and trace overlapping thread access.
+2. **Analyzing Thread Starvation**: Use Go's `pprof` profile analyzer to locate CPU bottlenecks or blocked execution paths.
+
+---
+
+## Core Interview Questions & Answers
+
+1. **Q: Describe Go's MPG Concurrency scheduler model.**
+   - **A**: Go scheduler maps **G**oroutines (logical lightweight threads) to **M** (OS threads) executing on **P** (Logical Processors/Cores). It dynamically performs work-stealing and network polling to multiplex millions of goroutines across cores.
+2. **Q: What is the difference between buffered and unbuffered channels?**
+   - **A**: Unbuffered channels block the sender until a receiver is ready to read, guaranteeing synchronous handshakes. Buffered channels allow senders to write values up to the buffer capacity without blocking, decoupling sender-receiver execution.
+
+---
+
+## Technical Architecture Diagram
+
+```mermaid
+graph TD
+    G[Goroutines] --> P[Logical Processors P]
+    P --> M[OS Threads M]
+    M --> Cores[Physical CPU Cores]
+```
+
+---
+
+## Related Cheatsheets & References
+
+- [Rust Cheatsheet](rust-cheatsheet.md)
+- [Docker Cheatsheet](docker-cheatsheet.md)
+- [Master Directory Index](../Cheatsheets.html)
+- [Knowledge Hub Portal](../Knowledge%2021cb6c26d9ba808da8d4f72eb2193ca2.html)

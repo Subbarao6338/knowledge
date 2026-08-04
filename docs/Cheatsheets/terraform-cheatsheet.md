@@ -219,3 +219,56 @@ module "vpc" {
      sensitive = true
    }
    ```
+
+
+---
+
+## Best Practices & Production Standards
+
+1. **Enforce Remote State Locks**: Maintain State files in a secure cloud bucket (like S3) and enforce concurrent locking using a database (like DynamoDB).
+2. **Isolate Workspaces**: Separate development, staging, and production environments using Workspaces or distinct directories.
+3. **Modularize Code**: Group re-usable infrastructure patterns into clean, parameterized sub-modules.
+
+---
+
+## Common Mistakes & Antipatterns
+
+1. **Committing State Files to Git**: Accidentally pushing `terraform.tfstate` (containing raw cloud secrets) to repository branches.
+2. **Performing Manual Cloud Edits**: Directly editing resources via cloud dashboards, causing drift between real cloud states and state configurations.
+3. **Unpinned Providers**: Forgetting to pin provider and module versions, causing unexpected breaking changes during runs.
+
+---
+
+## Troubleshooting & Debugging Guide
+
+1. **Fixing Resource Drift**: Run `terraform plan` to identify discrepancies, and use `terraform import` to manually match external resources into local state representations.
+2. **Resolving Locked State Collisions**: Query locking DB logs, identify the collision, and safely release stale locks with `terraform force-unlock <ID>`.
+
+---
+
+## Core Interview Questions & Answers
+
+1. **Q: Explain the difference between `terraform plan` and `terraform apply`.**
+   - **A**: `terraform plan` performs a dry run, querying providers to show the exact resource additions, deletions, or modifications required. `terraform apply` executes those planned steps to transition the cloud infrastructure to the declared state.
+2. **Q: What is State in Terraform and why is it necessary?**
+   - **A**: State is a JSON mapping representing actual provisioned infrastructure alongside resource configurations and metadata. It acts as a single source of truth for tracking, calculating diffs, and verifying dependency relationships.
+
+---
+
+## Technical Architecture Diagram
+
+```mermaid
+graph TD
+    Code[HCL Configuration] --> Plan[Terraform Plan: Diff Generated]
+    Plan --> Apply[Terraform Apply: Executed]
+    Apply --> State[(tfstate Store Lock)]
+```
+
+---
+
+## Related Cheatsheets & References
+
+- [Kubernetes Cheatsheet](kubernetes-cheatsheet.md)
+- [AWS CLI Cheatsheet](aws-cli-cheatsheet.md)
+- [Master Directory Index](../Cheatsheets.html)
+- [Knowledge Hub Portal](../Knowledge%2021cb6c26d9ba808da8d4f72eb2193ca2.html)

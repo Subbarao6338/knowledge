@@ -232,3 +232,56 @@ function isFish(pet: Fish | Bird): pet is Fish {
 2. **Non-Null Assertion Operator (`!`):** Writing `user!.name` tells TS that you are 100% sure `user` is not null. Use this with caution as it can hide runtime crashes.
 3. **Array Type Declarations:** `const list = []` will be inferred as `any[]`. Always supply a type signature like `const list: string[] = []` or `const list: Array<string> = []`.
 4. **Structural Typing (Duck Typing):** TypeScript type checking is based on the shape of values, not explicit declaration. If two objects have the same properties, they are considered to be of the same type.
+
+
+---
+
+## Best Practices & Production Standards
+
+1. **Enable Strict Mode**: Always configure `strict: true` in `tsconfig.json` to enforce null safety and strict type check constraints.
+2. **Avoid Type Assertions**: Prefer type guards or narrow types instead of using `as MyType` assertions which bypass compile-time safety checks.
+3. **Utilize Generics constraints**: Write reusable, bounded generic functions using the `extends` keyword.
+
+---
+
+## Common Mistakes & Antipatterns
+
+1. **Abusing `any`**: Using `any` instead of `unknown` for dynamic values, destroying type-safety and compile-time validation.
+2. **Mismatched Union Narrowing**: Forgetting to write discriminating field properties on unified interface structures, resulting in runtime access failures.
+3. **Over-annotating Types**: Explicitly writing types for variables that the TypeScript compiler can infer automatically.
+
+---
+
+## Troubleshooting & Debugging Guide
+
+1. **Property 'X' does not exist on type 'Y'**: Implement a custom type guard using `in` or `typeof` check to narrow down union structures before accessing properties.
+2. **Type instantiation is excessively deep**: Refactor recursive interface declarations, or use simpler index lookup types.
+
+---
+
+## Core Interview Questions & Answers
+
+1. **Q: What is the difference between `interface` and `type` alias in TypeScript?**
+   - **A**: Both can describe object shapes and support declaration merging. Interfaces are open to extension via declaration merging and have faster compiler performance. Type aliases can define unions, primitives, tuples, and mapped types.
+2. **Q: Explain the difference between `any`, `unknown`, and `never`.**
+   - **A**: `any` disables all type-checking. `unknown` represents any value but is type-safe; you must perform type narrowing/checking before calling methods on it. `never` represents the type of values that never occur (e.g., functions that throw exceptions or infinite loops).
+
+---
+
+## Technical Architecture Diagram
+
+```mermaid
+graph TD
+    TS[TypeScript Code] --> Parser[TS Compiler: AST Generation]
+    Parser --> TypeCheck[Type Checker Validation]
+    TypeCheck --> Emit[Emit Phase: Raw JS output]
+```
+
+---
+
+## Related Cheatsheets & References
+
+- [TypeScript Advanced](typescript-advanced-cheatsheet.md)
+- [JavaScript Cheatsheet](javascript-cheatsheet.md)
+- [Master Directory Index](../Cheatsheets.html)
+- [Knowledge Hub Portal](../Knowledge%2021cb6c26d9ba808da8d4f72eb2193ca2.html)

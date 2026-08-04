@@ -1145,6 +1145,31 @@
           </ul>
         </div>
 
+        <!-- Category 10: System & Security Architecture -->
+        <div class="sidebar-category">
+          <button class="w-full flex items-center justify-between px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors focus:outline-none" onclick="toggleCategory('cat-architecture')">
+            <span class="flex items-center gap-1.5">System & Security <span class="bg-slate-100 dark:bg-slate-800 text-slate-500 text-[9px] px-1.5 py-0.2 rounded-full font-semibold">3</span></span>
+            <svg id="arrow-cat-architecture" class="w-3 h-3 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+          </button>
+          <ul id="cat-architecture" class="hidden mt-1 space-y-0.5 text-xs text-slate-600 dark:text-slate-400 font-medium pl-1.5">
+            <li class="sidebar-link-item" data-search-term="system design scalability load balancing caching horizontal vertical consistent hashing architecture">
+              <a href="{{ '/docs/Cheatsheets/system-design-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span> System Design
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="web security owasp top 10 injection xss csrf jwt cookies https tls encryption csp cors">
+              <a href="{{ '/docs/Cheatsheets/web-security-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span> Web Security
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="microservices distributed transactions saga patterns api gateway circuit breaker cqrs grpc event sourcing synchronous asynchronous">
+              <a href="{{ '/docs/Cheatsheets/microservices-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Microservices
+              </a>
+            </li>
+          </ul>
+        </div>
+
       </nav>
 
       <!-- Sticky Footer inside Sidebar -->
@@ -1653,6 +1678,47 @@
         }
       }
 
+      function highlightText(element, query) {
+        const anchor = element.querySelector('a');
+        if (!anchor) return;
+
+        // Save original HTML on first call
+        if (!anchor.getAttribute('data-original-html')) {
+          anchor.setAttribute('data-original-html', anchor.innerHTML);
+        }
+
+        const originalHtml = anchor.getAttribute('data-original-html');
+
+        if (!query) {
+          anchor.innerHTML = originalHtml;
+          return;
+        }
+
+        if (!anchor.getAttribute('data-original-text')) {
+          const textSpan = anchor.lastChild;
+          if (textSpan && textSpan.nodeType === Node.TEXT_NODE) {
+            anchor.setAttribute('data-original-text', textSpan.textContent.trim());
+          } else {
+            anchor.setAttribute('data-original-text', anchor.textContent.trim());
+          }
+        }
+        const originalText = anchor.getAttribute('data-original-text');
+
+        const index = originalText.toLowerCase().indexOf(query);
+        if (index >= 0) {
+          // Re-build with highlighting
+          const regex = new RegExp(query, 'gi');
+          const highlighted = originalText.replace(regex, match => `<mark class="bg-yellow-300 dark:bg-yellow-800 text-slate-900 dark:text-white rounded px-0.5">${match}</mark>`);
+
+          // Preserving the dynamic small dot or icons inside links
+          const dot = anchor.querySelector('span');
+          const dotHtml = dot ? dot.outerHTML : '<span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>';
+          anchor.innerHTML = `${dotHtml} ${highlighted}`;
+        } else {
+          anchor.innerHTML = originalHtml;
+        }
+      }
+
       function handleSearch() {
         const value = searchInput.value.toLowerCase().trim();
 
@@ -1662,7 +1728,7 @@
           searchClear.classList.add('hidden');
         }
 
-        // Filter individual links
+        // Filter individual links and highlight matches
         sidebarLinks.forEach(item => {
           const text = item.textContent.toLowerCase();
           const searchTerm = item.getAttribute('data-search-term') ? item.getAttribute('data-search-term').toLowerCase() : '';
@@ -1670,6 +1736,7 @@
 
           if (matches) {
             item.classList.remove('hidden');
+            highlightText(item, value);
           } else {
             item.classList.add('hidden');
           }

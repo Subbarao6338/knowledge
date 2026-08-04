@@ -213,6 +213,24 @@ Welcome to the unified developer cheatsheets directory. Access our detailed chea
     </div>
   </div>
 
+  <!-- Category: System & Security Architecture -->
+  <div class="p-6 bg-white dark:bg-slate-950 border border-slate-200/85 dark:border-slate-800 rounded-2xl shadow-sm hover:border-accent hover:shadow-lg transition-all group">
+    <div class="flex items-center gap-3 mb-4 select-none">
+      <div class="h-10 w-10 rounded-xl bg-indigo-50 dark:bg-indigo-950/40 text-indigo-500 flex items-center justify-center group-hover:scale-110 transition-transform">
+        <i class="fa-solid fa-shield-halved text-lg"></i>
+      </div>
+      <div>
+        <h3 class="text-base font-bold text-slate-900 dark:text-slate-50 !m-0 !p-0">System & Security</h3>
+        <span class="text-xs text-slate-400 font-semibold">3 reference sheets</span>
+      </div>
+    </div>
+    <div class="flex flex-wrap gap-2 mb-4">
+      <a href="Cheatsheets/system-design-cheatsheet.html" class="px-2.5 py-1 text-xs font-semibold bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400 rounded-lg hover:bg-emerald-100 transition-colors">System Design <span class="text-[9px] uppercase tracking-wide ml-0.5 font-bold">New</span></a>
+      <a href="Cheatsheets/web-security-cheatsheet.html" class="px-2.5 py-1 text-xs font-semibold bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400 rounded-lg hover:bg-emerald-100 transition-colors">Web Security <span class="text-[9px] uppercase tracking-wide ml-0.5 font-bold">New</span></a>
+      <a href="Cheatsheets/microservices-cheatsheet.html" class="px-2.5 py-1 text-xs font-semibold bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400 rounded-lg hover:bg-emerald-100 transition-colors">Microservices <span class="text-[9px] uppercase tracking-wide ml-0.5 font-bold">New</span></a>
+    </div>
+  </div>
+
 </div>
 
 ---
