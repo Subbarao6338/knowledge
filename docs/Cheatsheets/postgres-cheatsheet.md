@@ -122,3 +122,57 @@ VACUUM ANALYZE employees;
 -- Full lock cleanup (locks table, rebuilds files, reclaims maximum disk space)
 VACUUM FULL employees;
 ```
+
+
+---
+
+## Best Practices & Production Standards
+
+1. **Index Optimization**: Use GIN indexes for array and JSONB queries, Partial indexes to omit rows that are rarely queried, and Covering indexes (`INCLUDE`) to bypass heap scans.
+2. **Connection Pooling**: Always employ an external pooler like PgBouncer in production to restrict connection state overheads.
+3. **Explicit Query Planning**: Constantly monitor planning outputs using `EXPLAIN (ANALYZE, BUFFERS)` to diagnose heavy sequential scans or bad hash joins.
+
+---
+
+## Common Mistakes & Antipatterns
+
+1. **Failing to VACUUM**: Neglecting dead tuple cleanup, which causes table bloat and query slowing in MVCC systems.
+2. **Querying Unbounded Selects**: Running `SELECT *` across huge tables without a limit, offset, or index boundaries.
+3. **Unindexed Foreign Keys**: Forgetting to index foreign key constraints, resulting in heavy table scans during cascades or joins.
+
+---
+
+## Troubleshooting & Debugging Guide
+
+1. **Lock Contention / Deadlocks**: Query `pg_stat_activity` and `pg_locks` to identify blocked transactions, transaction durations, and lock locks.
+2. **High CPU Utilization**: Use `pg_stat_statements` to capture the most resource-intensive SQL queries and identify missing indexes or bad joins.
+
+---
+
+## Core Interview Questions & Answers
+
+1. **Q: How does PostgreSQL implement Multi-Version Concurrency Control (MVCC)?**
+   - **A**: When rows are updated or deleted, Postgres writes a new version of the row (tuple) with visibility headers (`xmin`, `xmax`). Active transactions only see rows whose transactions have committed. Old rows are collected asynchronously by the `VACUUM` process.
+2. **Q: Compare a B-Tree index with a GIN (Generalized Inverted Index) index in Postgres.**
+   - **A**: B-Tree is optimized for scalar, ordered data (equality and range queries). GIN is an inverted index optimized for multi-valued elements (like array items, JSONB document keys, or text search tokens), mapping components back to rows.
+
+---
+
+## Technical Architecture Diagram
+
+```mermaid
+graph LR
+    App[Application client] --> Pool[PgBouncer Connection Pool]
+    Pool --> Primary[PostgreSQL Primary: Writes]
+    Primary --> WAL[WAL Stream Replication]
+    WAL --> Replica[Read Replicas: Scales Reads]
+```
+
+---
+
+## Related Cheatsheets & References
+
+- [SQL Cheatsheet](sql-cheatsheet.md)
+- [Database Comparison Cheatsheet](database-comparison-cheatsheet.md)
+- [Master Directory Index](../Cheatsheets.html)
+- [Knowledge Hub Portal](../Knowledge%2021cb6c26d9ba808da8d4f72eb2193ca2.html)

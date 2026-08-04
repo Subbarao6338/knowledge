@@ -175,3 +175,55 @@ cargo check               # Quickly analyze code for syntax errors without full 
 cargo fmt                 # Auto-format codebase
 cargo clippy              # Advanced linter for Rust best practices
 ```
+
+
+---
+
+## Best Practices & Production Standards
+
+1. **Enforce Clippy rules**: Run `cargo clippy` frequently to verify memory-safety constraints and structural code quality.
+2. **Utilize Pattern Matching**: Leverage exhaustive `match` syntax over Option and Result types instead of calling risky `.unwrap()` methods.
+3. **Minimize Lifetime over-complications**: Design modular struct hierarchies to prevent excessively complex lifetime annotations.
+
+---
+
+## Common Mistakes & Antipatterns
+
+1. **Overusing `.clone()`**: Cloning variables excessively to bypass borrow checker rules, causing high CPU/memory overhead.
+2. **Using Unsafe blocks inappropriately**: Bypassing the compiler's strict type-safety guarantees with unsafe pointers.
+3. **Thread Lifetime issues**: Trying to send non-`Send` or non-`Sync` references across concurrent threads.
+
+---
+
+## Troubleshooting & Debugging Guide
+
+1. **Resolving Borrow Checker Conflicts**: Carefully analyze compiler errors; split mutable borrows into isolated scopes, or use interior mutability (`RefCell`, `Mutex`).
+2. **Resolving Thread Boundaries**: Wrap shared structures inside `Arc` (atomic references) and lock them using thread-safe synchronization primitives.
+
+---
+
+## Core Interview Questions & Answers
+
+1. **Q: Explain Rust's Ownership, Borrowing, and Lifetimes core rules.**
+   - **A**: Each value has a single owner. When the owner goes out of scope, the value is dropped. You can have either one mutable borrow OR any number of immutable borrows at any time, but never both. Lifetimes are compile-time annotations ensuring references remain valid as long as they are referenced.
+2. **Q: Describe the difference between `Rc` and `Arc` smart pointers.**
+   - **A**: `Rc` is a reference-counted pointer for single-threaded heap allocations (cheap, not thread-safe). `Arc` is an atomic reference-counted pointer with synchronized reference increments (thread-safe, suitable for concurrent execution).
+
+---
+
+## Technical Architecture Diagram
+
+```mermaid
+graph LR
+    Owner[Owner Var Scope] --> Borrow[Borrow: Immutable/Mutable]
+    Borrow --> Release[End of Scope: Memory Reclaimed Instantly]
+```
+
+---
+
+## Related Cheatsheets & References
+
+- [C++ Cheatsheet](cpp-cheatsheet.md)
+- [Go Cheatsheet](go-cheatsheet.md)
+- [Master Directory Index](../Cheatsheets.html)
+- [Knowledge Hub Portal](../Knowledge%2021cb6c26d9ba808da8d4f72eb2193ca2.html)

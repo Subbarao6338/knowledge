@@ -415,3 +415,56 @@ To configure network routing, security, storage paths, logging drivers, or metri
 - **live-restore**: Keeps containers running when the Docker daemon is being updated or restarted.
 
 <!-- {% endraw %} -->
+
+
+---
+
+## Best Practices & Production Standards
+
+1. **Implement Multi-Stage Builds**: Compile binaries in initial build stages, copying only final execution outputs into clean, lightweight runtime containers.
+2. **Run as Non-Root**: Explicitly declare non-root users inside Dockerfiles to limit privilege escalation exploits.
+3. **Structure Cache Layers**: Order Dockerfile commands starting from the least frequently changed dependencies (like package setups) to frequently changed ones.
+
+---
+
+## Common Mistakes & Antipatterns
+
+1. **Baking Secrets into Images**: Committing hardcoded credentials or private tokens into built Docker images.
+2. **Ignoring `.dockerignore`**: Failing to ignore files, causing local `node_modules` or build caches to bloat build-context transfers.
+3. **Using `:latest` Tags**: Deploying containers tagged as `:latest`, making image changes non-deterministic.
+
+---
+
+## Troubleshooting & Debugging Guide
+
+1. **Container Crashes on Boot**: Run `docker logs <container-id>` to capture startup errors, or run with `docker inspect` to verify container commands and entrypoints.
+2. **Networking Communication Failures**: Check network setups. Use custom user-defined bridge networks to resolve container names locally.
+
+---
+
+## Core Interview Questions & Answers
+
+1. **Q: How do namespaces and cgroups establish container isolation?**
+   - **A**: Namespaces isolate system resources (PID, Network, Mount, User, IPC) so a container feels like a dedicated OS instance. Control Groups (cgroups) restrict resource usage (CPU, RAM, I/O) to prevent container resource starvation.
+2. **Q: Explain how Docker layer caching works.**
+   - **A**: Each instruction in a Dockerfile creates a read-only image layer. If a layer and all preceding layers are unchanged, Docker reuses the cached layer. When a modified instruction is encountered, all subsequent layers are rebuilt.
+
+---
+
+## Technical Architecture Diagram
+
+```mermaid
+graph TD
+    Dockerfile[Dockerfile Commands] --> CacheCheck[Cache Layer Check]
+    CacheCheck -->|Unchanged| Reuse[Reuse Cached Image Layer]
+    CacheCheck -->|Changed| Rebuild[Recompile Image Layer]
+```
+
+---
+
+## Related Cheatsheets & References
+
+- [Docker Compose Cheatsheet](docker-compose-cheatsheet.md)
+- [Kubernetes Cheatsheet](kubernetes-cheatsheet.md)
+- [Master Directory Index](../Cheatsheets.html)
+- [Knowledge Hub Portal](../Knowledge%2021cb6c26d9ba808da8d4f72eb2193ca2.html)

@@ -230,3 +230,57 @@ await User.findByIdAndUpdate(
   { new: true, runValidators: true } // Return updated object, trigger validations
 );
 ```
+
+
+---
+
+## Best Practices & Production Standards
+
+1. **Avoid Unbounded Arrays**: Design schemas to prevent arrays from growing indefinitely within a single document, which violates the 16MB document size boundary.
+2. **Compound Index Prefix Rule**: Align compound index layouts with the exact search sorting and filtering field ordering.
+3. **Aggregation Memory Limits**: Use pagination or `$limit` stages early in aggregation pipelines to keep memory footprints below the 100MB query RAM limit.
+
+---
+
+## Common Mistakes & Antipatterns
+
+1. **SQL-Style Normalization**: Designing schemas with deep document references requiring multiple queries, failing to leverage MongoDB's nested document structures.
+2. **Indexing All Fields**: Creating too many indexes, which slows down write throughput and exhausts RAM.
+3. **Missing Index Hints**: Performing sort operations on non-indexed fields, forcing expensive in-memory blocking sorts.
+
+---
+
+## Troubleshooting & Debugging Guide
+
+1. **Slow Query Diagnostics**: Enable MongoDB's Profiler and use `.explain("executionStats")` to inspect scanned documents vs. returned documents ratios.
+2. **Write Conflicts under High Load**: Monitor lock wait queues and throughput limits. Shard collections to distribute write loads evenly across shards.
+
+---
+
+## Core Interview Questions & Answers
+
+1. **Q: Explain Sharding and how MongoDB ensures uniform data distribution across shards.**
+   - **A**: MongoDB distributes collection data across multiple shards using a shard key. It maps data ranges (ranged sharding) or hash values (hashed sharding) into chunks, and a balancer process migrates chunks dynamically to maintain even distribution.
+2. **Q: When should you embed documents vs. reference documents in MongoDB schema design?**
+   - **A**: Embed documents for 1-to-1 or 1-to-many relationships where children are always read alongside parents, and relationships are bounded. Reference documents for high-concurrency data, unbounded 1-to-many structures, or many-to-many relationships to prevent document size exhaustion.
+
+---
+
+## Technical Architecture Diagram
+
+```mermaid
+graph TD
+    Client[MongoDB Driver] --> Routers[Mongos Query Routers]
+    Routers --> Config[Config Servers: Metadata]
+    Routers --> ShardA[Shard A: Primary-Replica Set]
+    Routers --> ShardB[Shard B: Primary-Replica Set]
+```
+
+---
+
+## Related Cheatsheets & References
+
+- [Database Comparison Cheatsheet](database-comparison-cheatsheet.md)
+- [Redis Cheatsheet](redis-cheatsheet.md)
+- [Master Directory Index](../Cheatsheets.html)
+- [Knowledge Hub Portal](../Knowledge%2021cb6c26d9ba808da8d4f72eb2193ca2.html)

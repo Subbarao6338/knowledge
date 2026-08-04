@@ -123,4 +123,57 @@ pipe.set('temp:1', 'a')
 pipe.set('temp:2', 'b')
 pipe.execute()
 ```
->>>>>>> REPLACE
+
+
+---
+
+## Best Practices & Production Standards
+
+1. **Reuse Connection Pools**: Avoid repeatedly establishing connections; instantiate global connection pools.
+2. **Choose Appropriate Eviction Policies**: Set `maxmemory-policy` (like `allkeys-lru` or `volatile-lru`) to guarantee predictable memory behavior.
+3. **Pipeline Bulk Queries**: Group sequential commands into a single `PIPELINE` batch to eliminate round-trip network times.
+
+---
+
+## Common Mistakes & Antipatterns
+
+1. **Blocking O(N) Operations on Production**: Running commands like `KEYS *`, `SMEMBERS`, or `HGETALL` on large datasets, blocking Redis's single-threaded event loop.
+2. **Failing to Set Expiries (TTL)**: Forgetting to apply Time-To-Live parameters to transient cache keys, leading to memory exhaustion.
+3. **Misconfiguring RDB/AOF Persistence**: Enabling aggressive disk flushing configurations, causing write-performance degradation.
+
+---
+
+## Troubleshooting & Debugging Guide
+
+1. **Locating CPU Bottlenecks**: Run `SLOWLOG GET` to identify queries taking longer than configured thresholds.
+2. **Mitigating Cache Stampedes**: Implement probabilistic early expiration or mutual exclusion locking (mutex) to prevent concurrent backend queries when cache keys expire.
+
+---
+
+## Core Interview Questions & Answers
+
+1. **Q: Why is Redis single-threaded, and how does it achieve high performance?**
+   - **A**: Redis is single-threaded to avoid context switching, race conditions, and thread locks. It achieves high throughput because it operates completely in-memory and uses non-blocking asynchronous I/O multiplexing (via epoll or kqueue) to handle thousands of connections concurrently.
+2. **Q: Compare RDB snapshots and AOF persistence in Redis.**
+   - **A**: RDB (Redis Database) takes compact point-in-time binary snapshots of memory at intervals (fast recovery, low performance overhead, but risks losing recent writes). AOF (Append-Only File) logs every write operation sequentially (safe durability, but files are larger and slow down recovery).
+
+---
+
+## Technical Architecture Diagram
+
+```mermaid
+graph LR
+    Client[Client App] --> Multiplexer[I/O Multiplexer epoll]
+    Multiplexer --> Loop[Single Threaded Event Loop]
+    Loop --> Cache[(In-Memory Key Value Store)]
+    Loop -.-> Disk[AOF / RDB Background Write]
+```
+
+---
+
+## Related Cheatsheets & References
+
+- [Database Comparison Cheatsheet](database-comparison-cheatsheet.md)
+- [PostgreSQL Cheatsheet](postgres-cheatsheet.md)
+- [Master Directory Index](../Cheatsheets.html)
+- [Knowledge Hub Portal](../Knowledge%2021cb6c26d9ba808da8d4f72eb2193ca2.html)

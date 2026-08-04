@@ -177,3 +177,57 @@ spec:
             values:
             - us-east-1a
 ```
+
+
+---
+
+## Best Practices & Production Standards
+
+1. **Enforce Resource Limits**: Always declare explicit CPU/Memory `requests` and `limits` to enable stable pod scheduling.
+2. **Configure Health Probes**: Define robust `livenessProbes`, `readinessProbes`, and `startupProbes` to enable automated pod self-healing.
+3. **Enforce Namespace Isolation**: Partition cluster resources into logical Namespaces, and lock down communication using NetworkPolicies.
+
+---
+
+## Common Mistakes & Antipatterns
+
+1. **Deploying with Hardcoded NodePorts**: Exposing service endpoints with high NodePort numbers on master nodes instead of using standard Ingress resources.
+2. **Using `:latest` Image Tags**: Deploying container deployments without deterministic tags, causing mismatched running image versions on pod restarts.
+3. **Mixing Config and Code**: Storing secret variables in base manifests instead of deploying them as highly-typed Secrets or ConfigMaps.
+
+---
+
+## Troubleshooting & Debugging Guide
+
+1. **CrashLoopBackOff Diagnostics**: Call `kubectl logs <pod-name>` to read boot-time errors, and run `kubectl describe pod <pod-name>` to analyze scheduling events, volumes, and probe failures.
+2. **Inbound Routing Failures**: Check services and selectors. Run `kubectl get endpoints` to verify pods are mapped correctly to target services.
+
+---
+
+## Core Interview Questions & Answers
+
+1. **Q: Describe the role of the Kubernetes Control Plane and Worker Nodes.**
+   - **A**: The Control Plane manages cluster state (API Server, etcd, Scheduler, Controller Manager). Worker Nodes run container applications and include the Kubelet agent, Kube-Proxy router, and Container Runtime (e.g., containerd).
+2. **Q: What is the difference between a Liveness and a Readiness probe?**
+   - **A**: A Liveness probe determines if a container is alive; if it fails, Kubernetes kills and restarts the pod. A Readiness probe determines if a container is ready to serve network traffic; if it fails, Kubernetes removes the pod from service endpoints.
+
+---
+
+## Technical Architecture Diagram
+
+```mermaid
+graph TD
+    APIServer[Kube API Server] --> Scheduler[Kube Scheduler]
+    APIServer --> ControlManager[Kube Controller Manager]
+    APIServer --> etcd[(etcd Cluster State)]
+    APIServer --> Kubelet[Kubelet Node Agent]
+```
+
+---
+
+## Related Cheatsheets & References
+
+- [Docker Cheatsheet](docker-cheatsheet.md)
+- [Terraform Cheatsheet](terraform-cheatsheet.md)
+- [Master Directory Index](../Cheatsheets.html)
+- [Knowledge Hub Portal](../Knowledge%2021cb6c26d9ba808da8d4f72eb2193ca2.html)
