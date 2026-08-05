@@ -79,7 +79,7 @@ The new `@for` syntax has built-in optimizations and requires a unique track pro
 <ul>
   @for (user of users; track user.id; let idx = $index; let total = $count) {
     <li class="user-item">
-      [{{ idx + 1 }}/{{ total }}] {{ user.name }} - {{ user.email }}
+      {% raw %}[{{ idx + 1 }}/{{ total }}] {{ user.name }} - {{ user.email }}{% endraw %}
     </li>
   } @empty {
     <p class="placeholder-text">No active users found.</p>

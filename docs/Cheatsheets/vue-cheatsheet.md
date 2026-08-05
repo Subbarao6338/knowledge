@@ -96,7 +96,7 @@ export default {
 | `v-for` | List rendering | `<li v-for="(item, idx) in list" :key="item.id">` |
 | `v-slot` | Named or scoped slots templates | `<template #header><h1>Title</h1></template>` |
 | `v-once` | Render element/component once and cache | `<span v-once>This will never change: {{ msg }}</span>` |
-| `v-pre` | Skip compilation for this element | `<span v-pre>{{ this will not be compiled }}</span>` |
+| `v-pre` | Skip compilation for this element | `{% raw %}<span v-pre>{{ this will not be compiled }}</span>{% endraw %}` |
 
 ---
 

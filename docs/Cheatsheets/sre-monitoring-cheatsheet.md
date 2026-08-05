@@ -93,8 +93,8 @@ groups:
         labels:
           severity: critical
         annotations:
-          summary: "High HTTP 5xx error rate detected on {{ $labels.instance }}"
-          description: "HTTP error rate is above 5% (current value: {{ $value | printf \"%.2f\" }}%) for more than 2 minutes."
+          summary: {% raw %}"High HTTP 5xx error rate detected on {{ $labels.instance }}"{% endraw %}
+          description: {% raw %}"HTTP error rate is above 5% (current value: {{ $value | printf \"%.2f\" }}%) for more than 2 minutes."{% endraw %}
 
       - alert: DiskApproachingFull
         expr: (node_filesystem_free_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"}) * 100 < 10
@@ -103,7 +103,7 @@ groups:
           severity: warning
         annotations:
           summary: "Disk space low on root partition"
-          description: "Free space on / is below 10% (current value: {{ $value | printf \"%.2f\" }}%)."
+          description: {% raw %}"Free space on / is below 10% (current value: {{ $value | printf \"%.2f\" }}%)."{% endraw %}
 ```
 
 ---

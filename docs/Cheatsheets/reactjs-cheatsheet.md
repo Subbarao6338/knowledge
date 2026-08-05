@@ -80,7 +80,7 @@ export function ProfileForm() {
       <input type="text" name="name" placeholder="Enter new name" required />
       <SubmitButton />
       {state.message && (
-        <p style={{ color: state.success ? 'green' : 'red' }}>
+        {% raw %}<p style={{ color: state.success ? 'green' : 'red' }}>{% endraw %}
           {state.message}
         </p>
       )}
@@ -214,7 +214,7 @@ export function ThemeProvider({ children }) {
   };
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    {% raw %}<ThemeContext.Provider value={{ theme, toggleTheme }}>{% endraw %}
       {children}
     </ThemeContext.Provider>
   );
@@ -227,13 +227,15 @@ export function ThemeToggleButton() {
   return (
     <button
       onClick={toggleTheme}
-      style={{
+      style={
+        {% raw %}{
         background: theme === 'light' ? '#fff' : '#333',
         color: theme === 'light' ? '#000' : '#fff',
         padding: '8px 16px',
         border: '1px solid #ccc',
         borderRadius: '4px'
-      }}
+      }{% endraw %}
+    }
     >
       Active Theme: {theme} (Click to toggle)
     </button>
