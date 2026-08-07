@@ -33,14 +33,39 @@ CREATE TABLE employees (
 );
 ```
 
+### Declarative Table Partitioning (Range Partitioning Example)
+Table partitioning splits large logical tables into smaller physical tables, speeding up queries via Partition Pruning.
+
+```sql
+-- Create the Partitioned Parent Table
+CREATE TABLE measurement (
+    city_id         int not null,
+    logdate         date not null,
+    peaktemp        int,
+    unitsales       int
+) PARTITION BY RANGE (logdate);
+
+-- Create Partitions
+CREATE TABLE measurement_y2026m01 PARTITION OF measurement
+    FOR VALUES FROM ('2026-01-01') TO ('2026-02-01');
+
+CREATE TABLE measurement_y2026m02 PARTITION OF measurement
+    FOR VALUES FROM ('2026-02-01') TO ('2026-03-01');
+
+-- Inserting rows dynamically routes them to the correct partition
+INSERT INTO measurement (city_id, logdate, peaktemp, unitsales)
+VALUES (42, '2026-01-15', 38, 120);
+```
+
 ---
 
-## 2. Indexing Deep Dive (B-Tree, GIN, BRIN, Partial)
+## 2. Indexing Deep Dive (B-Tree, GIN, BRIN, Partial, Hash)
 
 Postgres supports multiple index types optimized for specific access patterns.
 
 ```sql
 -- 1. Standard B-Tree Index (Default)
+-- Optimized for: Equality (=), Range (<, <=, >, >=), and sorting operations.
 CREATE INDEX idx_employees_last_name ON employees(last_name);
 
 -- 2. Covering Index (using INCLUDE to add payload columns directly in the index nodes)
@@ -49,13 +74,19 @@ CREATE INDEX idx_employees_department_salary ON employees(department_id) INCLUDE
 -- 3. Partial Index (Filters out inactive users, keeping index size small)
 CREATE INDEX idx_employees_active_salary ON employees(salary) WHERE is_active = TRUE;
 
--- 4. Multi-Column Index (Leftmost prefix rule applies)
+-- 4. Multi-Column Index (Leftmost prefix rule applies: (last_name) or (last_name, first_name) work)
 CREATE INDEX idx_employees_name_compound ON employees(last_name, first_name);
 
 -- 5. GIN (Generalized Inverted Index) - Optimized for JSONB or Array content querying
 CREATE INDEX idx_employees_tags_gin ON employees USING gin (tags);
 
--- 6. Expression Index (Indexes the calculated lower-case text)
+-- 6. BRIN (Block Range Index) - Extremely small; optimized for huge tables sorted physically (e.g., TIMESTAMPTZ)
+CREATE INDEX idx_measurement_logdate_brin ON measurement USING brin (logdate);
+
+-- 7. Hash Index - Only handles simple equality (=) checks. Fast but historically lacked recovery support (fully safe now since PG 10).
+CREATE INDEX idx_employees_email_hash ON employees USING hash (email);
+
+-- 8. Expression Index (Indexes the calculated lower-case text)
 CREATE INDEX idx_employees_lower_email ON employees (lower(email));
 ```
 
@@ -66,7 +97,7 @@ CREATE INDEX idx_employees_lower_email ON employees (lower(email));
 Use `EXPLAIN ANALYZE` to inspect how Postgres executes queries under the hood.
 
 ```sql
-EXPLAIN ANALYZE
+EXPLAIN (ANALYZE, BUFFERS, VERBOSE)
 SELECT department_id, avg(salary)
 FROM employees
 WHERE is_active = TRUE AND last_name = 'Verne'
@@ -78,6 +109,7 @@ GROUP BY department_id;
 - **Index Scan:** Traverses the index tree and reads matched rows from table pages.
 - **Index Only Scan:** Returns result directly from index nodes without hitting table pages (very fast).
 - **Bitmap Heap Scan / Bitmap Index Scan:** Used when fetching many matches; dynamically maps matched row IDs in memory.
+- **Buffers Shared Hit/Read:** `Hit` means read from Postgres shared buffer cache (RAM). `Read` means read from disk. Aim for high hit rates!
 
 ---
 
@@ -87,13 +119,13 @@ Postgres uses MVCC to allow readers to query without being blocked by writers, a
 
 ### Transaction Isolation Levels
 ```sql
--- 1. Read Committed (Default)
+-- 1. Read Committed (Default: protects against dirty reads)
 BEGIN TRANSACTION ISOLATION LEVEL READ COMMITTED;
 
--- 2. Repeatable Read (Guarantees data won't change within the transaction scope)
+-- 2. Repeatable Read (Guarantees data won't change within the transaction scope; prevents non-repeatable reads)
 BEGIN TRANSACTION ISOLATION LEVEL REPEATABLE READ;
 
--- 3. Serializable (Full isolation, highest guarantees, but can fail on concurrent write dependencies)
+-- 3. Serializable (Full isolation, highest guarantees; fails with a Serialization Failure if concurrent write conflicts exist)
 BEGIN TRANSACTION ISOLATION LEVEL SERIALIZABLE;
 ```
 
@@ -108,8 +140,9 @@ COMMIT;
 
 ---
 
-## 5. Maintenance & Garbage Collection (VACUUM)
+## 5. Maintenance & Garbage Collection (VACUUM & WAL)
 
+### MVCC Bloat
 MVCC leaves dead row versions ("dead tuples") when data is updated or deleted. `VACUUM` reclaims this space.
 
 ```sql
@@ -123,6 +156,59 @@ VACUUM ANALYZE employees;
 VACUUM FULL employees;
 ```
 
+### Write-Ahead Logging (WAL)
+WAL guarantees durability (the 'D' in ACID). Before any data is modified on disk, the change is written sequentially to the WAL files on disk. If a crash occurs, Postgres replays WAL records to restore database state.
+
+```sql
+-- Manually force WAL checkpoint (flushes dirty buffers to disk)
+CHECKPOINT;
+```
+
+---
+
+## 6. DB Administration & Performance Diagnostics
+
+Common administrative queries to debug slow performance or resource bottlenecks:
+
+```sql
+-- 1. Find currently running active queries and their duration
+SELECT pid, age(clock_timestamp(), query_start), usename, state, query
+FROM pg_stat_activity
+WHERE state != 'idle'
+ORDER BY age DESC;
+
+-- 2. Check table and index sizes on disk
+SELECT relname AS table_name,
+       pg_size_pretty(pg_total_relation_size(oid)) AS total_size,
+       pg_size_pretty(pg_relation_size(oid)) AS table_size,
+       pg_size_pretty(pg_total_relation_size(oid) - pg_relation_size(oid)) AS index_size
+FROM pg_class
+WHERE relkind = 'r' AND relnamespace = 'public'::regnamespace;
+
+-- 3. List active locks and blocked processes
+SELECT blocked_locks.pid     AS blocked_pid,
+       blocked_activity.usename  AS blocked_user,
+       blocking_locks.pid    AS blocking_pid,
+       blocking_activity.usename AS blocking_user,
+       blocked_activity.query    AS blocked_statement,
+       blocking_activity.query   AS blocking_statement
+FROM  pg_catalog.pg_locks         blocked_locks
+JOIN pg_catalog.pg_stat_activity blocked_activity ON blocked_activity.pid = blocked_locks.pid
+JOIN pg_catalog.pg_locks         blocking_locks
+    ON blocking_locks.locktype = blocked_locks.locktype
+    AND blocking_locks.database IS NOT DISTINCT FROM blocked_locks.database
+    AND blocking_locks.relation IS NOT DISTINCT FROM blocked_locks.relation
+    AND blocking_locks.page IS NOT DISTINCT FROM blocked_locks.page
+    AND blocking_locks.tuple IS NOT DISTINCT FROM blocked_locks.tuple
+    AND blocking_locks.virtualxid IS NOT DISTINCT FROM blocked_locks.virtualxid
+    AND blocking_locks.transactionid IS NOT DISTINCT FROM blocked_locks.transactionid
+    AND blocking_locks.classid IS NOT DISTINCT FROM blocked_locks.classid
+    AND blocking_locks.objid IS NOT DISTINCT FROM blocked_locks.objid
+    AND blocking_locks.objsubid IS NOT DISTINCT FROM blocked_locks.objsubid
+    AND blocking_locks.pid != blocked_locks.pid
+JOIN pg_catalog.pg_stat_activity blocking_activity ON blocking_activity.pid = blocking_locks.pid
+WHERE NOT blocked_locks.granted;
+```
 
 ---
 
