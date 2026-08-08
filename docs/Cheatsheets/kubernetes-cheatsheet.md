@@ -67,25 +67,50 @@ kubectl port-forward svc/<service> 8080:80 # Forward local port 8080 to service 
 
 ---
 
-## 4. Standard Manifest Examples
+## 4. Multi-Container Pod Patterns
 
-### Pod Manifest (`pod.yaml`)
+Kubernetes supports multiple containers sharing the same Pod network and volume namespaces.
+
+```mermaid
+graph TD
+    subgraph Pod
+        Main[Main Application Container] <-->|Shares localhost & volumes| Sidecar[Sidecar Container: e.g., Log Shipper]
+        SharedVol[(Shared EmptyDir Volume)] --> Main
+        SharedVol --> Sidecar
+    end
+```
+
+### 1. Sidecar Pattern
+An auxiliary container enhances the main container (e.g., streaming logs, syncing configurations, or downloading assets).
 ```yaml
 apiVersion: v1
 kind: Pod
 metadata:
-  name: frontend-pod
-  labels:
-    app: frontend
+  name: sidecar-example
 spec:
   containers:
-    - name: web-app
-      image: nginx:alpine
-      ports:
-        - containerPort: 80
+    - name: main-app
+      image: alpine
+      command: ["/bin/sh", "-c", "while true; do echo $(date) 'User log' >> /var/log/app.log; sleep 5; done"]
+      volumeMounts:
+        - name: log-vol
+          mountPath: /var/log
+    - name: sidecar-shipper
+      image: alpine
+      command: ["/bin/sh", "-c", "tail -f /var/log/app.log"]
+      volumeMounts:
+        - name: log-vol
+          mountPath: /var/log
+  volumes:
+    - name: log-vol
+      emptyDir: {}
 ```
 
-### Deployment Manifest (`deployment.yaml`)
+---
+
+## 5. Standard Manifest Examples
+
+### Deployment Manifest with SecurityContext
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -103,9 +128,15 @@ spec:
       labels:
         app: frontend
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
       containers:
         - name: web-app
           image: nginx:alpine
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
           ports:
             - containerPort: 80
           resources:
@@ -117,67 +148,79 @@ spec:
               cpu: "500m"
 ```
 
-### Service Manifest (`service.yaml`)
+### NetworkPolicy Specification
+By default, Kubernetes pods accept traffic from any source. A `NetworkPolicy` isolates traffic.
 ```yaml
-apiVersion: v1
-kind: Service
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
 metadata:
-  name: frontend-service
+  name: allow-frontend-only
+  namespace: database
 spec:
-  type: ClusterIP
-  selector:
-    app: frontend
-  ports:
-    - port: 80
-      targetPort: 80
+  podSelector:
+    matchLabels:
+      role: db
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              role: frontend
+      ports:
+        - protocol: TCP
+          port: 5432
 ```
 
 ---
 
-## 5. Common Gotchas & Troubleshooting Steps
+## 6. Storage Provisioning (PV & PVC)
+
+Dynamic volume provisioning lets cluster administrators define `StorageClasses` so that physical disks are provisioned automatically on demand.
+
+```yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pg-storage-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: standard  # Maps to cloud provider storage driver
+  resources:
+    requests:
+      storage: 10Gi
+```
+
+---
+
+## 7. Helm Charts Usage
+
+Helm is the package manager for Kubernetes, packaging resource manifests into standardized templates.
+
+```bash
+# Add a repository
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo update
+
+# Install a chart
+helm install my-postgres bitnami/postgresql --set auth.database=prod_db
+
+# Upgrade an existing deployment
+helm upgrade my-postgres bitnami/postgresql --values overrides.yaml
+
+# List active releases
+helm list
+```
+
+---
+
+## 8. Common Gotchas & Troubleshooting Steps
 
 1. **`CrashLoopBackOff`:** The container starts, crashes, restarts, and crashes again. Check logs immediately with `kubectl logs <pod-name>`. Often caused by incorrect commands, missing environment variables, or application errors.
 2. **`ImagePullBackOff`:** Kubernetes is unable to pull the container image. Check image name capitalization, spelling, tag/version, and ensure pull secrets are present if using a private registry.
 3. **Namespace Scope:** If you cannot find your resource, you might be in the wrong namespace. Append `-n <namespace>` to check, or use `-A` to see everything.
 4. **Service Matching Labels:** A Service forwards traffic to Pods via selector matching. If your Service is not routing traffic, verify that `spec.selector` matches the labels defined on your Pods exactly.
-
----
-
-## 6. Advanced Kubernetes Features
-
-### ConfigMaps & Secrets
-```yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: app-config
-data:
-  database_url: "jdbc:postgresql://db:5432/prod"
-  max_connections: "20"
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: app-secret
-type: Opaque
-data:
-  db_password: dGhlLXNlY3JldC1wYXNzd29yZA== # base64 encoded
-```
-
-### Pod Scheduling & Node Affinity
-```yaml
-spec:
-  affinity:
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-        - matchExpressions:
-          - key: topology.kubernetes.io/zone
-            operator: In
-            values:
-            - us-east-1a
-```
-
 
 ---
 
@@ -229,5 +272,6 @@ graph TD
 
 - [Docker Cheatsheet](docker-cheatsheet.md)
 - [Terraform Cheatsheet](terraform-cheatsheet.md)
+- [GitOps & ArgoCD Cheatsheet](gitops-argocd-cheatsheet.md)
 - [Master Directory Index](../Cheatsheets.html)
 - [Knowledge Hub Portal](../Knowledge%2021cb6c26d9ba808da8d4f72eb2193ca2.html)
