@@ -147,12 +147,12 @@ def organize_github_vault(base_dir, exclude_dirs=None, exclude_files=None, force
                     if not filename:
                         continue
 
-                    # Only rewrite if target actually exists in the companion folder or if it is not a .md page file,
+                    # Only rewrite if target actually exists in the companion folder or if it is not a page file,
                     # to protect valid cross-references and sibling pages.
                     target_in_assets = os.path.join(root, page_name, filename)
-                    is_md = filename.lower().endswith('.md')
+                    is_page = filename.lower().endswith(('.md', '.html', '.csv'))
 
-                    if os.path.exists(target_in_assets) or not is_md:
+                    if os.path.exists(target_in_assets) or not is_page:
                         encoded_page_name = urllib.parse.quote(page_name)
                         encoded_filename = urllib.parse.quote(filename)
                         new_relative_path = f"{encoded_page_name}/{encoded_filename}"

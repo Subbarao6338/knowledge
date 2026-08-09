@@ -222,13 +222,15 @@ Welcome to the unified developer cheatsheets directory. Access our detailed chea
       </div>
       <div>
         <h3 class="text-base font-bold text-slate-900 dark:text-slate-50 !m-0 !p-0">System & Security</h3>
-        <span class="text-xs text-slate-400 font-semibold">3 reference sheets</span>
+        <span class="text-xs text-slate-400 font-semibold">5 reference sheets</span>
       </div>
     </div>
     <div class="flex flex-wrap gap-2 mb-4">
-      <a href="Cheatsheets/system-design-cheatsheet.html" class="px-2.5 py-1 text-xs font-semibold bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400 rounded-lg hover:bg-emerald-100 transition-colors">System Design <span class="text-[9px] uppercase tracking-wide ml-0.5 font-bold">New</span></a>
-      <a href="Cheatsheets/web-security-cheatsheet.html" class="px-2.5 py-1 text-xs font-semibold bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400 rounded-lg hover:bg-emerald-100 transition-colors">Web Security <span class="text-[9px] uppercase tracking-wide ml-0.5 font-bold">New</span></a>
-      <a href="Cheatsheets/microservices-cheatsheet.html" class="px-2.5 py-1 text-xs font-semibold bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400 rounded-lg hover:bg-emerald-100 transition-colors">Microservices <span class="text-[9px] uppercase tracking-wide ml-0.5 font-bold">New</span></a>
+      <a href="Cheatsheets/system-design-cheatsheet.html" class="px-2.5 py-1 text-xs font-semibold bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400 rounded-lg hover:bg-emerald-100 transition-colors">System Design</a>
+      <a href="Cheatsheets/web-security-cheatsheet.html" class="px-2.5 py-1 text-xs font-semibold bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400 rounded-lg hover:bg-emerald-100 transition-colors">Web Security</a>
+      <a href="Cheatsheets/microservices-cheatsheet.html" class="px-2.5 py-1 text-xs font-semibold bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400 rounded-lg hover:bg-emerald-100 transition-colors">Microservices</a>
+      <a href="Cheatsheets/networking-cheatsheet.html" class="px-2.5 py-1 text-xs font-semibold bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400 rounded-lg hover:bg-emerald-100 transition-colors">Networking <span class="text-[9px] uppercase tracking-wide ml-0.5 font-bold">New</span></a>
+      <a href="Cheatsheets/design-patterns-cheatsheet.html" class="px-2.5 py-1 text-xs font-semibold bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400 rounded-lg hover:bg-emerald-100 transition-colors">Design Patterns <span class="text-[9px] uppercase tracking-wide ml-0.5 font-bold">New</span></a>
     </div>
   </div>
 
