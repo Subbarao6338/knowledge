@@ -5,7 +5,7 @@ title: "TypeScript Cheatsheet"
 
 # TypeScript Cheatsheet
 
-TypeScript is a typed superset of JavaScript that compiles to plain JavaScript. This cheatsheet covers TypeScript features, configurations, and best practices.
+TypeScript is a typed superset of JavaScript that compiles to plain JavaScript. This cheatsheet covers TypeScript features, configurations, advanced typing concepts, and best practices.
 
 ---
 
@@ -117,6 +117,33 @@ type Point3D = Point & {
 };
 ```
 
+### Mapped Types, Conditional Types & Template Literal Types
+Mapped types allow you to create new types based on old ones by mapping over keys. Conditional types choose types based on a relation test.
+
+```typescript
+// Mapped Type
+type OptionsFlags<Type> = {
+  [Property in keyof Type]: boolean;
+};
+type Features = { darkMode: () => void; newUser: boolean };
+type FeatureOptions = OptionsFlags<Features>; // { darkMode: boolean; newUser: boolean }
+
+// Conditional Type
+type IsString<T> = T extends string ? true : false;
+type A = IsString<string>; // true
+type B = IsString<number>; // false
+
+// 'infer' keyword inside conditional types
+type GetReturnType<T> = T extends (...args: any[]) => infer R ? R : never;
+type Num = GetReturnType<() => number>; // number
+
+// Template Literal Type
+type EmailLocaleIDs = "welcome_email" | "email_heading";
+type FooterLocaleIDs = "footer_title" | "footer_send";
+type AllLocaleIDs = `${EmailLocaleIDs | FooterLocaleIDs}_id`;
+// "welcome_email_id" | "email_heading_id" | "footer_title_id" | "footer_send_id"
+```
+
 ---
 
 ## 3. Generics
@@ -171,6 +198,15 @@ TypeScript provides several utility types to facilitate common type transformati
 
 TypeScript uses type narrowing to identify the most specific type possible inside conditionals.
 
+### Type Guard Comparisons
+
+| Guard Type | Operator/Pattern | Targets | Runtime Check | Compile-time Narrowing |
+| :--- | :--- | :--- | :--- | :--- |
+| **typeof** | `typeof x === "string"` | Primitives (`string`, `number`, `boolean`, `symbol`) | Yes (standard JS) | Yes |
+| **instanceof** | `x instanceof Date` | Classes & constructor functions | Yes (prototype chain check) | Yes |
+| **in** | `"swim" in pet` | Object property existence | Yes | Yes |
+| **Custom Predicate** | `x is Fish` | Complex shapes / custom logic | Custom boolean function | Yes |
+
 ```typescript
 // typeof guard
 function doSomething(x: number | string) {
@@ -197,6 +233,9 @@ function doStuff(arg: Foo | Bar) {
 }
 
 // Custom Type Predicates (User-Defined Type Guards)
+interface Fish { swim: () => void; }
+interface Bird { fly: () => void; }
+
 function isFish(pet: Fish | Bird): pet is Fish {
   return (pet as Fish).swim !== undefined;
 }
@@ -254,15 +293,38 @@ function isFish(pet: Fish | Bird): pet is Fish {
 
 ## Troubleshooting & Debugging Guide
 
+### Common Compiler Errors & Solutions
+
 1. **Property 'X' does not exist on type 'Y'**: Implement a custom type guard using `in` or `typeof` check to narrow down union structures before accessing properties.
+   ```typescript
+   // Wrong:
+   function handle(input: { foo: string } | { bar: number }) {
+     console.log(input.foo); // Error!
+   }
+   // Right:
+   function handle(input: { foo: string } | { bar: number }) {
+     if ("foo" in input) {
+       console.log(input.foo); // Narrowed safely
+     }
+   }
+   ```
 2. **Type instantiation is excessively deep**: Refactor recursive interface declarations, or use simpler index lookup types.
+3. **Object literal may only specify known properties**: Avoid passing raw literal objects with extra attributes directly to strict interfaces. Use a temporary variable to allow duck typing.
+   ```typescript
+   interface User { name: string; }
+   // Error:
+   const user: User = { name: "Alice", age: 30 };
+   // Allowed (duck-typing through reference):
+   const tmp = { name: "Alice", age: 30 };
+   const user2: User = tmp; // OK!
+   ```
 
 ---
 
 ## Core Interview Questions & Answers
 
 1. **Q: What is the difference between `interface` and `type` alias in TypeScript?**
-   - **A**: Both can describe object shapes and support declaration merging. Interfaces are open to extension via declaration merging and have faster compiler performance. Type aliases can define unions, primitives, tuples, and mapped types.
+   - **A**: Both can describe object shapes. Interfaces are open to extension via declaration merging and have faster compiler performance. Type aliases can define unions, primitives, tuples, and mapped types.
 2. **Q: Explain the difference between `any`, `unknown`, and `never`.**
    - **A**: `any` disables all type-checking. `unknown` represents any value but is type-safe; you must perform type narrowing/checking before calling methods on it. `never` represents the type of values that never occur (e.g., functions that throw exceptions or infinite loops).
 
