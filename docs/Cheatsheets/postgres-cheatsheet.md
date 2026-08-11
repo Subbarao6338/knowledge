@@ -217,6 +217,8 @@ WHERE NOT blocked_locks.granted;
 1. **Index Optimization**: Use GIN indexes for array and JSONB queries, Partial indexes to omit rows that are rarely queried, and Covering indexes (`INCLUDE`) to bypass heap scans.
 2. **Connection Pooling**: Always employ an external pooler like PgBouncer in production to restrict connection state overheads.
 3. **Explicit Query Planning**: Constantly monitor planning outputs using `EXPLAIN (ANALYZE, BUFFERS)` to diagnose heavy sequential scans or bad hash joins.
+4. **Use Connection Limits**: Configure logical connection limits per role or database to prevent connection exhaustion.
+5. **Autovacuum Configuration**: Tune Autovacuum parameters (`autovacuum_vacuum_scale_factor` and `autovacuum_vacuum_cost_limit`) for write-heavy databases to avoid performance cliffs.
 
 ---
 
@@ -225,6 +227,7 @@ WHERE NOT blocked_locks.granted;
 1. **Failing to VACUUM**: Neglecting dead tuple cleanup, which causes table bloat and query slowing in MVCC systems.
 2. **Querying Unbounded Selects**: Running `SELECT *` across huge tables without a limit, offset, or index boundaries.
 3. **Unindexed Foreign Keys**: Forgetting to index foreign key constraints, resulting in heavy table scans during cascades or joins.
+4. **Over-Indexing**: Creating indexes on every single column, which drastically slows down writes (`INSERT`, `UPDATE`, `DELETE`).
 
 ---
 
@@ -232,6 +235,7 @@ WHERE NOT blocked_locks.granted;
 
 1. **Lock Contention / Deadlocks**: Query `pg_stat_activity` and `pg_locks` to identify blocked transactions, transaction durations, and lock locks.
 2. **High CPU Utilization**: Use `pg_stat_statements` to capture the most resource-intensive SQL queries and identify missing indexes or bad joins.
+3. **Out of Memory (OOM) Errors**: Adjust `work_mem` and `shared_buffers` appropriately to ensure the OS has enough head-room and Postgres doesn't get terminated by the Linux OOM killer.
 
 ---
 
@@ -241,6 +245,8 @@ WHERE NOT blocked_locks.granted;
    - **A**: When rows are updated or deleted, Postgres writes a new version of the row (tuple) with visibility headers (`xmin`, `xmax`). Active transactions only see rows whose transactions have committed. Old rows are collected asynchronously by the `VACUUM` process.
 2. **Q: Compare a B-Tree index with a GIN (Generalized Inverted Index) index in Postgres.**
    - **A**: B-Tree is optimized for scalar, ordered data (equality and range queries). GIN is an inverted index optimized for multi-valued elements (like array items, JSONB document keys, or text search tokens), mapping components back to rows.
+3. **Q: What is the purpose of the Write-Ahead Log (WAL)?**
+   - **A**: The WAL guarantees transactions are durable (the 'D' in ACID). Before modifications are applied to main data files, they are appended sequentially to the WAL. In a crash, Postgres replays the WAL to restore a consistent state.
 
 ---
 
