@@ -112,6 +112,6 @@ graph TD
 
 ## Related Cheatsheets & References
 
-- [Master Index](system-design-cheatsheet/Cheatsheets.html)
+- [Master Index](../Cheatsheets.html)
 - [Microservices Cheatsheet](microservices-cheatsheet.md)
 - [Web Security Cheatsheet](web-security-cheatsheet.md)
