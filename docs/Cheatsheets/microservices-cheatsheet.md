@@ -103,6 +103,7 @@ graph TD
 
 ## Related Cheatsheets & References
 
-- [Master Index](microservices-cheatsheet/Cheatsheets.html)
+- [Master Index](../Cheatsheets.html)
+- [Apache Kafka Cheatsheet](kafka-cheatsheet.md)
 - [System Design Cheatsheet](system-design-cheatsheet.md)
 - [Web Security Cheatsheet](web-security-cheatsheet.md)

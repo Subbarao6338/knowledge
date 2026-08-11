@@ -120,6 +120,6 @@ sequenceDiagram
 
 ## Related Cheatsheets & References
 
-- [Master Index](web-security-cheatsheet/Cheatsheets.html)
+- [Master Index](../Cheatsheets.html)
 - [System Design Cheatsheet](system-design-cheatsheet.md)
 - [Microservices Cheatsheet](microservices-cheatsheet.md)

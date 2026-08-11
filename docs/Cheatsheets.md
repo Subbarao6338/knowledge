@@ -122,6 +122,7 @@ Welcome to the unified developer cheatsheets directory. Access our detailed chea
       <a href="Cheatsheets/sql-cheatsheet.html" class="px-2.5 py-1 text-xs font-medium bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-300 rounded-lg hover:text-accent hover:bg-accent-10 transition-colors">SQL</a>
       <a href="Cheatsheets/sql-window-functions-cheatsheet.html" class="px-2.5 py-1 text-xs font-medium bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-300 rounded-lg hover:text-accent hover:bg-accent-10 transition-colors">SQL Windows</a>
       <a href="Cheatsheets/postgres-cheatsheet.html" class="px-2.5 py-1 text-xs font-semibold bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400 rounded-lg hover:bg-emerald-100 transition-colors">PostgreSQL <span class="text-[9px] uppercase tracking-wide ml-0.5 font-bold">New</span></a>
+      <a href="Cheatsheets/kafka-cheatsheet.html" class="px-2.5 py-1 text-xs font-semibold bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400 rounded-lg hover:bg-emerald-100 transition-colors">Apache Kafka <span class="text-[9px] uppercase tracking-wide ml-0.5 font-bold">New</span></a>
     </div>
   </div>
 
@@ -133,11 +134,12 @@ Welcome to the unified developer cheatsheets directory. Access our detailed chea
       </div>
       <div>
         <h3 class="text-base font-bold text-slate-900 dark:text-slate-50 !m-0 !p-0">DevOps & SRE</h3>
-        <span class="text-xs text-slate-400 font-semibold">14 reference sheets</span>
+        <span class="text-xs text-slate-400 font-semibold">15 reference sheets</span>
       </div>
     </div>
     <div class="flex flex-wrap gap-2 mb-4">
       <a href="Cheatsheets/gitops-argocd-cheatsheet.html" class="px-2.5 py-1 text-xs font-semibold bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400 rounded-lg hover:bg-emerald-100 transition-colors">GitOps & ArgoCD <span class="text-[9px] uppercase tracking-wide ml-0.5 font-bold">New</span></a>
+      <a href="Cheatsheets/gitlab-ci-cheatsheet.html" class="px-2.5 py-1 text-xs font-semibold bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400 rounded-lg hover:bg-emerald-100 transition-colors">GitLab CI/CD <span class="text-[9px] uppercase tracking-wide ml-0.5 font-bold">New</span></a>
       <a href="Cheatsheets/airflow-cheatsheet.html" class="px-2.5 py-1 text-xs font-medium bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-300 rounded-lg hover:text-accent hover:bg-accent-10 transition-colors">Airflow</a>
       <a href="Cheatsheets/databricks-cheatsheet.html" class="px-2.5 py-1 text-xs font-medium bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-300 rounded-lg hover:text-accent hover:bg-accent-10 transition-colors">Databricks</a>
       <a href="Cheatsheets/data-engineering-cheatsheet.html" class="px-2.5 py-1 text-xs font-medium bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-300 rounded-lg hover:text-accent hover:bg-accent-10 transition-colors">Data Engineering</a>
