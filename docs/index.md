@@ -186,7 +186,7 @@ These databases contain structured entries fully organized under Notion's relati
 
 Detailed architectural documents outlining system integrations and mobile frameworks:
 
-1. 📱 **[DroidSurf Mobile Browser & Multi-Tool Integration Specification](index/DroidSurf%20Mobile%20Browser%20%26%20Multi-Tool%20Integration%20Specification%2058c8-1d4a.html)**
+1. 📱 **[DroidSurf Mobile Browser & Multi-Tool Integration Specification](DroidSurf%20Mobile%20Browser%20%26%20Multi-Tool%20Integration%20Specification%2058c8-1d4a.html)**
    * Advanced mobile browser custom engine specs, protocol handlers, and session caches.
-2. 🛠️ **[Android Multi-Tool Master Engineering & Architecture Specification Manual](index/Android%20Multi-Tool%20Master%20Engineering%20%26%20Architecture%20Specification%20Manual%2035eb6c26d9ba80e59335c26c5f2b6de9.html)**
+2. 🛠️ **[Android Multi-Tool Master Engineering & Architecture Specification Manual](My%20notes%2021cb6c26d9ba81648e18c1761db2dcca/Android%20Multi-Tool%20Master%20Engineering%20%26%20Architecture%20Specification%20Manual%2035eb6c26d9ba80e59335c26c5f2b6de9.html)**
    * 1700+ line master specification for Android system modifications, recovery utilities, flashing tools, and device virtualization.
