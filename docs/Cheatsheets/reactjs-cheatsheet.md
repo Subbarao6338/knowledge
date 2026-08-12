@@ -379,6 +379,69 @@ export function SearchFilterDashboard() {
 }
 ```
 
+---
+
+## 9. React Server Components (RSC) vs Client Components
+
+React Server Components (RSC) represent a paradigm shift where components render exclusively on the server, reducing bundle sizes and improving initial load performance.
+
+### Comparison Matrix
+
+| Feature | React Server Components (RSC) | Client Components (CC) |
+| :--- | :--- | :--- |
+| **Execution Env** | Runs *only* on the build server or request server. | Runs on the browser (and server during SSR). |
+| **Direct DB Access**| Yes, can query databases or microservices directly. | No, must use fetch or custom client API requests. |
+| **React State & Hooks** | No, cannot use `useState`, `useEffect`, etc. | Yes, supports all standard React state and hooks. |
+| **Bundle Impact** | Zero bytes. Dependencies are not sent to browser. | Included in the Javascript bundles sent to client. |
+| **Directive** | Default in Next.js App Router (no directive). | Opt-in via `"use client"` at top of file. |
+
+### Component Composition and Rendering Boundaries
+
+When composing components, you can nest Client Components inside Server Components, but you cannot import Server Components directly into Client Components. Instead, pass Server Components as `children` props.
+
+```mermaid
+graph TD
+    subgraph Server Boundary [Server Boundary]
+        RSC1[Layout Server Component] --> RSC2[Page Server Component]
+        RSC2 -->|Imports & Configures| CC[Navbar Client Component]
+    end
+    subgraph Client Boundary [Client Boundary]
+        CC -->|Interacts & Mutates| DOM[Browser UI / State]
+        RSC2 -.->|Passes as children prop| CC
+    end
+```
+
+### React 19 Hydration Mismatch Troubleshooting
+
+Hydration mismatches occur when the pre-rendered HTML from the server doesn't match the client's first render output (e.g., mismatching timestamps, window checks, or dynamic local storage values).
+
+#### 1. Suppressing Minor Hydration Mismatches
+If a dynamic mismatch cannot be avoided, suppress the console warning on that specific node:
+```jsx
+<span suppressHydrationWarning={true}>
+  {new Date().getFullYear()}
+</span>
+```
+
+#### 2. Safe Client-Only Mounting Pattern
+To ensure dynamic browser-only content (like `localStorage` or `window.innerWidth`) is only rendered on the client, wrap it in a state guard:
+```jsx
+import { useState, useEffect } from 'react';
+
+export function ClientMountedView() {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return <div class="placeholder">Loading secure client view...</div>;
+  }
+
+  return <div>Client-Only Value: {window.localStorage.getItem("token")}</div>;
+}
+```
 
 ---
 

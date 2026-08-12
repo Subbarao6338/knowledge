@@ -643,6 +643,56 @@ class Product:
         self.quantity = quantity
 ```
 
+### Memory Profiling & Optimization Techniques
+
+Python handles memory via dynamic reference counting and a cyclic garbage collector. In high-throughput production systems, tracking and reducing memory footprint is vital.
+
+#### 1. Estimating Object Size with `sys.getsizeof`
+The `sys.getsizeof` function returns the memory size of an object in bytes. Note that it only reports the memory directly allocated to the object, not the memory of nested objects it references (shallow size).
+
+```python
+import sys
+
+# Empty list vs filled list
+empty_list = []
+filled_list = [1, 2, 3]
+
+print(sys.getsizeof(empty_list))   # ~56 bytes (platform dependent)
+print(sys.getsizeof(filled_list))  # ~88 bytes
+```
+
+#### 2. Deep Memory Profiling with `tracemalloc`
+To trace memory allocations across lines of code or detect leaks, use the built-in `tracemalloc` module.
+
+```python
+import tracemalloc
+
+# Start tracing
+tracemalloc.start()
+
+# Run your code
+snapshot1 = tracemalloc.take_snapshot()
+large_list = [x for x in range(100000)]
+snapshot2 = tracemalloc.take_snapshot()
+
+# Compare snapshots
+top_stats = snapshot2.compare_to(snapshot1, 'lineno')
+for stat in top_stats[:3]:
+    print(stat)
+```
+
+#### 3. Object Reference and Garbage Collection Lifecycle
+
+```mermaid
+graph TD
+    Var[Variable Name / Reference] -->|Points to| Obj[Object in Heap Memory]
+    Obj -->|RefCount incremented| RefCount{RefCount > 0?}
+    RefCount -->|Yes| Keep[Retained in Heap]
+    RefCount -->|No| Dealloc[Immediately Deallocated / Freed]
+    Obj -.->|Unreachable Cycles| GC[Cyclic Garbage Collector]
+    GC -->|Runs periodically| Collect[Sweeps & Frees Cycle Groups]
+```
+
 ---
 
 ## 10. Advanced Dynamic Type Analysis & Protocols

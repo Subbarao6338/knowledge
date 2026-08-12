@@ -62,6 +62,65 @@ JWTs are compact, URL-safe means of representing claims to be transferred betwee
 
 ---
 
+## 4. Session Management & Header Hardening
+
+Securing sessions and using secure HTTP response headers is critical for mitigating attacks such as CSRF, Session Hijacking, Clickjacking, and MIME sniffing.
+
+### Secure Cookie Attributes
+
+To protect sessions against physical theft, client-side scripts, or unauthorized state transmissions, secure all session/state cookies with these vital attributes.
+
+| Attribute | Recommended Value | Security Purpose |
+| :--- | :--- | :--- |
+| **HttpOnly** | `True` | Prevents client-side scripts (JavaScript) from accessing the cookie via `document.cookie`, mitigating Session Hijacking via XSS. |
+| **Secure** | `True` | Restricts the cookie to encrypted (HTTPS) requests only, preventing interception over unencrypted Wi-Fi or networks. |
+| **SameSite** | `Strict` or `Lax` | Controls whether cookies are sent with cross-site requests. `Strict` blocks the cookie on all cross-site navigations; `Lax` allows it on top-level safe navigations (e.g., links). Prevents CSRF. |
+| **Domain** | Omit, or set to exact host | Specifies which hosts can receive the cookie. Omit to default to the exact domain (no subdomains), minimizing exposure. |
+| **Path** | Specific resource path (e.g., `/api`) | Limits cookie transmission to matching sub-paths of the site. Defaults to `/`. |
+| **Max-Age / Expires**| Set reasonable session expiry | Enforces cookie cleanup. Prefer `Max-Age` (in seconds) over `Expires` (absolute timestamp). |
+
+### Production HTTP Response Header Checklist
+
+Hardening server-side response headers is one of the easiest and most effective ways to defend an application against multiple attack vectors.
+
+#### 1. Content Security Policy (CSP)
+Declares approved resource loading sources. Restricts script execution to mitigate XSS.
+```http
+Content-Security-Policy: default-src 'self'; object-src 'none'; frame-ancestors 'none';
+```
+
+#### 2. HTTP Strict Transport Security (HSTS)
+Forces browsers to connect via HTTPS only, protecting against SSL stripping.
+```http
+Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+```
+
+#### 3. X-Frame-Options
+Mitigates Clickjacking by preventing the page from being rendered inside an `<iframe>` on external websites.
+```http
+X-Frame-Options: DENY
+```
+
+#### 4. X-Content-Type-Options
+Mitigates MIME Sniffing by forcing the browser to adhere strictly to the declared content type.
+```http
+X-Content-Type-Options: nosniff
+```
+
+#### 5. Referrer-Policy
+Controls how much referrer information is passed along with requests when navigating away.
+```http
+Referrer-Policy: strict-origin-when-cross-origin
+```
+
+#### 6. Permissions-Policy
+Controls which browser APIs and features (e.g., camera, microphone, geolocation, payment APIs) can be accessed by the page.
+```http
+Permissions-Policy: camera=(), microphone=(), geolocation=()
+```
+
+---
+
 ## Best Practices & Production Standards
 
 1. **HTTPS Everywhere:** Force TLS 1.3 across all domains. Implement HTTP Strict Transport Security (HSTS) headers to block unencrypted connections.

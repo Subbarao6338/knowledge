@@ -440,17 +440,17 @@
         </div>
 
         <!-- Help & Shortcuts Modal Button -->
-        <button id="help-toggle" class="h-9 w-9 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors mr-1" title="Keyboard Shortcuts & Help (Press '?')">
+        <button id="help-toggle" class="h-9 w-9 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors mr-1" title="Keyboard Shortcuts & Help (Press '?')" aria-label="Toggle keyboard shortcuts and help modal">
           <i class="fa-solid fa-circle-question"></i>
         </button>
 
         <!-- Dark Mode Toggle Button -->
-        <button id="theme-toggle" class="h-9 w-9 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors mr-1" title="Toggle Light/Dark Theme">
+        <button id="theme-toggle" class="h-9 w-9 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors mr-1" title="Toggle Light/Dark Theme" aria-label="Toggle light and dark theme">
           <i id="theme-icon" class="fa-solid fa-moon"></i>
         </button>
 
         <!-- Mobile Drawer Menu Hamburger -->
-        <button id="menu-toggle" class="lg:hidden h-9 w-9 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+        <button id="menu-toggle" class="lg:hidden h-9 w-9 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors" aria-label="Toggle mobile navigation menu">
           <i class="fa-solid fa-bars"></i>
         </button>
       </div>
@@ -467,11 +467,11 @@
       <div class="p-4 border-b border-slate-100 dark:border-slate-800 sticky top-0 bg-white dark:bg-slate-950 z-10">
         <div class="relative">
           <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-400 dark:text-slate-500 text-sm"></i>
-          <input type="text" id="sidebar-search" placeholder="Search developer cheatsheets..." class="w-full pl-9 pr-14 py-2 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 focus-accent transition-all">
+          <input type="text" id="sidebar-search" placeholder="Search developer cheatsheets..." class="w-full pl-9 pr-14 py-2 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 focus-accent transition-all" aria-label="Search developer cheatsheets">
           <div class="absolute right-3 top-2 flex items-center gap-0.5 pointer-events-none text-[10px] font-bold text-slate-400 dark:text-slate-500 bg-slate-150 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-1.5 py-0.5 rounded shadow-sm">
             <span>/</span>
           </div>
-          <button id="search-clear" class="hidden absolute right-10 top-3 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"><i class="fa-solid fa-xmark"></i></button>
+          <button id="search-clear" class="hidden absolute right-10 top-3 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300" aria-label="Clear search input"><i class="fa-solid fa-xmark"></i></button>
         </div>
       </div>
 
@@ -524,7 +524,7 @@
         <!-- Category 1: Frontend & Web -->
         <div class="sidebar-category">
           <button class="w-full flex items-center justify-between px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors focus:outline-none" onclick="toggleCategory('cat-frontend')">
-            <span class="flex items-center gap-1.5">Frontend & Web <span class="bg-slate-100 dark:bg-slate-800 text-slate-500 text-[9px] px-1.5 py-0.2 rounded-full font-semibold">21</span></span>
+            <span class="flex items-center gap-1.5">Frontend & Web <span class="bg-slate-100 dark:bg-slate-800 text-slate-500 text-[9px] px-1.5 py-0.2 rounded-full font-semibold">22</span></span>
             <svg id="arrow-cat-frontend" class="w-3 h-3 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
           </button>
           <ul id="cat-frontend" class="hidden mt-1 space-y-0.5 text-xs text-slate-600 dark:text-slate-400 font-medium pl-1.5">
@@ -556,6 +556,11 @@
             <li class="sidebar-link-item" data-search-term="css grid flexbox layout responsive design style flex align justify gap template">
               <a href="{{ '/docs/Cheatsheets/css-grid-flexbox-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
                 <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span> CSS Grid & Flexbox
+              </a>
+            </li>
+            <li class="sidebar-link-item" data-search-term="flutter dart widgets widgets-lifecycle state-management futures streams provider riverpod mobile app cross-platform ui layout animations">
+              <a href="{{ '/docs/Cheatsheets/flutter-cheatsheet.html' | relative_url }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-all">
+                <span class="w-1.5 h-1.5 rounded-full bg-cyan-500"></span> Flutter & Dart
               </a>
             </li>
             <li class="sidebar-link-item" data-search-term="graphql schema query mutation variables fragments apollo client">
@@ -1237,7 +1242,7 @@
       <div class="grid grid-cols-12 gap-8 max-w-[1400px] mx-auto">
 
         <!-- Left Side: Article Content Card -->
-        <div class="col-span-12 xl:col-span-9">
+        <div id="article-col" class="col-span-12 xl:col-span-9">
           <!-- Elegant Breadcrumbs Navigation & Reading Time -->
           <div class="flex items-center justify-between flex-wrap gap-2 mb-4">
             <nav class="flex items-center gap-2 text-xs text-slate-400 dark:text-slate-500 select-none" id="breadcrumbs">
@@ -1259,7 +1264,7 @@
         </div>
 
         <!-- Right Side: Sticky Interactive Table of Contents (ToC) -->
-        <div class="hidden xl:block xl:col-span-3">
+        <div id="toc-col" class="hidden xl:block xl:col-span-3">
           <div class="sticky top-24 self-start bg-white dark:bg-slate-950 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-5 shadow-sm max-h-[calc(100vh-8rem)] flex flex-col">
             <h3 class="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-4 flex items-center gap-2 select-none">
               <i class="fa-solid fa-list-ul text-accent"></i> On this page
@@ -1361,7 +1366,7 @@
   </div>
 
   <!-- Floating Back to Top Button -->
-  <button id="back-to-top" class="fixed bottom-6 right-6 z-50 h-10 w-10 rounded-full bg-accent text-white shadow-lg hover:bg-accent-hover transition-all flex items-center justify-center translate-y-16 opacity-0 hover:scale-110 active:scale-95" title="Back to Top">
+  <button id="back-to-top" class="fixed bottom-6 right-6 z-50 h-10 w-10 rounded-full bg-accent text-white shadow-lg hover:bg-accent-hover transition-all flex items-center justify-center translate-y-16 opacity-0 hover:scale-110 active:scale-95" title="Back to Top" aria-label="Scroll back to top of page">
     <i class="fa-solid fa-arrow-up"></i>
   </button>
 
@@ -1591,6 +1596,8 @@
       // --- PART III: Dynamic Table of Contents (ToC) & Scroll-Spy System ---
       const articleBody = document.querySelector('.markdown-body');
       const tocList = document.getElementById('toc-list');
+      const articleCol = document.getElementById('article-col');
+      const tocCol = document.getElementById('toc-col');
 
       if (articleBody && tocList) {
         // Query h2 and h3 headings
@@ -1657,6 +1664,15 @@
           });
 
           headings.forEach(heading => spyObserver.observe(heading));
+        } else {
+          // Hide ToC column entirely and expand Article column to full width
+          if (tocCol) {
+            tocCol.style.display = 'none';
+          }
+          if (articleCol) {
+            articleCol.classList.remove('xl:col-span-9');
+            articleCol.classList.add('xl:col-span-12');
+          }
         }
       }
 
