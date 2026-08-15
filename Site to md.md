@@ -298,3 +298,13 @@ if __name__ == "__main__":
         CONTENT_SELECTOR = "div.b-story-body-p"
         print(f"To run manually: python archive_forum.py --url {TARGET_THREAD_URL} --selector '{CONTENT_SELECTOR}'")
 ```
+
+---
+
+## 4. Related Guides
+
+* 📂 **[Notion_structure.md](Notion_structure.md)** — Notion import/export structure specifications and 32-char hex ID mappings.
+* 📂 **[Notion_scripts.md](Notion_scripts.md)** — Vault cleanup and CI-CD validator tools.
+* 📂 **[Files to md.md](Files to md.md)** — Multi-format local document parser with PyTesseract OCR integration.
+* 📚 **[Documentation Portal Index](docs/index.md)** — Master portal entry page.
+* 📚 **[Developer Cheatsheets](docs/Cheatsheets.md)** — Developer cheatsheets index.

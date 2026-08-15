@@ -148,3 +148,13 @@ flowchart TD
 | **Special Characters in Files** | Characters like `?`, `*`, `\`, `/`, `:` can break file paths, causing import failure. | Sanitize all filenames by stripping out filesystem-illegal characters before linking. |
 | **Asset Extension Mismatches** | Capitalization differences (e.g. referencing `image.PNG` but file is named `image.png`) cause broken images inside Notion. | Enforce lowercase extensions and perform case-exact validation on all relative path links. |
 | **Missing Companion Folders** | Linking to `Project-Alpha/sub-page.md` when the folder `Project-Alpha/` doesn't exist leads to dead links on import. | The local parser must verify and dynamically build matching folders for every document containing nested children. |
+
+---
+
+## 4. Related References & Automation Utilities
+
+* 📂 **[Notion_scripts.md](Notion_scripts.md)** — Automation scripts for preparing, cleaning, and validating Notion vaults.
+* 📂 **[Files to md.md](Files to md.md)** — Multi-format document parser with full PyTesseract OCR integration.
+* 📂 **[Site to md.md](Site to md.md)** — Paginated thread archiver and downloader.
+* 📚 **[Documentation Portal Index](docs/index.md)** — Local vault portal entry page.
+* 📚 **[Developer Cheatsheets](docs/Cheatsheets.md)** — Master cheatsheet index.

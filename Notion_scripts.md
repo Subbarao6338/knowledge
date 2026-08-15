@@ -504,3 +504,13 @@ if __name__ == "__main__":
         force_all=args.force_all
     )
 ```
+
+---
+
+## 3. Related Documentation Guides
+
+* 📂 **[Notion_structure.md](Notion_structure.md)** — Notion import/export structure specifications and 32-char hex ID mappings.
+* 📂 **[Files to md.md](Files to md.md)** — Multi-format local document parser with PyTesseract OCR integration.
+* 📂 **[Site to md.md](Site to md.md)** — Thread archiver and downloader.
+* 📚 **[Documentation Portal Index](docs/index.md)** — Master portal entry page.
+* 📚 **[Developer Cheatsheets](docs/Cheatsheets.md)** — Developer cheatsheet directory.
