@@ -471,3 +471,13 @@ if __name__ == "__main__":
     run_vault_generator(args.source, args.output)
     print(f"\nTransformation complete! Zip the contents of '{args.output}' and import to Notion.")
 ```
+
+---
+
+## 4. Related Guides
+
+* 📂 **[Notion_structure.md](Notion_structure.md)** — Notion import/export specs and 32-char hex ID mappings.
+* 📂 **[Notion_scripts.md](Notion_scripts.md)** — Vault cleanup and CI-CD validator tools.
+* 📂 **[Site to md.md](Site to md.md)** — Paginated thread archiver guide.
+* 📚 **[Documentation Portal Index](docs/index.md)** — Master portal entry page.
+* 📚 **[Developer Cheatsheets](docs/Cheatsheets.md)** — Developer cheatsheets index.

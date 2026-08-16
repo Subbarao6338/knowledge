@@ -4,7 +4,7 @@ Welcome to the ultimate repository and documentation ecosystem for managing, con
 
 This project outlines how Notion's hierarchical page and database backup model functions, and provides robust, enterprise-ready Python automation utilities to prepare local assets, convert raw document formats, crawl online forums, and validate structures for the Notion Importer.
 
-All sample notes, databases, and developers' cheatsheets have been fully organized and unified under a single backup structure under the `docs/` directory, while all execution utilities have been consolidated inside the `scripts/` directory.
+All sample notes, databases, and developer cheatsheets have been fully organized and unified under a single backup structure under the `docs/` directory, while all execution utilities have been consolidated inside the `scripts/` directory.
 
 ---
 
@@ -19,12 +19,14 @@ graph TD
         R -->|Local Scripts Guide| SC[Notion_scripts.md]
         R -->|File Conversion Guide| FM[Files to md.md]
         R -->|Forum Scraping Guide| SM[Site to md.md]
+        R -->|Web Portal Index| PI[docs/index.md]
+        R -->|Cheatsheets Index| CI[docs/Cheatsheets.md]
     end
 
     subgraph Inputs / Sources
-        RAW[Raw Documents: PDF, DOCX, HTML, MHTML, Standalone Images] -.->|Processed by| CV_S[convert_to_notion_vault.py]
+        RAW[Raw Documents: PDF, DOCX, HTML, MHTML, Images] -.->|Processed by| CV_S[convert_to_notion_vault.py]
         WEB[Web/Forum Thread Content] -.->|Scraped by| FA_S[archive_forum.py]
-        LOOSE[Loose files: img, pdf, md] -.->|Sorted by| LV_S[organize_local_vault.py]
+        LOOSE[Loose local files: img, pdf, md] -.->|Sorted by| LV_S[organize_local_vault.py]
     end
 
     subgraph Automation & Pipelines (scripts/ folder)
@@ -34,7 +36,7 @@ graph TD
         GV_S[prepare_github_vault.py] -->|Recursive CI-CD validator| LOCAL_V
     end
 
-    subgraph Notion Workspace Cloud
+    subgraph Notion Workspace Cloud & Portal
         OUT -->|Compress to ZIP & Import| NOTION[Notion Cloud Importer]
         VAULT -->|Compress to ZIP & Import| NOTION
         LOCAL_V -->|Compress to ZIP & Import| NOTION
@@ -45,7 +47,7 @@ graph TD
     classDef output fill:#d29922,stroke:#f0883e,color:#fff;
     classDef notion fill:#764abc,stroke:#9065db,color:#fff;
 
-    class R,NS,SC,FM,SM doc;
+    class R,NS,SC,FM,SM,PI,CI doc;
     class CV_S,FA_S,LV_S,GV_S script;
     class OUT,VAULT,LOCAL_V output;
     class NOTION notion;
@@ -58,8 +60,8 @@ graph TD
 If you are viewing this repository on **GitHub Pages**, we have created a fully organized and interactive documentation portal.
 
 * **📚 [Portal Home / Master Directory Index](docs/index.md)** — The entry point for the entire local backup vault.
-* **📂 [Developer Cheatsheets Index](docs/Cheatsheets.md)** — Access over 39 beautiful, production-ready cheatsheets.
-* **📁 [Knowledge Hub](docs/Knowledge%2021cb6c26d9ba808da8d4f72eb2193ca2.md)** — Overview of system designs and technical specifications.
+* **📂 [Developer Cheatsheets Index](docs/Cheatsheets.md)** — Access over 108+ beautiful, production-ready cheatsheets across 8 tech domains.
+* **📁 [Knowledge Hub Overview](docs/Knowledge%2021cb6c26d9ba808da8d4f72eb2193ca2.md)** — Overview of system designs and technical specifications.
 * **📋 [My Notes Database](docs/My%20notes%2021cb6c26d9ba81648e18c1761db2dcca.csv)** — Full database entry list with companion notes.
 * **👥 [People Database](docs/People%20d3db6c26d9ba82dfb0d8014512d331ec.csv)** — Contact databases and user profiles.
 
@@ -103,8 +105,8 @@ All backups, sample notes, databases, and developer cheatsheets are organized un
 ```text
 .
 ├── docs/                 # Sample documents, databases and developer cheatsheets in Notion backup layout
-│   ├── Cheatsheets.md    # Master parent index page for all developer cheatsheets
-│   ├── Cheatsheets/      # Companion folder with all 39 developer cheatsheet sub-pages
+│   ├── Cheatsheets.md    # Master parent index page for all 108+ developer cheatsheets
+│   ├── Cheatsheets/      # Companion folder with all developer cheatsheet sub-pages
 │   ├── My notes 21cb6c26d9ba81648e18c1761db2dcca.csv
 │   ├── My notes 21cb6c26d9ba81648e18c1761db2dcca_all.csv
 │   ├── My notes 21cb6c26d9ba81648e18c1761db2dcca/  # Database item sub-pages & asset folders
