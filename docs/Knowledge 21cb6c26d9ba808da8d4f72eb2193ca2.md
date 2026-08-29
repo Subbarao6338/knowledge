@@ -48,8 +48,17 @@ graph TD
 
 ---
 
+## 💡 Best Practices for Engineering Specifications & Knowledge Vaults
+
+1. **Maintain Strict Hash Traceability**: Preserving standard 32-character hexadecimal page identifiers ensures seamless cross-linking during Notion zip imports and re-exports.
+2. **Standardize Visual Diagrams**: Use Mermaid.js standard block diagrams and flowcharts for native rendering across GitHub Pages, IDE previewers, and Notion embeds.
+3. **Decouple Assets from Core Notes**: Keep binary assets (images, attachments) in sibling subdirectories matching the parent Markdown document name to preserve path resolution.
+
+---
+
 ## 🔗 Related Resources
 
 - [Portal Home Page](index.md)
 - [Cheatsheets Master Directory](Cheatsheets.md)
 - [System Design Cheatsheet](Cheatsheets/system-design-cheatsheet.md)
+- [Web Security Cheatsheet](Cheatsheets/web-security-cheatsheet.md)

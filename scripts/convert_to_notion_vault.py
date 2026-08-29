@@ -6,7 +6,7 @@ import io
 import argparse
 from bs4 import BeautifulSoup
 import docx
-import fitz  # PyMuPDF
+import pymupdf as fitz  # PyMuPDF
 import pytesseract
 from PIL import Image, ImageFile
 
