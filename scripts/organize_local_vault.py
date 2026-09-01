@@ -9,6 +9,7 @@ def mask_code_blocks(content):
     lines = content.splitlines(keepends=True)
     in_block = False
     fence_char = None
+    fence_len = 0
     placeholders = []
     new_lines = []
     current_block = []
@@ -16,15 +17,19 @@ def mask_code_blocks(content):
     for line in lines:
         stripped = line.strip()
         if not in_block:
-            if stripped.startswith("```") or stripped.startswith("~~~"):
+            match = re.match(r'^(`{3,}|~{3,})', stripped)
+            if match:
                 in_block = True
-                fence_char = "```" if stripped.startswith("```") else "~~~"
+                fence_str = match.group(1)
+                fence_char = fence_str[0]
+                fence_len = len(fence_str)
                 current_block.append(line)
             else:
                 new_lines.append(line)
         else:
             current_block.append(line)
-            if stripped.startswith(fence_char):
+            match = re.match(r'^(`{3,}|~{3,})', stripped)
+            if match and match.group(1)[0] == fence_char and len(match.group(1)) >= fence_len:
                 placeholder = f"__CODE_BLOCK_PLACEHOLDER_{len(placeholders)}__"
                 placeholders.append((placeholder, "".join(current_block)))
                 new_lines.append(placeholder + "\n")
@@ -60,6 +65,11 @@ def unmask_inline_code(content, inline_placeholders):
     for placeholder, original in reversed(inline_placeholders):
         content = content.replace(placeholder, original)
     return content
+
+def is_safe_path(base_dir, path):
+    abs_base = os.path.abspath(base_dir)
+    abs_target = os.path.abspath(path)
+    return abs_target == abs_base or abs_target.startswith(abs_base + os.sep)
 
 def organize_local_vault(target_dir, dry_run=False):
     """
@@ -121,9 +131,7 @@ def organize_local_vault(target_dir, dry_run=False):
             new_asset_location = os.path.join(assets_folder, clean_asset_name)
 
             # Check for path-traversal safety
-            abs_target = os.path.abspath(target_dir)
-            abs_old_asset = os.path.abspath(old_asset_location)
-            if not abs_old_asset.startswith(abs_target):
+            if not is_safe_path(target_dir, old_asset_location):
                 print(f"[Local] Skipping unsafe file path: {asset_path}")
                 continue
 
@@ -143,7 +151,7 @@ def organize_local_vault(target_dir, dry_run=False):
                         print(f"[Local] Created folder: {assets_folder}/")
 
                     # Ensure we don't overwrite/move onto ourselves
-                    if abs_old_asset != os.path.abspath(new_asset_location):
+                    if os.path.abspath(old_asset_location) != os.path.abspath(new_asset_location):
                         try:
                             shutil.move(old_asset_location, new_asset_location)
                             print(f"[Local] Moved loose asset: {clean_asset_name} -> {page_name}/")

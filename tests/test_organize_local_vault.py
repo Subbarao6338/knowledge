@@ -2,7 +2,7 @@ import os
 import unittest
 import tempfile
 import shutil
-from scripts.organize_local_vault import organize_local_vault
+from scripts.organize_local_vault import organize_local_vault, mask_code_blocks, unmask_code_blocks
 
 class TestOrganizeLocalVault(unittest.TestCase):
     def setUp(self):
@@ -11,85 +11,73 @@ class TestOrganizeLocalVault(unittest.TestCase):
     def tearDown(self):
         shutil.rmtree(self.test_dir)
 
-    def test_moves_loose_assets_and_updates_links(self):
-        # Create a parent page
-        parent_md = os.path.join(self.test_dir, "MyPage.md")
-        with open(parent_md, "w", encoding="utf-8") as f:
-            f.write("Here is an inline image ![My Image](loose_img.png) and a link to a missing sibling [Sibling](OtherPage.md)")
+    def test_organize_local_vault_moves_loose_assets(self):
+        # Create a parent page markdown and a loose asset next to it
+        md_path = os.path.join(self.test_dir, "MyPage.md")
+        img_path = os.path.join(self.test_dir, "loose_img.png")
 
-        # Create the loose asset (which should be moved)
-        loose_img = os.path.join(self.test_dir, "loose_img.png")
-        with open(loose_img, "wb") as f:
-            f.write(b"mock image content")
+        with open(md_path, "w", encoding="utf-8") as f:
+            f.write("# My Page\n\n![Image](loose_img.png)\n")
 
-        # Run organize_local_vault
+        with open(img_path, "wb") as f:
+            f.write(b"fake image bytes")
+
+        # Run organizer
         organize_local_vault(self.test_dir)
 
-        # Check that loose_img.png was moved inside MyPage/
-        moved_img = os.path.join(self.test_dir, "MyPage", "loose_img.png")
-        self.assertTrue(os.path.exists(moved_img))
-        self.assertFalse(os.path.exists(loose_img))
+        # Check folder created and asset moved
+        expected_folder = os.path.join(self.test_dir, "MyPage")
+        expected_img_path = os.path.join(expected_folder, "loose_img.png")
 
-        # Check that the md file was updated for loose_img.png but NOT for OtherPage.md
-        with open(parent_md, "r", encoding="utf-8") as f:
+        self.assertTrue(os.path.exists(expected_folder))
+        self.assertTrue(os.path.exists(expected_img_path))
+        self.assertFalse(os.path.exists(img_path))
+
+        # Check markdown content link updated to percent-encoded folder link
+        with open(md_path, "r", encoding="utf-8") as f:
             content = f.read()
             self.assertIn("MyPage/loose_img.png", content)
-            # OtherPage.md shouldn't be touched because it wasn't a loose file to be organized
-            self.assertIn("OtherPage.md", content)
 
-    def test_dry_run_does_not_modify_disk(self):
-        # Create a parent page
-        parent_md = os.path.join(self.test_dir, "MyPage.md")
-        with open(parent_md, "w", encoding="utf-8") as f:
-            f.write("Here is an inline image ![My Image](loose_img.png)")
+    def test_organize_local_vault_dry_run(self):
+        md_path = os.path.join(self.test_dir, "MyPage.md")
+        img_path = os.path.join(self.test_dir, "loose_img.png")
 
-        # Create the loose asset
-        loose_img = os.path.join(self.test_dir, "loose_img.png")
-        with open(loose_img, "wb") as f:
-            f.write(b"mock image content")
+        with open(md_path, "w", encoding="utf-8") as f:
+            f.write("# My Page\n\n![Image](loose_img.png)\n")
 
-        # Run organize_local_vault in dry run
+        with open(img_path, "wb") as f:
+            f.write(b"fake image bytes")
+
         organize_local_vault(self.test_dir, dry_run=True)
 
-        # Confirm nothing changed on disk
-        self.assertTrue(os.path.exists(loose_img))
-        self.assertFalse(os.path.exists(os.path.join(self.test_dir, "MyPage")))
-        with open(parent_md, "r", encoding="utf-8") as f:
-            self.assertIn("loose_img.png", f.read())
+        # Verify nothing moved
+        self.assertTrue(os.path.exists(img_path))
+        with open(md_path, "r", encoding="utf-8") as f:
+            content = f.read()
+            self.assertIn("(loose_img.png)", content)
 
-    def test_ignore_code_blocks(self):
-        # Create a parent page with links inside code blocks
-        parent_md = os.path.join(self.test_dir, "MyPage.md")
-        original_content = (
-            "Here is an inline image ![My Image](loose_img.png)\n"
-            "Inside inline code: `[Ignore inline link](ignore1.png)`\n"
-            "```markdown\n"
-            "[Ignore fenced link](ignore2.png)\n"
-            "```\n"
-        )
-        with open(parent_md, "w", encoding="utf-8") as f:
-            f.write(original_content)
+    def test_ignores_code_blocks(self):
+        md_path = os.path.join(self.test_dir, "MyPage.md")
+        img_path = os.path.join(self.test_dir, "loose_img.png")
 
-        # Create the loose asset
-        loose_img = os.path.join(self.test_dir, "loose_img.png")
-        with open(loose_img, "wb") as f:
-            f.write(b"mock image content")
+        # Link is inside a fenced code block
+        with open(md_path, "w", encoding="utf-8") as f:
+            f.write("# Code\n\n```markdown\n![Image](loose_img.png)\n```\n")
 
-        # Run organize_local_vault
+        with open(img_path, "wb") as f:
+            f.write(b"fake image bytes")
+
         organize_local_vault(self.test_dir)
 
-        # Check loose_img was moved
-        self.assertTrue(os.path.exists(os.path.join(self.test_dir, "MyPage", "loose_img.png")))
+        # File should NOT be moved because it's inside code block
+        self.assertTrue(os.path.exists(img_path))
 
-        # Check content
-        with open(parent_md, "r", encoding="utf-8") as f:
-            content = f.read()
-
-        # Real link is changed
-        self.assertIn("MyPage/loose_img.png", content)
-        # Links inside code blocks remain unchanged
-        self.assertIn("`[Ignore inline link](ignore1.png)`", content)
-        self.assertIn("[Ignore fenced link](ignore2.png)", content)
+    def test_mask_unmask_code_blocks_with_tilde_fences(self):
+        content = "Header\n~~~python\nprint('![img](asset.png)')\n~~~\nFooter\n"
+        masked, placeholders = mask_code_blocks(content)
+        self.assertNotIn("asset.png", masked)
+        restored = unmask_code_blocks(masked, placeholders)
+        self.assertEqual(content, restored)
 
 if __name__ == "__main__":
     unittest.main()

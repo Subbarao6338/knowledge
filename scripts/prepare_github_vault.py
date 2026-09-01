@@ -8,6 +8,7 @@ def mask_code_blocks(content):
     lines = content.splitlines(keepends=True)
     in_block = False
     fence_char = None
+    fence_len = 0
     placeholders = []
     new_lines = []
     current_block = []
@@ -15,15 +16,19 @@ def mask_code_blocks(content):
     for line in lines:
         stripped = line.strip()
         if not in_block:
-            if stripped.startswith("```") or stripped.startswith("~~~"):
+            match = re.match(r'^(`{3,}|~{3,})', stripped)
+            if match:
                 in_block = True
-                fence_char = "```" if stripped.startswith("```") else "~~~"
+                fence_str = match.group(1)
+                fence_char = fence_str[0]
+                fence_len = len(fence_str)
                 current_block.append(line)
             else:
                 new_lines.append(line)
         else:
             current_block.append(line)
-            if stripped.startswith(fence_char):
+            match = re.match(r'^(`{3,}|~{3,})', stripped)
+            if match and match.group(1)[0] == fence_char and len(match.group(1)) >= fence_len:
                 placeholder = f"__CODE_BLOCK_PLACEHOLDER_{len(placeholders)}__"
                 placeholders.append((placeholder, "".join(current_block)))
                 new_lines.append(placeholder + "\n")
@@ -59,6 +64,11 @@ def unmask_inline_code(content, inline_placeholders):
     for placeholder, original in reversed(inline_placeholders):
         content = content.replace(placeholder, original)
     return content
+
+def is_safe_path(base_dir, path):
+    abs_base = os.path.abspath(base_dir)
+    abs_target = os.path.abspath(path)
+    return abs_target == abs_base or abs_target.startswith(abs_base + os.sep)
 
 def organize_github_vault(base_dir, exclude_dirs=None, exclude_files=None, force_all=False):
     """
@@ -129,7 +139,7 @@ def organize_github_vault(base_dir, exclude_dirs=None, exclude_files=None, force
 
                 # Check for path-traversal safety relative to base_dir
                 abs_asset = os.path.abspath(os.path.join(root, decoded_path))
-                if not abs_asset.startswith(abs_base):
+                if not is_safe_path(base_dir, abs_asset):
                     print(f"[GitHub] Skipping unsafe path traversal: {asset_path}")
                     continue
 
