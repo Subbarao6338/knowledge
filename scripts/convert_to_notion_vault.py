@@ -45,87 +45,94 @@ def create_sub_page(assets_dir, main_page_name, chunk_idx, text_content):
 
     return sub_page_title
 
+def is_safe_path(base_dir, path):
+    abs_base = os.path.abspath(base_dir)
+    abs_target = os.path.abspath(path)
+    return abs_target == abs_base or abs_target.startswith(abs_base + os.sep)
+
 def process_pdf(file_path, output_dir):
     doc = fitz.open(file_path)
-    base_name = slugify(os.path.splitext(os.path.basename(file_path))[0])
+    try:
+        base_name = slugify(os.path.splitext(os.path.basename(file_path))[0])
 
-    # Setup Notion backup architecture safely normalized
-    main_md_path = os.path.normpath(os.path.join(output_dir, f"{base_name}.md"))
-    assets_dir = os.path.normpath(os.path.join(output_dir, base_name))
+        # Setup Notion backup architecture safely normalized
+        main_md_path = os.path.normpath(os.path.join(output_dir, f"{base_name}.md"))
+        assets_dir = os.path.normpath(os.path.join(output_dir, base_name))
 
-    # Check traversal safety
-    abs_output = os.path.abspath(output_dir)
-    if not os.path.abspath(assets_dir).startswith(abs_output) or not os.path.abspath(main_md_path).startswith(abs_output):
-        print(f"[PDF Parser] Skipping unsafe traversal path for {file_path}")
-        return
+        # Check traversal safety
+        if not is_safe_path(output_dir, assets_dir) or not is_safe_path(output_dir, main_md_path):
+            print(f"[PDF Parser] Skipping unsafe traversal path for {file_path}")
+            return
 
-    os.makedirs(assets_dir, exist_ok=True)
+        os.makedirs(assets_dir, exist_ok=True)
 
-    current_chunk_text = ""
-    chunk_idx = 1
-    sub_pages_created = []
+        current_chunk_text = ""
+        chunk_idx = 1
+        sub_pages_created = []
 
-    for page_num in range(len(doc)):
-        page = doc[page_num]
-        page_text = page.get_text()
+        for page_num in range(len(doc)):
+            page = doc[page_num]
+            page_text = page.get_text()
 
-        # Scanned PDF page fallback: render page to image and perform OCR if empty or sparse text
-        if len(page_text.strip()) < 30:
-            print(f"[PDF Parser] Page {page_num} of {file_path} seems scanned or sparse. Performing full page OCR...")
-            try:
-                pix = page.get_pixmap(dpi=150)
-                img_bytes = pix.tobytes("png")
-                ocr_result = perform_ocr(img_bytes)
-                if ocr_result:
-                    page_text = f"*[Scanned Page OCR]*\n\n{ocr_result}\n\n{page_text}"
-            except Exception as e:
-                print(f"[PDF Parser] OCR fallback failed for page {page_num}: {str(e)}")
+            # Scanned PDF page fallback: render page to image and perform OCR if empty or sparse text
+            if len(page_text.strip()) < 30:
+                print(f"[PDF Parser] Page {page_num} of {file_path} seems scanned or sparse. Performing full page OCR...")
+                try:
+                    pix = page.get_pixmap(dpi=150)
+                    img_bytes = pix.tobytes("png")
+                    ocr_result = perform_ocr(img_bytes)
+                    if ocr_result:
+                        page_text = f"*[Scanned Page OCR]*\n\n{ocr_result}\n\n{page_text}"
+                except Exception as e:
+                    print(f"[PDF Parser] OCR fallback failed for page {page_num}: {str(e)}")
 
-        current_chunk_text += page_text + "\n\n"
+            current_chunk_text += page_text + "\n\n"
 
-        # Extract Images
-        for img_idx, img in enumerate(page.get_images(full=True)):
-            xref = img[0]
-            try:
-                base_image = doc.extract_image(xref)
-                image_bytes = base_image["image"]
-                image_ext = base_image["ext"]
+            # Extract Images
+            for img_idx, img in enumerate(page.get_images(full=True)):
+                xref = img[0]
+                try:
+                    base_image = doc.extract_image(xref)
+                    image_bytes = base_image["image"]
+                    image_ext = base_image["ext"]
 
-                img_name = f"image-p{page_num}-i{img_idx}.{image_ext}"
-                img_save_path = os.path.normpath(os.path.join(assets_dir, img_name))
+                    img_name = f"image-p{page_num}-i{img_idx}.{image_ext}"
+                    img_save_path = os.path.normpath(os.path.join(assets_dir, img_name))
 
-                with open(img_save_path, "wb") as f:
-                    f.write(image_bytes)
+                    with open(img_save_path, "wb") as f:
+                        f.write(image_bytes)
 
-                # Run OCR on the extracted image to append as helper text
-                ocr_text = perform_ocr(image_bytes)
+                    # Run OCR on the extracted image to append as helper text
+                    ocr_text = perform_ocr(image_bytes)
 
-                # Embed image link relative to parent page, safely percent-encoded for markdown links
+                    # Embed image link relative to parent page, safely percent-encoded for markdown links
+                    encoded_base_name = urllib.parse.quote(base_name)
+                    encoded_img_name = urllib.parse.quote(img_name)
+                    current_chunk_text += f"\n![Embedded Image]({encoded_base_name}/{encoded_img_name})\n\n"
+
+                    if ocr_text:
+                        current_chunk_text += f"\n> **[OCR Recognized Text for {img_name}]:**\n> " + ocr_text.replace("\n", "\n> ") + "\n\n"
+                except Exception as e:
+                    print(f"[PDF Parser] Failed to extract/OCR image {img_idx} on page {page_num}: {str(e)}")
+
+            # Every 10 pages, cut a sub-page
+            if (page_num + 1) % 10 == 0 or (page_num + 1) == len(doc):
+                if current_chunk_text.strip():
+                    sub_title = create_sub_page(assets_dir, base_name, chunk_idx, current_chunk_text)
+                    sub_pages_created.append(sub_title)
+                    current_chunk_text = ""
+                    chunk_idx += 1
+
+        # Build Master Index File
+        with open(main_md_path, "w", encoding="utf-8") as f:
+            f.write(f"# {base_name.replace('-', ' ')}\n\n")
+            f.write("## Document Sub-pages\n\n")
+            for sub_title in sub_pages_created:
                 encoded_base_name = urllib.parse.quote(base_name)
-                encoded_img_name = urllib.parse.quote(img_name)
-                current_chunk_text += f"\n![Embedded Image]({encoded_base_name}/{encoded_img_name})\n\n"
-
-                if ocr_text:
-                    current_chunk_text += f"\n> **[OCR Recognized Text for {img_name}]:**\n> " + ocr_text.replace("\n", "\n> ") + "\n\n"
-            except Exception as e:
-                print(f"[PDF Parser] Failed to extract/OCR image {img_idx} on page {page_num}: {str(e)}")
-
-        # Every 10 pages, cut a sub-page
-        if (page_num + 1) % 10 == 0 or (page_num + 1) == len(doc):
-            if current_chunk_text.strip():
-                sub_title = create_sub_page(assets_dir, base_name, chunk_idx, current_chunk_text)
-                sub_pages_created.append(sub_title)
-                current_chunk_text = ""
-                chunk_idx += 1
-
-    # Build Master Index File
-    with open(main_md_path, "w", encoding="utf-8") as f:
-        f.write(f"# {base_name.replace('-', ' ')}\n\n")
-        f.write("## Document Sub-pages\n\n")
-        for sub_title in sub_pages_created:
-            encoded_base_name = urllib.parse.quote(base_name)
-            encoded_sub_title = urllib.parse.quote(sub_title)
-            f.write(f"* [{sub_title.replace('-', ' ')}]({encoded_base_name}/{encoded_sub_title}.md)\n")
+                encoded_sub_title = urllib.parse.quote(sub_title)
+                f.write(f"* [{sub_title.replace('-', ' ')}]({encoded_base_name}/{encoded_sub_title}.md)\n")
+    finally:
+        doc.close()
 
 def iter_block_items(parent):
     """
@@ -186,8 +193,7 @@ def process_docx(file_path, output_dir):
     assets_dir = os.path.normpath(os.path.join(output_dir, base_name))
 
     # Check traversal safety
-    abs_output = os.path.abspath(output_dir)
-    if not os.path.abspath(assets_dir).startswith(abs_output) or not os.path.abspath(main_md_path).startswith(abs_output):
+    if not is_safe_path(output_dir, assets_dir) or not is_safe_path(output_dir, main_md_path):
         print(f"[DOCX Parser] Skipping unsafe traversal path for {file_path}")
         return
 
@@ -228,6 +234,9 @@ def process_docx(file_path, output_dir):
             except Exception as e:
                 print(f"[DOCX Parser] Failed to extract/OCR image {img_idx}: {str(e)}")
 
+    if not blocks:
+        blocks = ["*(Empty document)*"]
+
     for idx, i in enumerate(range(0, len(blocks), chunk_size)):
         chunk_paras = blocks[i:i + chunk_size]
         text_content = "\n\n".join(chunk_paras)
@@ -262,8 +271,7 @@ def process_html_mhtml(file_path, output_dir):
     assets_dir = os.path.normpath(os.path.join(output_dir, base_name))
 
     # Check traversal safety
-    abs_output = os.path.abspath(output_dir)
-    if not os.path.abspath(assets_dir).startswith(abs_output) or not os.path.abspath(main_md_path).startswith(abs_output):
+    if not is_safe_path(output_dir, assets_dir) or not is_safe_path(output_dir, main_md_path):
         print(f"[HTML Parser] Skipping unsafe traversal path for {file_path}")
         return
 
@@ -274,6 +282,8 @@ def process_html_mhtml(file_path, output_dir):
         element.decompose()
 
     lines = [p.get_text().strip() for p in soup.find_all(['p', 'div', 'h1', 'h2', 'h3']) if p.get_text().strip()]
+    if not lines:
+        lines = ["*(Empty document)*"]
 
     # Split text blocks into chunks to prevent hitting Notion individual page upload limits
     chunk_size = 40
@@ -303,8 +313,7 @@ def process_image(file_path, output_dir):
     assets_dir = os.path.normpath(os.path.join(output_dir, base_name))
 
     # Check traversal safety
-    abs_output = os.path.abspath(output_dir)
-    if not os.path.abspath(assets_dir).startswith(abs_output) or not os.path.abspath(main_md_path).startswith(abs_output):
+    if not is_safe_path(output_dir, assets_dir) or not is_safe_path(output_dir, main_md_path):
         print(f"[Image Parser] Skipping unsafe traversal path for {file_path}")
         return
 

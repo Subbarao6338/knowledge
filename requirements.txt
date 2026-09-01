@@ -1,0 +1,8 @@
+requests
+beautifulsoup4
+markdownify
+pymupdf
+python-docx
+pytesseract
+pillow
+pytest

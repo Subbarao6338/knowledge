@@ -67,7 +67,9 @@ class ForumArchiver:
             save_path = os.path.normpath(os.path.join(assets_folder, clean_img_name))
 
             # Traversal security check
-            if not os.path.abspath(save_path).startswith(os.path.abspath(assets_folder)):
+            abs_assets = os.path.abspath(assets_folder)
+            abs_save = os.path.abspath(save_path)
+            if not (abs_save == abs_assets or abs_save.startswith(abs_assets + os.sep)):
                 print(f"[Media] Traversal attack blocked for asset: {img_url}")
                 return None
 
@@ -100,7 +102,9 @@ class ForumArchiver:
         thread_assets_dir = os.path.normpath(os.path.join(self.output_dir, thread_slug))
 
         # Traversal check
-        if not os.path.abspath(thread_assets_dir).startswith(os.path.abspath(self.output_dir)):
+        abs_output = os.path.abspath(self.output_dir)
+        abs_thread_assets = os.path.abspath(thread_assets_dir)
+        if not (abs_thread_assets == abs_output or abs_thread_assets.startswith(abs_output + os.sep)):
             print(f"[Crawler] Terminated: Target directory resolves outside of vault: {thread_slug}")
             return
 
