@@ -468,4 +468,4 @@ graph TD
 - [GitLab CI/CD Cheatsheet](gitlab-ci-cheatsheet.md)
 - [Kubernetes Cheatsheet](kubernetes-cheatsheet.md)
 - [Master Directory Index](../Cheatsheets.html)
-- [Knowledge Hub Portal](../Knowledge%2021cb6c26d9ba808da8d4f72eb2193ca2.html)
+- [Knowledge Hub Portal](../Knowledge%2021cb6c26d9ba808da8d4f72eb2193ca2.md)

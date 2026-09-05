@@ -110,4 +110,4 @@ When an unexpected budget alert triggers, execute this diagnostic checklist:
 - [GCP Cloud Services Cheatsheet](gcp-cloud-services-cheatsheet.md)
 - [Data Engineering Cheatsheet](data-engineering-cheatsheet.md)
 - [Master Directory Index](../Cheatsheets.html)
-- [Knowledge Hub Portal](../Knowledge%2021cb6c26d9ba808da8d4f72eb2193ca2.html)
+- [Knowledge Hub Portal](../Knowledge%2021cb6c26d9ba808da8d4f72eb2193ca2.md)
