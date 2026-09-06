@@ -100,7 +100,7 @@ This section is organized in a pixel-perfect layout mimicking Notion's structura
   </a>
 
   <!-- Card 2 -->
-  <a href="Knowledge%2021cb6c26d9ba808da8d4f72eb2193ca2.html" class="group block p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl hover:border-emerald-500 dark:hover:border-emerald-500 transition-all hover:shadow-md">
+  <a href="Knowledge%2021cb6c26d9ba808da8d4f72eb2193ca2.md" class="group block p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl hover:border-emerald-500 dark:hover:border-emerald-500 transition-all hover:shadow-md">
     <div class="flex items-center gap-3 mb-3">
       <div class="h-10 w-10 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 text-emerald-500 dark:text-emerald-400 flex items-center justify-center group-hover:scale-110 transition-transform">
         <i class="fa-solid fa-brain text-lg"></i>
